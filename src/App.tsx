@@ -35,6 +35,9 @@ import { ModelTrainingDashboard } from '@/components/ModelTrainingDashboard';
 import { ModelValidation } from '@/components/ModelValidation';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { RegionalDatabaseExplorer } from '@/components/RegionalDatabaseExplorer';
+import { LinkedInShare } from '@/components/LinkedInShare';
+import { SocialTestingDashboard } from '@/components/SocialTestingDashboard';
+import { QuickShare } from '@/components/QuickShare';
 
 import { materialsDatabase } from '@/data/materials';
 import { initializeDemoMLData } from '@/data/demoMLData';
@@ -563,6 +566,12 @@ function App() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* LinkedIn Integration */}
+            <LinkedInShare className="mt-6" />
+
+            {/* Quick Share */}
+            <QuickShare className="mt-6" />
           </div>
 
           {/* Main Content */}
@@ -614,6 +623,16 @@ function App() {
                     <span className="flex items-center gap-2">
                       <MapPin size={16} />
                       {t.regionalDatabase || 'Regional Database'}
+                    </span>
+                  </SelectItem>
+                  <SelectItem value="social-testing">
+                    <span className="flex items-center gap-2">
+                      <Users size={16} />
+                      {language === 'en' && 'LinkedIn Testing'}
+                      {language === 'sv' && 'LinkedIn-testning'}
+                      {language === 'de' && 'LinkedIn-Tests'}
+                      {language === 'fr' && 'Tests LinkedIn'}
+                      {language === 'am' && 'የLinkedIn ምርመራ'}
                     </span>
                   </SelectItem>
                 </SelectContent>
@@ -987,6 +1006,10 @@ function App() {
                     toast.success(`Supplier selected: ${supplier.name}`);
                   }}
                 />
+              )}
+
+              {safeComparisonState.activeTab === 'social-testing' && (
+                <SocialTestingDashboard />
               )}
             </div>
           </div>
