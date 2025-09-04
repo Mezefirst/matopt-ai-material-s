@@ -19,7 +19,8 @@ import {
   FlaskConical,
   MapPin,
   Globe,
-  ArrowRight
+  ArrowRight,
+  Users
 } from '@phosphor-icons/react';
 
 import { MaterialFilters } from '@/components/MaterialFilters';
