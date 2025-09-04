@@ -12,7 +12,8 @@ import {
   ChartBar, 
   Lightbulb,
   Sparkle,
-  Robot
+  Robot,
+  FlaskConical
 } from '@phosphor-icons/react';
 
 import { MaterialFilters } from '@/components/MaterialFilters';
@@ -23,6 +24,9 @@ import { AIRecommendations } from '@/components/AIRecommendations';
 import { MLRecommendations } from '@/components/MLRecommendations';
 import { MLDashboard } from '@/components/MLDashboard';
 import { ApplicationContext } from '@/components/ApplicationContext';
+import { NewMaterialPrediction } from '@/components/NewMaterialPrediction';
+import { ModelTrainingDashboard } from '@/components/ModelTrainingDashboard';
+import { ModelValidation } from '@/components/ModelValidation';
 
 import { materialsDatabase } from '@/data/materials';
 import { initializeDemoMLData } from '@/data/demoMLData';
@@ -348,16 +352,23 @@ function App() {
             )}
 
             {/* ML Training Dashboard */}
-            <MLDashboard className="mt-6" />
+            <ModelTrainingDashboard className="mt-6" />
+
+            {/* Model Validation */}
+            <ModelValidation className="mt-6" />
           </div>
 
           {/* Main Content */}
           <div className="lg:col-span-2">
             <Tabs value={safeComparisonState.activeTab} onValueChange={handleTabChange}>
-              <TabsList className="grid w-full grid-cols-5">
+              <TabsList className="grid w-full grid-cols-6">
                 <TabsTrigger value="overview" className="flex items-center gap-2">
                   <MagnifyingGlass size={16} />
                   Overview
+                </TabsTrigger>
+                <TabsTrigger value="prediction" className="flex items-center gap-2">
+                  <FlaskConical size={16} />
+                  New Material
                 </TabsTrigger>
                 <TabsTrigger value="ai-recommendations" className="flex items-center gap-2">
                   <Brain size={16} />
@@ -401,6 +412,14 @@ function App() {
                     </CardContent>
                   </Card>
                 )}
+              </TabsContent>
+
+              <TabsContent value="prediction" className="space-y-6 mt-6">
+                <NewMaterialPrediction
+                  onPredictionComplete={(prediction) => {
+                    toast.success(`Properties predicted for ${prediction.name}`);
+                  }}
+                />
               </TabsContent>
 
               <TabsContent value="ai-recommendations" className="space-y-6 mt-6">

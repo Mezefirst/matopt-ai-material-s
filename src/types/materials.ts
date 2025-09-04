@@ -91,7 +91,7 @@ export interface MaterialScore {
   reasoning: string;
 }
 
-export type TabType = 'overview' | 'properties' | 'sustainability' | 'ai-recommendations' | 'ml-recommendations';
+export type TabType = 'overview' | 'prediction' | 'properties' | 'sustainability' | 'ai-recommendations' | 'ml-recommendations';
 
 export interface ComparisonState {
   selectedMaterials: string[];
