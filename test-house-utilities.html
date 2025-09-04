@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Utility Templates Test - MatOpt AI</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 20px;
+            background: #f8f9fa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .template-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .template-card:hover {
+            border-color: #3b82f6;
+            background: #f8fafc;
+        }
+        .template-card.active {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+        .template-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .template-desc {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .template-specs {
+            background: #f1f5f9;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .material-item {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid #10b981;
+        }
+        .material-name {
+            font-weight: 600;
+        }
+        .material-props {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .score {
+            background: #10b981;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏠 House Utility Templates Demo</h1>
+            <p>Test material selection for plumbing pipes and HVAC ductwork</p>
+        </div>
+
+        <div class="template-grid">
+            <div class="template-card" onclick="selectTemplate('plumbing')">
+                <div class="template-title">
+                    🔧 Plumbing Pipes
+                </div>
+                <div class="template-desc">
+                    Residential water supply piping requiring chemical resistance and long-term reliability
+                </div>
+                <div class="template-specs">
+                    <strong>Requirements:</strong><br>
+                    • Tensile Strength: 40-200 MPa<br>
+                    • Density: ≤ 2.0 g/cm³<br>
+                    • Budget: ≤ $8/kg<br>
+                    • Temperature: 0-80°C<br>
+                    • Environment: Chemical resistance<br>
+                    • Design Life: 50 years
+                </div>
+            </div>
+
+            <div class="template-card" onclick="selectTemplate('hvac')">
+                <div class="template-title">
+                    🌬️ HVAC Ductwork
+                </div>
+                <div class="template-desc">
+                    Air conditioning and heating ducts requiring thermal properties and corrosion resistance
+                </div>
+                <div class="template-specs">
+                    <strong>Requirements:</strong><br>
+                    • Tensile Strength: 150-400 MPa<br>
+                    • Density: ≤ 8.0 g/cm³<br>
+                    • Budget: ≤ $12/kg<br>
+                    • Temperature: -10 to 150°C<br>
+                    • Environment: Indoor/controlled<br>
+                    • Design Life: 25 years
+                </div>
+            </div>
+
+            <div class="template-card" onclick="selectTemplate('electrical')">
+                <div class="template-title">
+                    ⚡ Electrical Conduit
+                </div>
+                <div class="template-desc">
+                    House wiring protection requiring electrical insulation and flame retardancy
+                </div>
+                <div class="template-specs">
+                    <strong>Requirements:</strong><br>
+                    • Tensile Strength: 30-100 MPa<br>
+                    • Density: ≤ 2.5 g/cm³<br>
+                    • Budget: ≤ $6/kg<br>
+                    • Electrical: Insulator<br>
+                    • Environment: Indoor<br>
+                    • Design Life: 30 years
+                </div>
+            </div>
+
+            <div class="template-card" onclick="selectTemplate('water-heater')">
+                <div class="template-title">
+                    🚿 Water Heater Tank
+                </div>
+                <div class="template-desc">
+                    Hot water storage requiring pressure resistance and thermal cycling tolerance
+                </div>
+                <div class="template-specs">
+                    <strong>Requirements:</strong><br>
+                    • Tensile Strength: 300-600 MPa<br>
+                    • Density: 7.0-8.5 g/cm³<br>
+                    • Budget: ≤ $15/kg<br>
+                    • Temperature: 10-80°C<br>
+                    • Loading: Cyclic<br>
+                    • Design Life: 15 years
+                </div>
+            </div>
+        </div>
+
+        <div class="results" id="results" style="display: none;">
+            <h3>🎯 Recommended Materials</h3>
+            <div id="material-list"></div>
+        </div>
+    </div>
+
+    <script>
+        const materialDatabase = [
+            {
+                name: "PVC (Polyvinyl Chloride)",
+                tensileStrength: 52,
+                density: 1.38,
+                cost: 1.20,
+                tempMax: 60,
+                tempMin: -15,
+                corrosionResistance: 9,
+                electricalInsulator: true,
+                applications: ["Plumbing pipes", "Electrical conduit"],
+                pros: ["Low cost", "Chemical resistance", "Easy installation"],
+                cons: ["Temperature limitations", "UV degradation"]
+            },
+            {
+                name: "CPVC (Chlorinated PVC)",
+                tensileStrength: 55,
+                density: 1.55,
+                cost: 2.50,
+                tempMax: 95,
+                tempMin: -10,
+                corrosionResistance: 9,
+                electricalInsulator: true,
+                applications: ["Hot water pipes", "Industrial piping"],
+                pros: ["Higher temperature tolerance", "Chemical resistance"],
+                cons: ["Higher cost than PVC", "Brittle at low temperatures"]
+            },
+            {
+                name: "PEX (Cross-linked Polyethylene)",
+                tensileStrength: 28,
+                density: 0.94,
+                cost: 3.80,
+                tempMax: 95,
+                tempMin: -40,
+                corrosionResistance: 9,
+                electricalInsulator: true,
+                applications: ["Plumbing systems", "Radiant heating"],
+                pros: ["Flexible", "Freeze resistant", "Easy installation"],
+                cons: ["UV sensitive", "Requires special fittings"]
+            },
+            {
+                name: "Copper C110",
+                tensileStrength: 220,
+                density: 8.96,
+                cost: 9.50,
+                tempMax: 250,
+                tempMin: -200,
+                corrosionResistance: 7,
+                electricalInsulator: false,
+                applications: ["Plumbing pipes", "Heat exchangers"],
+                pros: ["Antimicrobial", "Excellent heat transfer", "Durable"],
+                cons: ["Higher cost", "Can corrode in acidic conditions"]
+            },
+            {
+                name: "Galvanized Steel",
+                tensileStrength: 400,
+                density: 7.85,
+                cost: 1.50,
+                tempMax: 200,
+                tempMin: -40,
+                corrosionResistance: 7,
+                electricalInsulator: false,
+                applications: ["HVAC ductwork", "Structural components"],
+                pros: ["Cost effective", "Strong", "Corrosion protection"],
+                cons: ["Heavier", "Limited coating life"]
+            },
+            {
+                name: "Stainless Steel 316L",
+                tensileStrength: 580,
+                density: 8.0,
+                cost: 4.50,
+                tempMax: 925,
+                tempMin: -269,
+                corrosionResistance: 9,
+                electricalInsulator: false,
+                applications: ["Premium piping", "Chemical systems"],
+                pros: ["Excellent corrosion resistance", "High temperature"],
+                cons: ["Higher cost", "More difficult to work"]
+            }
+        ];
+
+        function selectTemplate(type) {
+            // Remove active class from all cards
+            document.querySelectorAll('.template-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Add active class to selected card
+            event.target.closest('.template-card').classList.add('active');
+            
+            // Filter and score materials based on template
+            let filteredMaterials = [];
+            
+            switch(type) {
+                case 'plumbing':
+                    filteredMaterials = materialDatabase.filter(material => 
+                        material.tensileStrength >= 40 && material.tensileStrength <= 200 &&
+                        material.density <= 2.0 &&
+                        material.cost <= 8.0 &&
+                        material.tempMax >= 80 && material.tempMin <= 0 &&
+                        material.corrosionResistance >= 7
+                    ).map(material => ({
+                        ...material,
+                        score: calculatePlumbingScore(material)
+                    }));
+                    break;
+                    
+                case 'hvac':
+                    filteredMaterials = materialDatabase.filter(material => 
+                        material.tensileStrength >= 150 && material.tensileStrength <= 400 &&
+                        material.density <= 8.0 &&
+                        material.cost <= 12.0 &&
+                        material.tempMax >= 150 && material.tempMin <= -10
+                    ).map(material => ({
+                        ...material,
+                        score: calculateHVACScore(material)
+                    }));
+                    break;
+                    
+                case 'electrical':
+                    filteredMaterials = materialDatabase.filter(material => 
+                        material.tensileStrength >= 30 && material.tensileStrength <= 100 &&
+                        material.density <= 2.5 &&
+                        material.cost <= 6.0 &&
+                        material.electricalInsulator === true
+                    ).map(material => ({
+                        ...material,
+                        score: calculateElectricalScore(material)
+                    }));
+                    break;
+                    
+                case 'water-heater':
+                    filteredMaterials = materialDatabase.filter(material => 
+                        material.tensileStrength >= 300 && material.tensileStrength <= 600 &&
+                        material.density >= 7.0 && material.density <= 8.5 &&
+                        material.cost <= 15.0 &&
+                        material.tempMax >= 80 && material.tempMin <= 10
+                    ).map(material => ({
+                        ...material,
+                        score: calculateWaterHeaterScore(material)
+                    }));
+                    break;
+            }
+            
+            // Sort by score
+            filteredMaterials.sort((a, b) => b.score - a.score);
+            
+            displayResults(filteredMaterials, type);
+        }
+        
+        function calculatePlumbingScore(material) {
+            let score = 0;
+            
+            // Cost efficiency (lower is better)
+            score += (8 - material.cost) * 10;
+            
+            // Corrosion resistance
+            score += material.corrosionResistance * 5;
+            
+            // Temperature range
+            if (material.tempMax >= 80 && material.tempMin <= 0) score += 15;
+            
+            // Density (lighter is better for installation)
+            score += (2.5 - material.density) * 10;
+            
+            return Math.round(score);
+        }
+        
+        function calculateHVACScore(material) {
+            let score = 0;
+            
+            // Strength for structural integrity
+            score += material.tensileStrength * 0.1;
+            
+            // Cost efficiency
+            score += (12 - material.cost) * 5;
+            
+            // Temperature range
+            if (material.tempMax >= 150 && material.tempMin <= -10) score += 20;
+            
+            return Math.round(score);
+        }
+        
+        function calculateElectricalScore(material) {
+            let score = 0;
+            
+            // Electrical insulation (must have)
+            if (material.electricalInsulator) score += 30;
+            
+            // Cost efficiency
+            score += (6 - material.cost) * 10;
+            
+            // Lightweight for easy installation
+            score += (3 - material.density) * 8;
+            
+            return Math.round(score);
+        }
+        
+        function calculateWaterHeaterScore(material) {
+            let score = 0;
+            
+            // High strength for pressure resistance
+            score += material.tensileStrength * 0.08;
+            
+            // Corrosion resistance critical
+            score += material.corrosionResistance * 8;
+            
+            // Temperature tolerance
+            if (material.tempMax >= 80) score += 15;
+            
+            return Math.round(score);
+        }
+        
+        function displayResults(materials, type) {
+            const resultsDiv = document.getElementById('results');
+            const materialList = document.getElementById('material-list');
+            
+            if (materials.length === 0) {
+                materialList.innerHTML = '<p style="text-align: center; color: #64748b;">No materials found matching the requirements.</p>';
+            } else {
+                materialList.innerHTML = materials.map(material => `
+                    <div class="material-item">
+                        <div style="flex: 1;">
+                            <div class="material-name">${material.name}</div>
+                            <div class="material-props">
+                                Strength: ${material.tensileStrength} MPa | 
+                                Density: ${material.density} g/cm³ | 
+                                Cost: $${material.cost}/kg | 
+                                Temp: ${material.tempMin}°C to ${material.tempMax}°C
+                            </div>
+                            <div style="margin-top: 8px; font-size: 11px;">
+                                <span style="color: #10b981;"><strong>✓</strong> ${material.pros.join(', ')}</span><br>
+                                <span style="color: #f59e0b;"><strong>⚠</strong> ${material.cons.join(', ')}</span>
+                            </div>
+                        </div>
+                        <div class="score">${material.score}</div>
+                    </div>
+                `).join('');
+            }
+            
+            resultsDiv.style.display = 'block';
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

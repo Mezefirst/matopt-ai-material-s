@@ -75,10 +75,10 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
       );
     }
     
-    if (appContext.includes('house') || appContext.includes('plumbing') || appContext.includes('hvac')) {
+    if (appContext.includes('house') || appContext.includes('plumbing') || appContext.includes('hvac') || appContext.includes('gas')) {
       return (
         <div className="text-xs text-muted-foreground mt-1">
-          💡 House utility: Static (pipes, ducts), Cyclic (water heater, appliances)
+          💡 House utility: Static (pipes, ducts), Cyclic (water heater, appliances), Impact (gas lines)
         </div>
       );
     }
@@ -286,8 +286,52 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
 
         {/* Quick Application Types */}
         {!requirements.applicationContext && (
-          <div className="space-y-2">
-            <Label>Common Applications</Label>
+          <div className="space-y-3">
+            <Label>House Utility Applications</Label>
+            <div className="grid grid-cols-2 gap-2 mb-3">
+              {[
+                { name: 'Plumbing pipes', icon: '🔧' },
+                { name: 'HVAC ductwork', icon: '🌬️' },
+                { name: 'Electrical conduit', icon: '⚡' },
+                { name: 'Water heater tank', icon: '🚿' },
+                { name: 'Rain gutters', icon: '🏠' },
+                { name: 'Gas lines', icon: '🔥' }
+              ].map((app) => (
+                <Badge
+                  key={app.name}
+                  variant="outline"
+                  className="cursor-pointer hover:bg-primary hover:text-primary-foreground p-3 justify-center text-center h-auto flex-col gap-1"
+                  onClick={() => updateRequirements({ applicationContext: app.name })}
+                >
+                  <span className="text-lg">{app.icon}</span>
+                  <span className="text-xs">{app.name}</span>
+                </Badge>
+              ))}
+            </div>
+            
+            <Label>Office Material Applications</Label>
+            <div className="grid grid-cols-2 gap-2 mb-3">
+              {[
+                { name: 'Office desk surfaces', icon: '🖥️' },
+                { name: 'Office chair frames', icon: '🪑' },
+                { name: 'Filing cabinets', icon: '🗂️' },
+                { name: 'Acoustic panels', icon: '🔇' },
+                { name: 'Cable management', icon: '🔌' },
+                { name: 'Whiteboard surfaces', icon: '📋' }
+              ].map((app) => (
+                <Badge
+                  key={app.name}
+                  variant="outline"
+                  className="cursor-pointer hover:bg-primary hover:text-primary-foreground p-3 justify-center text-center h-auto flex-col gap-1"
+                  onClick={() => updateRequirements({ applicationContext: app.name })}
+                >
+                  <span className="text-lg">{app.icon}</span>
+                  <span className="text-xs">{app.name}</span>
+                </Badge>
+              ))}
+            </div>
+            
+            <Label>Other Common Applications</Label>
             <div className="flex flex-wrap gap-2">
               {[
                 'Food packaging',
@@ -298,13 +342,7 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
                 'Consumer electronics',
                 'Sports equipment',
                 'Construction materials',
-                'Marine applications',
-                'House utility plumbing',
-                'Electrical conduit systems',
-                'HVAC ductwork',
-                'Office desk surfaces',
-                'Office chair frames',
-                'Acoustic panels'
+                'Marine applications'
               ].map((app) => (
                 <Badge
                   key={app}

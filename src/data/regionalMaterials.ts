@@ -94,6 +94,48 @@ const baseMaterials: Omit<Material, 'suppliers'>[] = [
     disadvantages: ['Higher cost', 'Lower thermal conductivity', 'Work hardening']
   },
 
+  {
+    id: 'steel-galvanized',
+    name: 'Galvanized Steel',
+    category: 'Metal',
+    type: 'Steel',
+    subtype: 'Coated Steel',
+    properties: {
+      tensileStrength: 400,
+      yieldStrength: 275,
+      elongation: 20,
+      hardness: 120,
+      density: 7.85,
+      elasticModulus: 200,
+      thermalConductivity: 50,
+      thermalExpansion: 12,
+      meltingPoint: 1510,
+      operatingTempMin: -40,
+      operatingTempMax: 200,
+      electricalConductivity: 7.0,
+      electricalResistivity: 143,
+      magneticPermeability: 100,
+      corrosionResistance: 7
+    },
+    cost: {
+      pricePerKg: 1.50,
+      currency: 'USD',
+      priceDate: '2024-01-15',
+      availability: 'High'
+    },
+    sustainability: {
+      recyclability: 90,
+      carbonFootprint: 2.8,
+      sustainabilityScore: 75,
+      recycledContent: 70,
+      eolRecyclability: 90,
+      renewableEnergy: 30
+    },
+    applications: ['HVAC ductwork', 'Roofing', 'Fencing', 'Structural components'],
+    advantages: ['Corrosion protection', 'Cost effective', 'Weldable', 'Paintable'],
+    disadvantages: ['Limited coating life', 'Welding fumes', 'Heavier than aluminum']
+  },
+
   // Aluminum Materials
   {
     id: 'aluminum-6061-t6',
@@ -179,7 +221,176 @@ const baseMaterials: Omit<Material, 'suppliers'>[] = [
     disadvantages: ['Poor corrosion resistance', 'Not weldable', 'Higher cost']
   },
 
+  // Copper Materials
+  {
+    id: 'copper-c110',
+    name: 'Copper C110 (Electrolytic Tough Pitch)',
+    category: 'Metal',
+    type: 'Copper',
+    subtype: 'Pure Copper',
+    properties: {
+      tensileStrength: 220,
+      yieldStrength: 70,
+      elongation: 45,
+      hardness: 45,
+      density: 8.96,
+      elasticModulus: 110,
+      thermalConductivity: 391,
+      thermalExpansion: 16.5,
+      meltingPoint: 1084,
+      operatingTempMin: -200,
+      operatingTempMax: 250,
+      electricalConductivity: 58.0,
+      electricalResistivity: 17.2,
+      magneticPermeability: 0.999991,
+      corrosionResistance: 7
+    },
+    cost: {
+      pricePerKg: 9.50,
+      currency: 'USD',
+      priceDate: '2024-01-15',
+      availability: 'High'
+    },
+    sustainability: {
+      recyclability: 95,
+      carbonFootprint: 2.8,
+      sustainabilityScore: 85,
+      recycledContent: 35,
+      eolRecyclability: 95,
+      renewableEnergy: 45
+    },
+    applications: ['Plumbing pipes', 'Electrical wiring', 'Heat exchangers', 'Roofing'],
+    advantages: ['Excellent electrical conductivity', 'Antimicrobial properties', 'Easy to solder'],
+    disadvantages: ['Higher cost', 'Soft and malleable', 'Can corrode in acidic conditions']
+  },
+
   // Plastic Materials
+  {
+    id: 'plastic-pvc',
+    name: 'PVC (Polyvinyl Chloride)',
+    category: 'Polymer',
+    type: 'Thermoplastic',
+    subtype: 'Commodity Plastic',
+    properties: {
+      tensileStrength: 52,
+      yieldStrength: 48,
+      elongation: 40,
+      hardness: 75,
+      density: 1.38,
+      elasticModulus: 3.1,
+      thermalConductivity: 0.16,
+      thermalExpansion: 80,
+      meltingPoint: 100,
+      operatingTempMin: -15,
+      operatingTempMax: 60,
+      electricalConductivity: 0.0000001,
+      electricalResistivity: 10000000000000,
+      dielectricStrength: 40,
+      corrosionResistance: 9
+    },
+    cost: {
+      pricePerKg: 1.20,
+      currency: 'USD',
+      priceDate: '2024-01-15',
+      availability: 'High'
+    },
+    sustainability: {
+      recyclability: 75,
+      carbonFootprint: 2.0,
+      sustainabilityScore: 65,
+      recycledContent: 15,
+      eolRecyclability: 70,
+      renewableEnergy: 10
+    },
+    applications: ['Plumbing pipes', 'Electrical conduit', 'Window frames', 'Siding'],
+    advantages: ['Low cost', 'Chemical resistance', 'Easy installation', 'Lightweight'],
+    disadvantages: ['Temperature limitations', 'UV degradation', 'Chlorine content concerns']
+  },
+
+  {
+    id: 'plastic-cpvc',
+    name: 'CPVC (Chlorinated Polyvinyl Chloride)',
+    category: 'Polymer',
+    type: 'Thermoplastic',
+    subtype: 'Engineering Plastic',
+    properties: {
+      tensileStrength: 55,
+      yieldStrength: 50,
+      elongation: 50,
+      hardness: 80,
+      density: 1.55,
+      elasticModulus: 2.9,
+      thermalConductivity: 0.14,
+      thermalExpansion: 67,
+      meltingPoint: 115,
+      operatingTempMin: -10,
+      operatingTempMax: 95,
+      electricalConductivity: 0.0000001,
+      electricalResistivity: 10000000000000,
+      dielectricStrength: 50,
+      corrosionResistance: 9
+    },
+    cost: {
+      pricePerKg: 2.50,
+      currency: 'USD',
+      priceDate: '2024-01-15',
+      availability: 'High'
+    },
+    sustainability: {
+      recyclability: 70,
+      carbonFootprint: 2.5,
+      sustainabilityScore: 62,
+      recycledContent: 10,
+      eolRecyclability: 65,
+      renewableEnergy: 10
+    },
+    applications: ['Hot water pipes', 'Industrial piping', 'Fire sprinkler systems', 'Chemical processing'],
+    advantages: ['Higher temperature tolerance', 'Chemical resistance', 'Self-extinguishing', 'Smooth interior'],
+    disadvantages: ['Higher cost than PVC', 'Brittle at low temperatures', 'Limited flexibility']
+  },
+
+  {
+    id: 'plastic-pex',
+    name: 'PEX (Cross-linked Polyethylene)',
+    category: 'Polymer',
+    type: 'Thermoplastic',
+    subtype: 'Cross-linked',
+    properties: {
+      tensileStrength: 28,
+      yieldStrength: 20,
+      elongation: 350,
+      hardness: 65,
+      density: 0.94,
+      elasticModulus: 0.8,
+      thermalConductivity: 0.4,
+      thermalExpansion: 140,
+      meltingPoint: 130,
+      operatingTempMin: -40,
+      operatingTempMax: 95,
+      electricalConductivity: 0.0000001,
+      electricalResistivity: 10000000000000,
+      dielectricStrength: 25,
+      corrosionResistance: 9
+    },
+    cost: {
+      pricePerKg: 3.80,
+      currency: 'USD',
+      priceDate: '2024-01-15',
+      availability: 'High'
+    },
+    sustainability: {
+      recyclability: 60,
+      carbonFootprint: 1.8,
+      sustainabilityScore: 70,
+      recycledContent: 5,
+      eolRecyclability: 55,
+      renewableEnergy: 15
+    },
+    applications: ['Plumbing systems', 'Radiant heating', 'Snow melting systems', 'Potable water'],
+    advantages: ['Flexible', 'Freeze resistant', 'Chlorine resistant', 'Easy installation'],
+    disadvantages: ['UV sensitive', 'Permeability to some chemicals', 'Requires special fittings']
+  },
+
   {
     id: 'plastic-abs',
     name: 'ABS (Acrylonitrile Butadiene Styrene)',

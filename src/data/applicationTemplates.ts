@@ -344,6 +344,26 @@ export const applicationTemplates: ApplicationTemplate[] = [
     },
     icon: '🏠'
   },
+  {
+    id: 'gas-line',
+    name: 'Gas Line Piping',
+    description: 'Natural gas distribution piping',
+    category: 'House Utility',
+    requirements: {
+      applicationContext: 'Gas line piping for natural gas distribution requiring pressure resistance, leak detection compatibility, and safety compliance',
+      tensileStrength: { min: 200, max: 500 },
+      density: { max: 8.5 },
+      budget: { max: 18 },
+      operatingTemp: { min: -40, max: 80 },
+      loadingConditions: 'static',
+      environment: 'outdoor',
+      safetyFactor: 4.0,
+      designLife: 50,
+      maintenanceAccess: 'difficult',
+      sustainabilityPriority: true
+    },
+    icon: '🔥'
+  },
   // Office Material Applications
   {
     id: 'office-desk',
