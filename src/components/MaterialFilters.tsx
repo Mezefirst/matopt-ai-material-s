@@ -269,6 +269,25 @@ export function MaterialFilters({
                 {t.prioritizeSustainability}
               </Label>
             </div>
+
+            {/* Auto-selection toggle */}
+            <div className="flex items-center space-x-2 p-3 bg-accent/10 rounded-lg border border-accent/20">
+              <Switch
+                id="auto-selection"
+                checked={requirements.autoSelectTop2 !== false} // Default to true
+                onCheckedChange={(checked) => 
+                  updateRequirements({ autoSelectTop2: checked })
+                }
+              />
+              <div className="flex-1">
+                <Label htmlFor="auto-selection" className="text-sm font-medium">
+                  {t.autoSelectTop2 || 'Auto-select top 2 materials'}
+                </Label>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {t.autoSelectDescription || 'Automatically select the best 2 materials for instant comparison'}
+                </p>
+              </div>
+            </div>
           </div>
         )}
 

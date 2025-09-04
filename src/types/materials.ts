@@ -72,6 +72,7 @@ export interface MaterialRequirements {
   electricalResistivity?: { min?: number; max?: number };
   dielectricStrength?: { min?: number; max?: number };
   electricalType?: 'conductor' | 'insulator' | 'semiconductor' | 'any';
+  autoSelectTop2?: boolean; // Auto-select top 2 materials for instant comparison
   // Application-specific requirements
   applicationContext?: string; // Free text description of the application
   loadingConditions?: 'static' | 'dynamic' | 'cyclic' | 'impact';

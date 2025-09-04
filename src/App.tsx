@@ -18,7 +18,8 @@ import {
   Robot,
   FlaskConical,
   MapPin,
-  Globe
+  Globe,
+  ArrowRight
 } from '@phosphor-icons/react';
 
 import { MaterialFilters } from '@/components/MaterialFilters';
@@ -206,13 +207,37 @@ function App() {
         return acc;
       }, {} as Record<string, MaterialScore>);
 
-      updateComparisonState({ scores: scoresMap });
+      // Auto-select top 2 recommended materials for instant comparison (if enabled)
+      const shouldAutoSelect = safeComparisonState.requirements.autoSelectTop2 !== false; // Default to true
       
-      const contextMessage = safeComparisonState.requirements.applicationContext 
-        ? ` ${t.optimizedFor} "${safeComparisonState.requirements.applicationContext}"`
-        : '';
-      
-      toast.success(`${filtered.length} ${t.materialsFound}${contextMessage}`);
+      if (shouldAutoSelect && filtered.length >= 2) {
+        const sortedByScore = scores
+          .sort((a, b) => b.overallScore - a.overallScore)
+          .slice(0, 2);
+        
+        const autoSelectedMaterials = sortedByScore.map(score => score.materialId);
+
+        updateComparisonState({ 
+          scores: scoresMap,
+          selectedMaterials: autoSelectedMaterials,
+          activeTab: 'overview'
+        });
+        
+        const material1 = materialsDatabase.find(m => m.id === autoSelectedMaterials[0])?.name || 'Material 1';
+        const material2 = materialsDatabase.find(m => m.id === autoSelectedMaterials[1])?.name || 'Material 2';
+        
+        toast.success(
+          language === 'en' ? `${filtered.length} materials found${contextMessage}. Auto-selected top 2 for comparison: ${material1} vs ${material2}` :
+          language === 'sv' ? `${filtered.length} material hittade${contextMessage}. Automatiskt valde topp 2 för jämförelse: ${material1} vs ${material2}` :
+          language === 'de' ? `${filtered.length} Materialien gefunden${contextMessage}. Automatisch die Top 2 für den Vergleich ausgewählt: ${material1} vs ${material2}` :
+          language === 'fr' ? `${filtered.length} matériaux trouvés${contextMessage}. Sélection automatique des 2 meilleurs pour comparaison: ${material1} vs ${material2}` :
+          language === 'am' ? `${filtered.length} ቁሳቁሶች ተገኝተዋል${contextMessage}። ለንጽጽር ከፍተኛ 2 በራስ-ሰር ተመርጠዋል: ${material1} vs ${material2}` :
+          `${filtered.length} materials found${contextMessage}. Auto-selected top 2 for comparison: ${material1} vs ${material2}`
+        );
+      } else {
+        updateComparisonState({ scores: scoresMap });
+        toast.success(`${filtered.length} ${t.materialsFound}${contextMessage}`);
+      }
     } catch (error) {
       console.error('Search error:', error);
       toast.error('Failed to search materials. Please try again.');
@@ -735,35 +760,52 @@ function App() {
                             <div className="flex items-center gap-2">
                               <div className="w-5 h-5 bg-muted-foreground text-background rounded-full flex items-center justify-center text-xs font-bold">2</div>
                               <span>
-                                {language === 'en' && 'Click Search to find matching materials'}
-                                {language === 'sv' && 'Klicka på Sök för att hitta matchande material'}
-                                {language === 'de' && 'Klicken Sie auf Suchen, um passende Materialien zu finden'}
-                                {language === 'fr' && 'Cliquez sur Rechercher pour trouver des matériaux correspondants'}
-                                {language === 'am' && 'ተዛማጅ ቁሳቁሶችን ለማግኘት ፈልግ የሚለውን ጠቅ ያድርጉ'}
+                                {language === 'en' && 'Click Search - top 2 materials auto-selected'}
+                                {language === 'sv' && 'Klicka på Sök - topp 2 material väljs automatiskt'}
+                                {language === 'de' && 'Klicken Sie auf Suchen - Top 2 Materialien automatisch ausgewählt'}
+                                {language === 'fr' && 'Cliquez sur Rechercher - top 2 matériaux sélectionnés automatiquement'}
+                                {language === 'am' && 'ፈልግ ጠቅ ያድርጉ - ከፍተኛ 2 ቁሳቁሶች በራስ-ሰር ይመረጣሉ'}
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <div className="w-5 h-5 bg-muted-foreground text-background rounded-full flex items-center justify-center text-xs font-bold">3</div>
+                              <div className="w-5 h-5 bg-accent text-accent-foreground rounded-full flex items-center justify-center text-xs font-bold">★</div>
                               <span>
-                                {language === 'en' && 'Select 2+ materials using checkboxes'}
-                                {language === 'sv' && 'Välj 2+ material med kryssrutor'}
-                                {language === 'de' && 'Wählen Sie 2+ Materialien mit Kontrollkästchen aus'}
-                                {language === 'fr' && 'Sélectionnez 2+ matériaux avec des cases à cocher'}
-                                {language === 'am' && 'ምልክት በመጠቀም 2+ ቁሳቁሶችን ይምረጡ'}
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <div className="w-5 h-5 bg-muted-foreground text-background rounded-full flex items-center justify-center text-xs font-bold">4</div>
-                              <span>
-                                {language === 'en' && 'View detailed comparison table'}
-                                {language === 'sv' && 'Visa detaljerad jämförelsetabell'}
-                                {language === 'de' && 'Detaillierte Vergleichstabelle anzeigen'}
-                                {language === 'fr' && 'Afficher le tableau de comparaison détaillé'}
-                                {language === 'am' && 'ዝርዝር የንጽጽር ሰንጠረዥን ይመልከቱ'}
+                                {language === 'en' && 'Instant comparison ready - add/remove as needed'}
+                                {language === 'sv' && 'Omedelbar jämförelse klar - lägg till/ta bort vid behov'}
+                                {language === 'de' && 'Sofortvergleich bereit - nach Bedarf hinzufügen/entfernen'}
+                                {language === 'fr' && 'Comparaison instantanée prête - ajouter/supprimer si nécessaire'}
+                                {language === 'am' && 'ቅጽበታዊ ንጽጽር ዝግጁ - እንደ አስፈላጊነቱ ይጨምሩ/ያስወግዱ'}
                               </span>
                             </div>
                           </div>
                         </div>
+                        
+                        {/* Auto-selection feature highlight - only show if enabled */}
+                        {(safeComparisonState.requirements.autoSelectTop2 !== false) && (
+                          <div className="bg-gradient-to-r from-accent/20 to-primary/20 border border-accent/30 rounded-lg p-4 mb-4">
+                            <div className="flex items-center gap-3">
+                              <div className="bg-accent/30 p-2 rounded-full">
+                                <Sparkle size={16} className="text-accent" />
+                              </div>
+                              <div className="flex-1">
+                                <h4 className="font-medium text-sm text-accent">
+                                  {language === 'en' && '✨ Smart Auto-Selection'}
+                                  {language === 'sv' && '✨ Smart Auto-Urval'}
+                                  {language === 'de' && '✨ Intelligente Auto-Auswahl'}
+                                  {language === 'fr' && '✨ Sélection Automatique Intelligente'}
+                                  {language === 'am' && '✨ ስማርት በራስ-ሰር ምርጫ'}
+                                </h4>
+                                <p className="text-xs text-muted-foreground mt-1">
+                                  {language === 'en' && 'We\'ll automatically select the top 2 best materials for instant comparison!'}
+                                  {language === 'sv' && 'Vi väljer automatiskt de 2 bästa materialen för omedelbar jämförelse!'}
+                                  {language === 'de' && 'Wir wählen automatisch die 2 besten Materialien für den sofortigen Vergleich aus!'}
+                                  {language === 'fr' && 'Nous sélectionnerons automatiquement les 2 meilleurs matériaux pour une comparaison instantanée!'}
+                                  {language === 'am' && 'ለቅጽበታዊ ንጽጽር ከፍተኛ 2 ቁሳቁሶችን በራስ-ሰር እንመርጣለን!'}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
                         
                         <Button onClick={handleSearch} disabled={isSearching} size="lg" className="px-8">
                           <MagnifyingGlass size={16} className="mr-2" />
