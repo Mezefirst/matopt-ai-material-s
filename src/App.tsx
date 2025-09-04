@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 import { useKV } from '@github/spark/hooks';
+import { useI18n } from '@/i18n';
 import { 
   MagnifyingGlass, 
   Brain, 
@@ -27,6 +28,7 @@ import { ApplicationContext } from '@/components/ApplicationContext';
 import { NewMaterialPrediction } from '@/components/NewMaterialPrediction';
 import { ModelTrainingDashboard } from '@/components/ModelTrainingDashboard';
 import { ModelValidation } from '@/components/ModelValidation';
+import { LanguageSelector } from '@/components/LanguageSelector';
 
 import { materialsDatabase } from '@/data/materials';
 import { initializeDemoMLData } from '@/data/demoMLData';
@@ -41,6 +43,8 @@ import {
 } from '@/types/materials';
 
 function App() {
+  const { t } = useI18n();
+  
   const [comparisonState, setComparisonState] = useKV<ComparisonState>('material-comparison', {
     selectedMaterials: [],
     activeTab: 'overview',
@@ -169,7 +173,7 @@ function App() {
       setFilteredMaterials(filtered);
 
       if (filtered.length === 0) {
-        toast.error('No materials match your criteria. Try adjusting the filters.');
+        toast.error(t.noMaterialsFound);
         return;
       }
 
@@ -199,10 +203,10 @@ function App() {
       updateComparisonState({ scores: scoresMap });
       
       const contextMessage = safeComparisonState.requirements.applicationContext 
-        ? ` optimized for "${safeComparisonState.requirements.applicationContext}"`
+        ? ` ${t.optimizedFor} "${safeComparisonState.requirements.applicationContext}"`
         : '';
       
-      toast.success(`Found ${filtered.length} materials${contextMessage}`);
+      toast.success(`${filtered.length} ${t.materialsFound}${contextMessage}`);
     } catch (error) {
       console.error('Search error:', error);
       toast.error('Failed to search materials. Please try again.');
@@ -216,7 +220,7 @@ function App() {
     
     if (selected) {
       if (currentSelected.length >= 4) {
-        toast.warning('You can compare up to 4 materials at once');
+        toast.warning(t.maxMaterialsSelected);
         return;
       }
       updateComparisonState({ 
@@ -281,14 +285,17 @@ function App() {
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-foreground">MatOpt AI</h1>
+              <h1 className="text-3xl font-bold text-foreground">{t.appTitle}</h1>
               <p className="text-muted-foreground mt-1">
-                AI-powered material optimization for product designers
+                {t.appSubtitle}
               </p>
             </div>
-            <div className="flex items-center gap-2">
-              <Brain className="text-primary" size={24} />
-              <Sparkle className="text-accent" size={20} />
+            <div className="flex items-center gap-4">
+              <LanguageSelector />
+              <div className="flex items-center gap-2">
+                <Brain className="text-primary" size={24} />
+                <Sparkle className="text-accent" size={20} />
+              </div>
             </div>
           </div>
         </div>
@@ -320,7 +327,7 @@ function App() {
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2">
                     <ChartBar size={20} className="text-primary" />
-                    Selected for Comparison
+                    {t.selectedForComparison}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -345,7 +352,7 @@ function App() {
                     onClick={() => handleTabChange('overview')}
                     className="w-full mt-3"
                   >
-                    View Comparison
+                    {t.viewComparison}
                   </Button>
                 </CardContent>
               </Card>
@@ -361,46 +368,46 @@ function App() {
           {/* Main Content */}
           <div className="lg:col-span-2">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-semibold text-foreground">Material Analysis</h2>
+              <h2 className="text-2xl font-semibold text-foreground">{t.materialAnalysis}</h2>
               <Select value={safeComparisonState.activeTab} onValueChange={handleTabChange}>
                 <SelectTrigger className="w-[250px]">
-                  <SelectValue placeholder="Select analysis type" />
+                  <SelectValue placeholder={t.selectAnalysisType} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="overview">
                     <span className="flex items-center gap-2">
                       <MagnifyingGlass size={16} />
-                      Overview
+                      {t.overview}
                     </span>
                   </SelectItem>
                   <SelectItem value="prediction">
                     <span className="flex items-center gap-2">
                       <FlaskConical size={16} />
-                      New Material
+                      {t.newMaterial}
                     </span>
                   </SelectItem>
                   <SelectItem value="ai-recommendations">
                     <span className="flex items-center gap-2">
                       <Brain size={16} />
-                      AI Recommendations
+                      {t.aiRecommendations}
                     </span>
                   </SelectItem>
                   <SelectItem value="ml-recommendations">
                     <span className="flex items-center gap-2">
                       <Robot size={16} />
-                      ML Enhanced
+                      {t.mlEnhanced}
                     </span>
                   </SelectItem>
                   <SelectItem value="properties">
                     <span className="flex items-center gap-2">
                       <ChartBar size={16} />
-                      Properties
+                      {t.properties}
                     </span>
                   </SelectItem>
                   <SelectItem value="sustainability">
                     <span className="flex items-center gap-2">
                       <Lightbulb size={16} />
-                      Sustainability
+                      {t.sustainability}
                     </span>
                   </SelectItem>
                 </SelectContent>
@@ -420,13 +427,13 @@ function App() {
                     <CardContent className="pt-6">
                       <div className="text-center py-8">
                         <Brain size={48} className="mx-auto text-muted-foreground mb-4" />
-                        <h3 className="text-lg font-semibold mb-2">Get Started</h3>
+                        <h3 className="text-lg font-semibold mb-2">{t.getStarted}</h3>
                         <p className="text-muted-foreground mb-4">
-                          Set your requirements and search for materials to begin comparing options.
+                          {t.setRequirements}
                         </p>
                         <Button onClick={handleSearch} disabled={isSearching}>
                           <MagnifyingGlass size={16} className="mr-2" />
-                          {isSearching ? 'Searching...' : 'Search Materials'}
+                          {isSearching ? t.searching : t.searchMaterials}
                         </Button>
                       </div>
                     </CardContent>
@@ -510,7 +517,7 @@ function App() {
       <Dialog open={!!selectedMaterial} onOpenChange={() => setSelectedMaterial(null)}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Material Details</DialogTitle>
+            <DialogTitle>{t.materialDetails}</DialogTitle>
           </DialogHeader>
           {selectedMaterial && <MaterialDetails material={selectedMaterial} />}
         </DialogContent>

@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { MagnifyingGlass, Sliders } from '@phosphor-icons/react';
+import { useI18n } from '@/i18n';
 import { MaterialRequirements } from '../types/materials';
 
 interface MaterialFiltersProps {
@@ -21,6 +22,7 @@ export function MaterialFilters({
   onSearch,
   isLoading = false 
 }: MaterialFiltersProps) {
+  const { t } = useI18n();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const updateRequirements = (updates: Partial<MaterialRequirements>) => {
@@ -48,7 +50,7 @@ export function MaterialFilters({
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold flex items-center gap-2">
             <Sliders size={20} className="text-primary" />
-            Material Requirements
+            {t.materialRequirements}
           </CardTitle>
           <Button
             variant="ghost"
@@ -56,7 +58,7 @@ export function MaterialFilters({
             onClick={() => setIsExpanded(!isExpanded)}
             className="text-muted-foreground"
           >
-            {isExpanded ? 'Less' : 'More'} Filters
+            {isExpanded ? t.lessFilters : t.moreFilters}
           </Button>
         </div>
       </CardHeader>
@@ -65,18 +67,18 @@ export function MaterialFilters({
         {/* Basic Requirements */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="tensile-min">Tensile Strength (MPa)</Label>
+            <Label htmlFor="tensile-min">{t.tensileStrength} ({t.mpa})</Label>
             <div className="flex gap-2">
               <Input
                 id="tensile-min"
                 type="number"
-                placeholder="Min"
+                placeholder={t.min}
                 value={requirements.tensileStrength?.min || ''}
                 onChange={(e) => updateRange('tensileStrength', 'min', e.target.value)}
               />
               <Input
                 type="number"
-                placeholder="Max"
+                placeholder={t.max}
                 value={requirements.tensileStrength?.max || ''}
                 onChange={(e) => updateRange('tensileStrength', 'max', e.target.value)}
               />
@@ -84,18 +86,18 @@ export function MaterialFilters({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="budget-min">Budget ($/kg)</Label>
+            <Label htmlFor="budget-min">{t.budget} ({t.usdKg})</Label>
             <div className="flex gap-2">
               <Input
                 id="budget-min"
                 type="number"
-                placeholder="Min"
+                placeholder={t.min}
                 value={requirements.budget?.min || ''}
                 onChange={(e) => updateRange('budget', 'min', e.target.value)}
               />
               <Input
                 type="number"
-                placeholder="Max"
+                placeholder={t.max}
                 value={requirements.budget?.max || ''}
                 onChange={(e) => updateRange('budget', 'max', e.target.value)}
               />
@@ -105,19 +107,19 @@ export function MaterialFilters({
 
         {/* Region Selection */}
         <div className="space-y-2">
-          <Label>Preferred Region</Label>
+          <Label>{t.region}</Label>
           <Select
             value={requirements.region || ''}
             onValueChange={(value) => updateRequirements({ region: value || undefined })}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select region" />
+              <SelectValue placeholder={t.selectRegion} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="north-america">North America</SelectItem>
-              <SelectItem value="europe">Europe</SelectItem>
-              <SelectItem value="asia-pacific">Asia Pacific</SelectItem>
-              <SelectItem value="global">Global</SelectItem>
+              <SelectItem value="north-america">{t.northAmerica}</SelectItem>
+              <SelectItem value="europe">{t.europe}</SelectItem>
+              <SelectItem value="asia-pacific">{t.asia}</SelectItem>
+              <SelectItem value="global">{t.global}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -126,20 +128,20 @@ export function MaterialFilters({
         {isExpanded && (
           <div className="space-y-4 border-t pt-4">
             <div className="space-y-2">
-              <Label htmlFor="density-min">Density (g/cm³)</Label>
+              <Label htmlFor="density-min">{t.density} ({t.gCm3})</Label>
               <div className="flex gap-2">
                 <Input
                   id="density-min"
                   type="number"
                   step="0.1"
-                  placeholder="Min"
+                  placeholder={t.min}
                   value={requirements.density?.min || ''}
                   onChange={(e) => updateRange('density', 'min', e.target.value)}
                 />
                 <Input
                   type="number"
                   step="0.1"
-                  placeholder="Max"
+                  placeholder={t.max}
                   value={requirements.density?.max || ''}
                   onChange={(e) => updateRange('density', 'max', e.target.value)}
                 />
@@ -147,18 +149,18 @@ export function MaterialFilters({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="temp-min">Operating Temperature (°C)</Label>
+              <Label htmlFor="temp-min">{t.operatingTemp} ({t.celsius})</Label>
               <div className="flex gap-2">
                 <Input
                   id="temp-min"
                   type="number"
-                  placeholder="Min"
+                  placeholder={t.min}
                   value={requirements.operatingTemp?.min || ''}
                   onChange={(e) => updateRange('operatingTemp', 'min', e.target.value)}
                 />
                 <Input
                   type="number"
-                  placeholder="Max"
+                  placeholder={t.max}
                   value={requirements.operatingTemp?.max || ''}
                   onChange={(e) => updateRange('operatingTemp', 'max', e.target.value)}
                 />
@@ -166,7 +168,7 @@ export function MaterialFilters({
             </div>
 
             <div className="space-y-2">
-              <Label>Electrical Properties</Label>
+              <Label>{t.electricalType}</Label>
               <Select
                 value={requirements.electricalType || ''}
                 onValueChange={(value) => 
@@ -176,33 +178,33 @@ export function MaterialFilters({
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select electrical type" />
+                  <SelectValue placeholder={t.selectElectricalType} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="any">Any</SelectItem>
-                  <SelectItem value="conductor">Conductor</SelectItem>
-                  <SelectItem value="insulator">Insulator</SelectItem>
-                  <SelectItem value="semiconductor">Semiconductor</SelectItem>
+                  <SelectItem value="any">{t.any}</SelectItem>
+                  <SelectItem value="conductor">{t.conductor}</SelectItem>
+                  <SelectItem value="insulator">{t.insulator}</SelectItem>
+                  <SelectItem value="semiconductor">{t.semiconductor}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             {requirements.electricalType === 'conductor' && (
               <div className="space-y-2">
-                <Label htmlFor="conductivity-min">Electrical Conductivity (MS/m)</Label>
+                <Label htmlFor="conductivity-min">{t.electricalConductivity} ({t.msm})</Label>
                 <div className="flex gap-2">
                   <Input
                     id="conductivity-min"
                     type="number"
                     step="0.1"
-                    placeholder="Min"
+                    placeholder={t.min}
                     value={requirements.electricalConductivity?.min || ''}
                     onChange={(e) => updateRange('electricalConductivity', 'min', e.target.value)}
                   />
                   <Input
                     type="number"
                     step="0.1"
-                    placeholder="Max"
+                    placeholder={t.max}
                     value={requirements.electricalConductivity?.max || ''}
                     onChange={(e) => updateRange('electricalConductivity', 'max', e.target.value)}
                   />
@@ -213,40 +215,40 @@ export function MaterialFilters({
             {requirements.electricalType === 'insulator' && (
               <>
                 <div className="space-y-2">
-                  <Label htmlFor="resistivity-min">Electrical Resistivity (µΩ·cm)</Label>
+                  <Label htmlFor="resistivity-min">{t.electricalResistivity} ({t.microOhmCm})</Label>
                   <div className="flex gap-2">
                     <Input
                       id="resistivity-min"
                       type="number"
                       step="1000"
-                      placeholder="Min"
+                      placeholder={t.min}
                       value={requirements.electricalResistivity?.min || ''}
                       onChange={(e) => updateRange('electricalResistivity', 'min', e.target.value)}
                     />
                     <Input
                       type="number"
                       step="1000"
-                      placeholder="Max"
+                      placeholder={t.max}
                       value={requirements.electricalResistivity?.max || ''}
                       onChange={(e) => updateRange('electricalResistivity', 'max', e.target.value)}
                     />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="dielectric-min">Dielectric Strength (kV/mm)</Label>
+                  <Label htmlFor="dielectric-min">{t.dielectricStrength} ({t.kvMm})</Label>
                   <div className="flex gap-2">
                     <Input
                       id="dielectric-min"
                       type="number"
                       step="0.1"
-                      placeholder="Min"
+                      placeholder={t.min}
                       value={requirements.dielectricStrength?.min || ''}
                       onChange={(e) => updateRange('dielectricStrength', 'min', e.target.value)}
                     />
                     <Input
                       type="number"
                       step="0.1"
-                      placeholder="Max"
+                      placeholder={t.max}
                       value={requirements.dielectricStrength?.max || ''}
                       onChange={(e) => updateRange('dielectricStrength', 'max', e.target.value)}
                     />
@@ -264,7 +266,7 @@ export function MaterialFilters({
                 }
               />
               <Label htmlFor="sustainability-priority">
-                Prioritize Sustainability
+                {t.prioritizeSustainability}
               </Label>
             </div>
           </div>
@@ -278,7 +280,7 @@ export function MaterialFilters({
           size="lg"
         >
           <MagnifyingGlass size={16} className="mr-2" />
-          {isLoading ? 'Searching...' : 'Find Materials'}
+          {isLoading ? t.searching : t.searchMaterials}
         </Button>
       </CardContent>
     </Card>

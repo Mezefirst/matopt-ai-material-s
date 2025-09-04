@@ -18,6 +18,7 @@ import {
   Copy
 } from '@phosphor-icons/react';
 import { toast } from 'sonner';
+import { useI18n } from '@/i18n';
 import { MaterialRequirements } from '../types/materials';
 import { applicationTemplates, getTemplatesByCategory } from '../data/applicationTemplates';
 
@@ -27,6 +28,7 @@ interface ApplicationContextProps {
 }
 
 export function ApplicationContext({ requirements, onRequirementsChange }: ApplicationContextProps) {
+  const { t } = useI18n();
   const [isExpanded, setIsExpanded] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
 
@@ -51,7 +53,7 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold flex items-center gap-2">
             <Target size={20} className="text-primary" />
-            Application Context
+            {t.applicationContext}
           </CardTitle>
           <div className="flex gap-2">
             <Button
@@ -61,7 +63,7 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
               className="text-muted-foreground"
             >
               <Lightbulb size={16} className="mr-1" />
-              Templates
+              {t.templates}
             </Button>
             <Button
               variant="ghost"
@@ -69,7 +71,7 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
               onClick={() => setIsExpanded(!isExpanded)}
               className="text-muted-foreground"
             >
-              {isExpanded ? 'Collapse' : 'Expand'}
+              {isExpanded ? t.collapse : t.expand}
             </Button>
           </div>
         </div>
@@ -81,7 +83,7 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
           <div className="space-y-3 border-b pb-4">
             <Label className="flex items-center gap-2">
               <Lightbulb size={16} />
-              Application Templates
+              {t.applicationTemplates}
             </Label>
             <div className="space-y-3">
               {Object.entries(templateCategories).map(([category, templates]) => (
@@ -116,10 +118,10 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
 
         {/* Application Description */}
         <div className="space-y-2">
-          <Label htmlFor="application-context">Application Description</Label>
+          <Label htmlFor="application-context">{t.applicationContext}</Label>
           <Textarea
             id="application-context"
-            placeholder="Describe your application (e.g., 'Bicycle frame for mountain biking, needs to be lightweight yet strong enough for 200kg rider + gear load')"
+            placeholder={t.applicationContextPlaceholder}
             value={requirements.applicationContext || ''}
             onChange={(e) => updateRequirements({ applicationContext: e.target.value })}
             className="min-h-[80px]"
