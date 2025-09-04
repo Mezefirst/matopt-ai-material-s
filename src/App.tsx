@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
-import { useKV } from '@/hooks/useKV';
+import { useKV } from '@github/spark/hooks';
 import { 
   MagnifyingGlass, 
   Brain, 
