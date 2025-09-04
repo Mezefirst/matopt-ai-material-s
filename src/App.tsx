@@ -14,7 +14,8 @@ import {
   Lightbulb,
   Sparkle,
   Robot,
-  FlaskConical
+  FlaskConical,
+  MapPin
 } from '@phosphor-icons/react';
 
 import { MaterialFilters } from '@/components/MaterialFilters';
@@ -29,6 +30,7 @@ import { NewMaterialPrediction } from '@/components/NewMaterialPrediction';
 import { ModelTrainingDashboard } from '@/components/ModelTrainingDashboard';
 import { ModelValidation } from '@/components/ModelValidation';
 import { LanguageSelector } from '@/components/LanguageSelector';
+import { RegionalDatabaseExplorer } from '@/components/RegionalDatabaseExplorer';
 
 import { materialsDatabase } from '@/data/materials';
 import { initializeDemoMLData } from '@/data/demoMLData';
@@ -39,7 +41,8 @@ import {
   MaterialRequirements, 
   MaterialScore, 
   ComparisonState,
-  TabType
+  TabType,
+  Supplier
 } from '@/types/materials';
 
 function App() {
@@ -410,6 +413,12 @@ function App() {
                       {t.sustainability}
                     </span>
                   </SelectItem>
+                  <SelectItem value="regional-database">
+                    <span className="flex items-center gap-2">
+                      <MapPin size={16} />
+                      {t.regionalDatabase || 'Regional Database'}
+                    </span>
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -507,6 +516,15 @@ function App() {
                       />
                     ))}
                 </div>
+              )}
+
+              {safeComparisonState.activeTab === 'regional-database' && (
+                <RegionalDatabaseExplorer
+                  onMaterialSelect={setSelectedMaterial}
+                  onSupplierSelect={(supplier) => {
+                    toast.success(`Supplier selected: ${supplier.name}`);
+                  }}
+                />
               )}
             </div>
           </div>

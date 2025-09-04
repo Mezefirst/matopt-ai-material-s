@@ -1,6 +1,11 @@
 import { Material } from '../types/materials';
+import { getGlobalMaterialDatabase } from './regionalMaterials';
 
-export const materialsDatabase: Material[] = [
+// Use the global material database which includes regional suppliers
+export const materialsDatabase: Material[] = getGlobalMaterialDatabase();
+
+// Legacy materials database for backwards compatibility  
+export const legacyMaterialsDatabase: Material[] = [
   {
     id: 'steel-304',
     name: '304 Stainless Steel',

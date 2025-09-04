@@ -2,45 +2,62 @@ export interface Material {
   id: string;
   name: string;
   category: string;
+  type: string;
+  subtype: string;
   properties: {
     tensileStrength: number; // MPa
+    yieldStrength?: number; // MPa
+    elongation?: number; // %
+    hardness: number; // HV or Shore
     density: number; // g/cm³
     elasticModulus: number; // GPa
     thermalConductivity: number; // W/m·K
+    thermalExpansion?: number; // µm/m·K
     meltingPoint: number; // °C
-    hardness: number; // HV
     operatingTempMin: number; // °C
     operatingTempMax: number; // °C
     electricalConductivity: number; // MS/m (megasiemens per meter)
     electricalResistivity: number; // µΩ·cm (microohm-centimeter)
+    magneticPermeability?: number; // relative permeability
     dielectricStrength?: number; // kV/mm (for insulators)
+    corrosionResistance?: number; // 1-10 scale
   };
   cost: {
     pricePerKg: number; // USD
-    minimumOrder: number; // kg
-    leadTime: number; // days
+    currency: string;
+    priceDate: string;
+    availability: 'High' | 'Medium' | 'Low';
   };
   sustainability: {
-    carbonFootprint: number; // kg CO2/kg
     recyclability: number; // 0-100 score
-    renewableContent: number; // 0-100 percentage
+    carbonFootprint: number; // kg CO2/kg
     sustainabilityScore: number; // 0-100 overall
+    recycledContent: number; // 0-100 percentage
+    eolRecyclability: number; // 0-100 end of life recyclability
+    renewableEnergy: number; // 0-100 percentage of renewable energy in production
   };
   suppliers: Supplier[];
-  description: string;
   applications: string[];
-  pros: string[];
-  cons: string[];
+  advantages: string[];
+  disadvantages: string[];
 }
 
 export interface Supplier {
-  id: string;
   name: string;
   region: string;
-  contact: string;
+  country: string;
   reliability: number; // 0-100 score
-  availability: 'In Stock' | 'Limited' | 'Made to Order' | 'Unavailable';
-  priceQuote?: number;
+  leadTime: number; // days
+  certifications: string[];
+  sustainabilityRating: number; // 0-100 score
+  contact: {
+    phone?: string;
+    email?: string;
+    website?: string;
+  };
+  specialties: string[];
+  minOrderQuantity: string;
+  paymentTerms: string;
 }
 
 export interface MaterialRequirements {
@@ -91,7 +108,7 @@ export interface MaterialScore {
   reasoning: string;
 }
 
-export type TabType = 'overview' | 'prediction' | 'properties' | 'sustainability' | 'ai-recommendations' | 'ml-recommendations';
+export type TabType = 'overview' | 'prediction' | 'properties' | 'sustainability' | 'ai-recommendations' | 'ml-recommendations' | 'regional-database';
 
 export interface ComparisonState {
   selectedMaterials: string[];

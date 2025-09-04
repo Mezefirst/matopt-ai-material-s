@@ -12,6 +12,7 @@ export interface Translation {
   mlEnhanced: string;
   properties: string;
   sustainability: string;
+  regionalDatabase: string;
   
   // Search and Filters
   searchMaterials: string;
@@ -132,6 +133,29 @@ export interface Translation {
   applicationTemplates: string;
   collapse: string;
   expand: string;
+  
+  // Regional Database
+  exploreRegionalMaterials: string;
+  regionStats: string;
+  avgReliability: string;
+  avgSustainability: string;
+  availableMaterials: string;
+  availableSuppliers: string;
+  selectCountry: string;
+  allCountries: string;
+  materials: string;
+  price: string;
+  topApplications: string;
+  reliable: string;
+  sustainable: string;
+  paymentTerms: string;
+  minOrder: string;
+  website: string;
+  specialties: string;
+  certifications: string;
+  noDataFound: string;
+  noMaterialsInRegion: string;
+  noSuppliersInRegion: string;
 }
 
 export const translations: Record<Language, Translation> = {
@@ -147,6 +171,7 @@ export const translations: Record<Language, Translation> = {
     mlEnhanced: 'ML Enhanced',
     properties: 'Properties',
     sustainability: 'Sustainability',
+    regionalDatabase: 'Regional Database',
     
     // Search and Filters
     searchMaterials: 'Search Materials',
@@ -267,6 +292,29 @@ export const translations: Record<Language, Translation> = {
     applicationTemplates: 'Application Templates',
     collapse: 'Collapse',
     expand: 'Expand',
+    
+    // Regional Database
+    exploreRegionalMaterials: 'Explore materials and suppliers by geographic region',
+    regionStats: 'Region Statistics',
+    avgReliability: 'Average Reliability',
+    avgSustainability: 'Average Sustainability',
+    availableMaterials: 'Available Materials',
+    availableSuppliers: 'Available Suppliers',
+    selectCountry: 'Select Country',
+    allCountries: 'All Countries',
+    materials: 'Materials',
+    price: 'Price',
+    topApplications: 'Top Applications',
+    reliable: 'Reliable',
+    sustainable: 'Sustainable',
+    paymentTerms: 'Payment',
+    minOrder: 'Min Order',
+    website: 'Website',
+    specialties: 'Specialties',
+    certifications: 'Certifications',
+    noDataFound: 'No Data Found',
+    noMaterialsInRegion: 'No materials available in selected region',
+    noSuppliersInRegion: 'No suppliers available in selected region',
   },
   
   sv: {
@@ -281,6 +329,7 @@ export const translations: Record<Language, Translation> = {
     mlEnhanced: 'ML-förbättrad',
     properties: 'Egenskaper',
     sustainability: 'Hållbarhet',
+    regionalDatabase: 'Regional Databas',
     
     // Search and Filters
     searchMaterials: 'Sök Material',
@@ -401,6 +450,29 @@ export const translations: Record<Language, Translation> = {
     applicationTemplates: 'Applikationsmallar',
     collapse: 'Kollaps',
     expand: 'Expandera',
+    
+    // Regional Database
+    exploreRegionalMaterials: 'Utforska material och leverantörer per geografisk region',
+    regionStats: 'Regionstatistik',
+    avgReliability: 'Genomsnittlig tillförlitlighet',
+    avgSustainability: 'Genomsnittlig hållbarhet',
+    availableMaterials: 'Tillgängliga material',
+    availableSuppliers: 'Tillgängliga leverantörer',
+    selectCountry: 'Välj land',
+    allCountries: 'Alla länder',
+    materials: 'Material',
+    price: 'Pris',
+    topApplications: 'Toppapplikationer',
+    reliable: 'Pålitlig',
+    sustainable: 'Hållbar',
+    paymentTerms: 'Betalning',
+    minOrder: 'Minsta order',
+    website: 'Webbplats',
+    specialties: 'Specialiteter',
+    certifications: 'Certifieringar',
+    noDataFound: 'Inga data hittades',
+    noMaterialsInRegion: 'Inga material tillgängliga i vald region',
+    noSuppliersInRegion: 'Inga leverantörer tillgängliga i vald region',
   },
   
   de: {
@@ -415,6 +487,7 @@ export const translations: Record<Language, Translation> = {
     mlEnhanced: 'ML-Verbessert',
     properties: 'Eigenschaften',
     sustainability: 'Nachhaltigkeit',
+    regionalDatabase: 'Regionale Datenbank',
     
     // Search and Filters
     searchMaterials: 'Materialien suchen',
@@ -535,6 +608,29 @@ export const translations: Record<Language, Translation> = {
     applicationTemplates: 'Anwendungsvorlagen',
     collapse: 'Einklappen',
     expand: 'Erweitern',
+    
+    // Regional Database
+    exploreRegionalMaterials: 'Erkunden Sie Materialien und Lieferanten nach geografischen Regionen',
+    regionStats: 'Regionstatistiken',
+    avgReliability: 'Durchschnittliche Zuverlässigkeit',
+    avgSustainability: 'Durchschnittliche Nachhaltigkeit',
+    availableMaterials: 'Verfügbare Materialien',
+    availableSuppliers: 'Verfügbare Lieferanten',
+    selectCountry: 'Land auswählen',
+    allCountries: 'Alle Länder',
+    materials: 'Materialien',
+    price: 'Preis',
+    topApplications: 'Top-Anwendungen',
+    reliable: 'Zuverlässig',
+    sustainable: 'Nachhaltig',
+    paymentTerms: 'Zahlung',
+    minOrder: 'Mindestbestellung',
+    website: 'Website',
+    specialties: 'Spezialitäten',
+    certifications: 'Zertifizierungen',
+    noDataFound: 'Keine Daten gefunden',
+    noMaterialsInRegion: 'Keine Materialien in der ausgewählten Region verfügbar',
+    noSuppliersInRegion: 'Keine Lieferanten in der ausgewählten Region verfügbar',
   },
   
   fr: {
@@ -549,6 +645,7 @@ export const translations: Record<Language, Translation> = {
     mlEnhanced: 'Amélioré par ML',
     properties: 'Propriétés',
     sustainability: 'Durabilité',
+    regionalDatabase: 'Base de données régionale',
     
     // Search and Filters
     searchMaterials: 'Rechercher des matériaux',
@@ -669,5 +766,28 @@ export const translations: Record<Language, Translation> = {
     applicationTemplates: 'Modèles d\'application',
     collapse: 'Réduire',
     expand: 'Développer',
+    
+    // Regional Database
+    exploreRegionalMaterials: 'Explorer les matériaux et fournisseurs par région géographique',
+    regionStats: 'Statistiques régionales',
+    avgReliability: 'Fiabilité moyenne',
+    avgSustainability: 'Durabilité moyenne',
+    availableMaterials: 'Matériaux disponibles',
+    availableSuppliers: 'Fournisseurs disponibles',
+    selectCountry: 'Sélectionner un pays',
+    allCountries: 'Tous les pays',
+    materials: 'Matériaux',
+    price: 'Prix',
+    topApplications: 'Applications principales',
+    reliable: 'Fiable',
+    sustainable: 'Durable',
+    paymentTerms: 'Paiement',
+    minOrder: 'Commande min',
+    website: 'Site web',
+    specialties: 'Spécialités',
+    certifications: 'Certifications',
+    noDataFound: 'Aucune donnée trouvée',
+    noMaterialsInRegion: 'Aucun matériau disponible dans la région sélectionnée',
+    noSuppliersInRegion: 'Aucun fournisseur disponible dans la région sélectionnée',
   }
 };
