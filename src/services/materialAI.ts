@@ -1,4 +1,4 @@
-import { Material, MaterialRequirements, MaterialScore } from '../types/materials';
+import { Material, MaterialRequirements, MaterialScore, ApplicationRecommendation, SmartRecommendation } from '../types/materials';
 
 export class MaterialAIService {
   static async generateRecommendations(
@@ -115,6 +115,160 @@ Focus on decision-making insights for designers.
     } catch (error) {
       console.error('AI trade-off analysis error:', error);
       return 'Multiple material options available with varying performance, cost, and sustainability characteristics. Consider your priority requirements when making the final selection.';
+    }
+  }
+
+  static async generateApplicationRecommendations(
+    applicationQuery: string,
+    materials: Material[],
+    requirements?: MaterialRequirements
+  ): Promise<SmartRecommendation> {
+    const prompt = spark.llmPrompt`
+You are an expert materials engineer helping designers select materials for specific applications.
+
+Application Query: "${applicationQuery}"
+
+${requirements ? `Additional Requirements:
+${JSON.stringify(requirements, null, 2)}` : ''}
+
+Available Materials:
+${JSON.stringify(materials.map(m => ({
+  id: m.id,
+  name: m.name,
+  category: m.category,
+  properties: m.properties,
+  cost: m.cost,
+  sustainability: m.sustainability,
+  applications: m.applications,
+  pros: m.pros,
+  cons: m.cons
+})), null, 2)}
+
+Analyze the application requirements and provide recommendations. Consider:
+1. Loading conditions (static, dynamic, impact, fatigue)
+2. Environmental factors (temperature, chemicals, UV, moisture)
+3. Design constraints (weight, size, cost, manufacturing)
+4. Performance requirements (strength, stiffness, conductivity)
+5. Lifecycle considerations (durability, maintenance, end-of-life)
+
+Return a JSON object with:
+{
+  "query": "restated application query",
+  "recommendedMaterials": [
+    {
+      "materialId": "material_id",
+      "suitabilityScore": 0-100,
+      "keyBenefits": ["benefit1", "benefit2", "benefit3"],
+      "potentialConcerns": ["concern1", "concern2"],
+      "designConsiderations": ["consideration1", "consideration2"],
+      "alternativeOptions": ["alt1", "alt2"]
+    }
+  ],
+  "reasoning": "overall explanation of recommendations",
+  "considerations": ["important design factor1", "important design factor2"],
+  "nextSteps": ["recommended next action1", "recommended next action2"]
+}
+
+Rank materials by suitability (highest first) and include top 3-5 options.
+`;
+
+    try {
+      const response = await spark.llm(prompt, 'gpt-4o', true);
+      const recommendation = JSON.parse(response) as SmartRecommendation;
+      
+      // Validate and ensure we have valid recommendations
+      if (!recommendation.recommendedMaterials || recommendation.recommendedMaterials.length === 0) {
+        throw new Error('No valid recommendations generated');
+      }
+
+      return recommendation;
+    } catch (error) {
+      console.error('AI application recommendation error:', error);
+      
+      // Fallback recommendation
+      return {
+        query: applicationQuery,
+        recommendedMaterials: materials.slice(0, 3).map(material => ({
+          materialId: material.id,
+          suitabilityScore: 70,
+          keyBenefits: [material.pros[0] || 'Good performance characteristics'],
+          potentialConcerns: [material.cons[0] || 'Consider cost implications'],
+          designConsiderations: ['Verify specifications match requirements'],
+          alternativeOptions: []
+        })),
+        reasoning: 'Basic material analysis suggests these options based on general properties.',
+        considerations: ['Verify material specifications', 'Consider manufacturing requirements'],
+        nextSteps: ['Request material samples', 'Conduct detailed analysis']
+      };
+    }
+  }
+
+  static async generateQuickInsight(query: string): Promise<string> {
+    const prompt = spark.llmPrompt`
+You are a materials engineering consultant. Provide a quick, actionable insight for this query:
+
+"${query}"
+
+Respond in 2-3 sentences with practical advice about material selection considerations for this application. Focus on the most critical factors a designer should consider.
+
+Be specific and avoid generic advice.
+`;
+
+    try {
+      return await spark.llm(prompt, 'gpt-4o-mini');
+    } catch (error) {
+      console.error('AI quick insight error:', error);
+      return 'Consider the primary loading conditions, environmental exposure, and manufacturing constraints when selecting materials for this application.';
+    }
+  }
+
+  static async optimizeForApplication(
+    materials: Material[],
+    applicationContext: string,
+    requirements: MaterialRequirements
+  ): Promise<MaterialScore[]> {
+    const prompt = spark.llmPrompt`
+You are optimizing material selection for a specific application context.
+
+Application: "${applicationContext}"
+
+Requirements:
+${JSON.stringify(requirements, null, 2)}
+
+Materials to evaluate:
+${JSON.stringify(materials.map(m => ({
+  id: m.id,
+  name: m.name,
+  category: m.category,
+  properties: m.properties,
+  cost: m.cost,
+  sustainability: m.sustainability,
+  applications: m.applications
+})), null, 2)}
+
+Provide application-optimized scoring considering:
+
+1. Application Fit (40%): How well the material suits this specific use case
+2. Performance (25%): Mechanical and physical properties match
+3. Reliability (20%): Durability and consistency for this application
+4. Cost Effectiveness (10%): Value for this specific application
+5. Implementation (5%): Ease of design, manufacturing, and maintenance
+
+For each material, return a MaterialScore object with enhanced reasoning that explains the application-specific considerations.
+
+Return JSON array ordered by overall score (highest first).
+`;
+
+    try {
+      const response = await spark.llm(prompt, 'gpt-4o', true);
+      const scores = JSON.parse(response) as MaterialScore[];
+      
+      return scores
+        .filter(score => score.materialId && typeof score.overallScore === 'number')
+        .sort((a, b) => b.overallScore - a.overallScore);
+    } catch (error) {
+      console.error('AI application optimization error:', error);
+      return this.generateBasicScoring(materials, requirements);
     }
   }
 

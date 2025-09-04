@@ -55,6 +55,30 @@ export interface MaterialRequirements {
   electricalResistivity?: { min?: number; max?: number };
   dielectricStrength?: { min?: number; max?: number };
   electricalType?: 'conductor' | 'insulator' | 'semiconductor' | 'any';
+  // Application-specific requirements
+  applicationContext?: string; // Free text description of the application
+  loadingConditions?: 'static' | 'dynamic' | 'cyclic' | 'impact';
+  environment?: 'indoor' | 'outdoor' | 'marine' | 'chemical' | 'high-temp' | 'cryogenic';
+  safetyFactor?: number; // Multiplier for strength requirements
+  designLife?: number; // Expected lifespan in years
+  maintenanceAccess?: 'easy' | 'difficult' | 'none';
+}
+
+export interface ApplicationRecommendation {
+  materialId: string;
+  suitabilityScore: number; // 0-100 how well it fits the specific application
+  keyBenefits: string[];
+  potentialConcerns: string[];
+  designConsiderations: string[];
+  alternativeOptions?: string[];
+}
+
+export interface SmartRecommendation {
+  query: string;
+  recommendedMaterials: ApplicationRecommendation[];
+  reasoning: string;
+  considerations: string[];
+  nextSteps: string[];
 }
 
 export interface MaterialScore {
@@ -67,7 +91,7 @@ export interface MaterialScore {
   reasoning: string;
 }
 
-export type TabType = 'overview' | 'properties' | 'sustainability';
+export type TabType = 'overview' | 'properties' | 'sustainability' | 'ai-recommendations';
 
 export interface ComparisonState {
   selectedMaterials: string[];

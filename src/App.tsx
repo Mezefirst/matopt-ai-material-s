@@ -18,6 +18,8 @@ import { MaterialFilters } from '@/components/MaterialFilters';
 import { MaterialCard } from '@/components/MaterialCard';
 import { MaterialDetails } from '@/components/MaterialDetails';
 import { MaterialComparison } from '@/components/MaterialComparison';
+import { AIRecommendations } from '@/components/AIRecommendations';
+import { ApplicationContext } from '@/components/ApplicationContext';
 
 import { materialsDatabase } from '@/data/materials';
 import { MaterialAIService } from '@/services/materialAI';
@@ -152,11 +154,23 @@ function App() {
         return;
       }
 
-      // Generate AI recommendations
-      const scores = await MaterialAIService.generateRecommendations(
-        filtered, 
-        safeComparisonState.requirements
-      );
+      // Generate AI recommendations based on application context if available
+      let scores: MaterialScore[];
+      
+      if (safeComparisonState.requirements.applicationContext) {
+        // Use application-optimized scoring when context is provided
+        scores = await MaterialAIService.optimizeForApplication(
+          filtered, 
+          safeComparisonState.requirements.applicationContext,
+          safeComparisonState.requirements
+        );
+      } else {
+        // Use general recommendations
+        scores = await MaterialAIService.generateRecommendations(
+          filtered, 
+          safeComparisonState.requirements
+        );
+      }
 
       const scoresMap = scores.reduce((acc, score) => {
         acc[score.materialId] = score;
@@ -165,7 +179,11 @@ function App() {
 
       updateComparisonState({ scores: scoresMap });
       
-      toast.success(`Found ${filtered.length} materials matching your criteria`);
+      const contextMessage = safeComparisonState.requirements.applicationContext 
+        ? ` optimized for "${safeComparisonState.requirements.applicationContext}"`
+        : '';
+      
+      toast.success(`Found ${filtered.length} materials${contextMessage}`);
     } catch (error) {
       console.error('Search error:', error);
       toast.error('Failed to search materials. Please try again.');
@@ -260,7 +278,14 @@ function App() {
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Filters Sidebar */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 space-y-6">
+            <ApplicationContext
+              requirements={safeComparisonState.requirements}
+              onRequirementsChange={(requirements) => 
+                updateComparisonState({ requirements })
+              }
+            />
+            
             <MaterialFilters
               requirements={safeComparisonState.requirements}
               onRequirementsChange={(requirements) => 
@@ -311,10 +336,14 @@ function App() {
           {/* Main Content */}
           <div className="lg:col-span-2">
             <Tabs value={safeComparisonState.activeTab} onValueChange={handleTabChange}>
-              <TabsList className="grid w-full grid-cols-3">
+              <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="overview" className="flex items-center gap-2">
                   <MagnifyingGlass size={16} />
                   Overview
+                </TabsTrigger>
+                <TabsTrigger value="ai-recommendations" className="flex items-center gap-2">
+                  <Brain size={16} />
+                  AI Recommendations
                 </TabsTrigger>
                 <TabsTrigger value="properties" className="flex items-center gap-2">
                   <ChartBar size={16} />
@@ -350,6 +379,14 @@ function App() {
                     </CardContent>
                   </Card>
                 )}
+              </TabsContent>
+
+              <TabsContent value="ai-recommendations" className="space-y-6 mt-6">
+                <AIRecommendations
+                  materials={filteredMaterials}
+                  onMaterialSelect={(materialId) => handleMaterialSelect(materialId, true)}
+                  selectedMaterials={safeComparisonState.selectedMaterials}
+                />
               </TabsContent>
 
               <TabsContent value="properties" className="space-y-6 mt-6">

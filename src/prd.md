@@ -19,15 +19,21 @@
 ## Essential Features
 
 ### Material Search & Filtering
+- **Application Context Input**: Free-text description of application requirements with smart parsing
 - **Advanced Filtering System**: Multi-dimensional filtering including mechanical properties, temperature ranges, electrical characteristics, cost constraints, and regional availability
+- **Design Context Parameters**: Loading conditions, environment, safety factors, and maintenance requirements
 - **Electrical Property Classification**: Automatic categorization as conductor, insulator, or semiconductor with relevant property displays
 - **Temperature Range Filtering**: Operating temperature constraints for application-specific requirements
 - **Smart Filter Suggestions**: Context-aware filter recommendations based on common use cases
 
 ### AI-Powered Recommendations
+- **Application-Context Optimization**: AI analyzes specific application requirements to provide tailored material recommendations
 - **Multi-Criteria Scoring**: Weighted scoring algorithm considering properties, cost, sustainability, and availability
+- **Smart Query Processing**: Natural language understanding of application requirements and constraints
 - **Trade-off Analysis**: Intelligent comparison highlighting strength/weakness patterns across selected materials
 - **Reasoning Transparency**: Clear explanations for AI recommendations and scoring rationale
+- **Application-Specific Insights**: Design considerations, potential concerns, and implementation guidance
+- **Alternative Suggestions**: Backup material options with comparative analysis
 
 ### Material Database
 - **Comprehensive Coverage**: Metals, polymers, ceramics, and composites with detailed property data
@@ -36,8 +42,10 @@
 
 ### Comparison Interface
 - **Multi-Material Comparison**: Side-by-side analysis of up to 4 materials
+- **AI Recommendations Tab**: Dedicated interface for application-specific material suggestions
 - **Visual Property Charts**: Interactive charts showing property distributions and trade-offs
-- **Tabbed Organization**: Overview, Properties, and Sustainability focused views
+- **Tabbed Organization**: Overview, AI Recommendations, Properties, and Sustainability focused views
+- **Smart Material Selection**: One-click addition of AI-recommended materials to comparison set
 
 ## Design Direction
 
