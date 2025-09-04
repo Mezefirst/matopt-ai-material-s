@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
@@ -360,36 +360,56 @@ function App() {
 
           {/* Main Content */}
           <div className="lg:col-span-2">
-            <Tabs value={safeComparisonState.activeTab} onValueChange={handleTabChange}>
-              <TabsList className="grid w-full grid-cols-6">
-                <TabsTrigger value="overview" className="flex items-center gap-2">
-                  <MagnifyingGlass size={16} />
-                  Overview
-                </TabsTrigger>
-                <TabsTrigger value="prediction" className="flex items-center gap-2">
-                  <FlaskConical size={16} />
-                  New Material
-                </TabsTrigger>
-                <TabsTrigger value="ai-recommendations" className="flex items-center gap-2">
-                  <Brain size={16} />
-                  AI Recommendations
-                </TabsTrigger>
-                <TabsTrigger value="ml-recommendations" className="flex items-center gap-2">
-                  <Robot size={16} />
-                  ML Enhanced
-                </TabsTrigger>
-                <TabsTrigger value="properties" className="flex items-center gap-2">
-                  <ChartBar size={16} />
-                  Properties
-                </TabsTrigger>
-                <TabsTrigger value="sustainability" className="flex items-center gap-2">
-                  <Lightbulb size={16} />
-                  Sustainability
-                </TabsTrigger>
-              </TabsList>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-semibold text-foreground">Material Analysis</h2>
+              <Select value={safeComparisonState.activeTab} onValueChange={handleTabChange}>
+                <SelectTrigger className="w-[250px]">
+                  <SelectValue placeholder="Select analysis type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="overview">
+                    <span className="flex items-center gap-2">
+                      <MagnifyingGlass size={16} />
+                      Overview
+                    </span>
+                  </SelectItem>
+                  <SelectItem value="prediction">
+                    <span className="flex items-center gap-2">
+                      <FlaskConical size={16} />
+                      New Material
+                    </span>
+                  </SelectItem>
+                  <SelectItem value="ai-recommendations">
+                    <span className="flex items-center gap-2">
+                      <Brain size={16} />
+                      AI Recommendations
+                    </span>
+                  </SelectItem>
+                  <SelectItem value="ml-recommendations">
+                    <span className="flex items-center gap-2">
+                      <Robot size={16} />
+                      ML Enhanced
+                    </span>
+                  </SelectItem>
+                  <SelectItem value="properties">
+                    <span className="flex items-center gap-2">
+                      <ChartBar size={16} />
+                      Properties
+                    </span>
+                  </SelectItem>
+                  <SelectItem value="sustainability">
+                    <span className="flex items-center gap-2">
+                      <Lightbulb size={16} />
+                      Sustainability
+                    </span>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-              <TabsContent value="overview" className="space-y-6 mt-6">
-                {safeComparisonState.selectedMaterials.length > 0 ? (
+            <div className="space-y-6">
+              {safeComparisonState.activeTab === 'overview' && (
+                safeComparisonState.selectedMaterials.length > 0 ? (
                   <MaterialComparison
                     materials={getSelectedMaterials()}
                     scores={safeComparisonState.scores}
@@ -411,26 +431,26 @@ function App() {
                       </div>
                     </CardContent>
                   </Card>
-                )}
-              </TabsContent>
+                )
+              )}
 
-              <TabsContent value="prediction" className="space-y-6 mt-6">
+              {safeComparisonState.activeTab === 'prediction' && (
                 <NewMaterialPrediction
                   onPredictionComplete={(prediction) => {
                     toast.success(`Properties predicted for ${prediction.name}`);
                   }}
                 />
-              </TabsContent>
+              )}
 
-              <TabsContent value="ai-recommendations" className="space-y-6 mt-6">
+              {safeComparisonState.activeTab === 'ai-recommendations' && (
                 <AIRecommendations
                   materials={filteredMaterials}
                   onMaterialSelect={(materialId) => handleMaterialSelect(materialId, true)}
                   selectedMaterials={safeComparisonState.selectedMaterials}
                 />
-              </TabsContent>
+              )}
 
-              <TabsContent value="ml-recommendations" className="space-y-6 mt-6">
+              {safeComparisonState.activeTab === 'ml-recommendations' && (
                 <MLRecommendations
                   materials={filteredMaterials}
                   requirements={safeComparisonState.requirements}
@@ -439,9 +459,9 @@ function App() {
                   onMaterialSelect={(materialId) => handleMaterialSelect(materialId, true)}
                   selectedMaterials={safeComparisonState.selectedMaterials}
                 />
-              </TabsContent>
+              )}
 
-              <TabsContent value="properties" className="space-y-6 mt-6">
+              {safeComparisonState.activeTab === 'properties' && (
                 <div className="grid gap-6">
                   {getSortedMaterials().map((material) => (
                     <MaterialCard
@@ -459,9 +479,9 @@ function App() {
                     />
                   ))}
                 </div>
-              </TabsContent>
+              )}
 
-              <TabsContent value="sustainability" className="space-y-6 mt-6">
+              {safeComparisonState.activeTab === 'sustainability' && (
                 <div className="grid gap-6">
                   {getSortedMaterials()
                     .sort((a, b) => b.sustainability.sustainabilityScore - a.sustainability.sustainabilityScore)
@@ -480,8 +500,8 @@ function App() {
                       />
                     ))}
                 </div>
-              </TabsContent>
-            </Tabs>
+              )}
+            </div>
           </div>
         </div>
       </div>
