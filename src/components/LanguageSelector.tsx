@@ -14,7 +14,8 @@ export function LanguageSelector({ className }: LanguageSelectorProps) {
     { code: 'en' as Language, name: t.english, flag: '🇺🇸' },
     { code: 'sv' as Language, name: t.swedish, flag: '🇸🇪' },
     { code: 'de' as Language, name: t.german, flag: '🇩🇪' },
-    { code: 'fr' as Language, name: t.french, flag: '🇫🇷' }
+    { code: 'fr' as Language, name: t.french, flag: '🇫🇷' },
+    { code: 'am' as Language, name: t.amharic, flag: '🇪🇹' }
   ];
 
   return (

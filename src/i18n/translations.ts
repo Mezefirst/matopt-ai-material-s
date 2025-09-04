@@ -1,4 +1,4 @@
-export type Language = 'en' | 'sv' | 'de' | 'fr';
+export type Language = 'en' | 'sv' | 'de' | 'fr' | 'am';
 
 export interface Translation {
   // Header and App Info
@@ -116,6 +116,7 @@ export interface Translation {
   swedish: string;
   german: string;
   french: string;
+  amharic: string;
   
   // Additional UI elements
   materialRequirements: string;
@@ -275,6 +276,7 @@ export const translations: Record<Language, Translation> = {
     swedish: 'Swedish',
     german: 'German',
     french: 'French',
+    amharic: 'Amharic',
     
     // Additional UI elements
     materialRequirements: 'Material Requirements',
@@ -433,6 +435,7 @@ export const translations: Record<Language, Translation> = {
     swedish: 'Svenska',
     german: 'Tyska',
     french: 'Franska',
+    amharic: 'Amhariska',
     
     // Additional UI elements
     materialRequirements: 'Materialkrav',
@@ -591,6 +594,7 @@ export const translations: Record<Language, Translation> = {
     swedish: 'Schwedisch',
     german: 'Deutsch',
     french: 'Französisch',
+    amharic: 'Amharisch',
     
     // Additional UI elements
     materialRequirements: 'Materialanforderungen',
@@ -749,6 +753,7 @@ export const translations: Record<Language, Translation> = {
     swedish: 'Suédois',
     german: 'Allemand',
     french: 'Français',
+    amharic: 'Amharique',
     
     // Additional UI elements
     materialRequirements: 'Exigences matérielles',
@@ -789,5 +794,164 @@ export const translations: Record<Language, Translation> = {
     noDataFound: 'Aucune donnée trouvée',
     noMaterialsInRegion: 'Aucun matériau disponible dans la région sélectionnée',
     noSuppliersInRegion: 'Aucun fournisseur disponible dans la région sélectionnée',
+  },
+
+  am: {
+    // Header and App Info
+    appTitle: 'MatOpt AI',
+    appSubtitle: 'AI-powered material optimization ለፕሮዳክት ዲዛይነሮች',
+    
+    // Navigation and Tabs
+    overview: 'መግለጫ',
+    newMaterial: 'አዲስ Material',
+    aiRecommendations: 'AI ምክሮች',
+    mlEnhanced: 'ML የተሻሻለ',
+    properties: 'Properties',
+    sustainability: 'ዘላቂነት',
+    regionalDatabase: 'Regional ዳታቤዝ',
+    
+    // Search and Filters
+    searchMaterials: 'Materials ፈልግ',
+    searching: 'በመፈለግ ላይ...',
+    getStarted: 'ይጀምሩ',
+    setRequirements: 'የእርስዎን requirements ያስቀምጡ እና materials በመፈለግ options ያነጻጽሩ።',
+    applicationContext: 'Application Context',
+    applicationContextPlaceholder: 'የእርስዎን application ይግለጹ (ለምሳሌ መኪና brake disc, aerospace component)',
+    
+    // Material Properties
+    tensileStrength: 'Tensile ኃይል',
+    density: 'ጥንካሬ',
+    budget: 'ባጀት',
+    operatingTemp: 'Operating Temperature',
+    electricalType: 'Electrical ዓይነት',
+    electricalConductivity: 'Electrical Conductivity',
+    electricalResistivity: 'Electrical Resistivity',
+    dielectricStrength: 'Dielectric ኃይል',
+    region: 'ክልል',
+    
+    // Electrical Types
+    any: 'ማንኛውም',
+    conductor: 'Conductor',
+    insulator: 'Insulator',
+    semiconductor: 'Semiconductor',
+    
+    // Regions
+    global: 'Global',
+    northAmerica: 'ሰሜን አሜሪካ',
+    europe: 'ኤውሮፓ',
+    asia: 'እስያ',
+    southAmerica: 'ደቡብ አሜሪካ',
+    africa: 'አፍሪካ',
+    oceania: 'ኦሺያኒያ',
+    
+    // Units
+    mpa: 'MPa',
+    gCm3: 'g/cm³',
+    usdKg: 'USD/kg',
+    celsius: '°C',
+    msm: 'MS/m',
+    microOhmCm: 'µΩ·cm',
+    kvMm: 'kV/mm',
+    
+    // Material Categories
+    metals: 'ብረቶች',
+    polymers: 'Polymers',
+    ceramics: 'Ceramics',
+    composites: 'Composites',
+    
+    // UI Actions
+    search: 'ፈልግ',
+    clear: 'አጽዳ',
+    compare: 'ያነጻጽሩ',
+    viewDetails: 'Details አሳይ',
+    viewComparison: 'Comparison አሳይ',
+    selectForComparison: 'ለ Comparison ምረጥ',
+    removeFromComparison: 'ከ Comparison አስወግድ',
+    
+    // Feedback and Ratings
+    helpful: 'ጠቃሚ',
+    notHelpful: 'ጠቃሚ አይደለም',
+    rateRecommendation: 'ይህን recommendation ደረጃ ይስጡ',
+    
+    // Analysis
+    materialAnalysis: 'Material ትንተና',
+    selectedForComparison: 'ለ Comparison የተመረጡ',
+    selectAnalysisType: 'Analysis ዓይነት ምረጥ',
+    tradeoffAnalysis: 'Trade-off ትንተና',
+    
+    // Messages
+    noMaterialsFound: 'ከእርስዎ criteria ጋር የሚመሳሰሉ materials አልተገኙም። filters ማስተካከል ይሞክሩ።',
+    maxMaterialsSelected: 'በአንድ ጊዜ እስከ 4 materials ማነጻጸር ይችላሉ',
+    materialsFound: 'materials ተገኙ',
+    optimizedFor: 'የተመቻቸለ ለ',
+    
+    // AI and ML
+    aiInsight: 'AI Insight',
+    mlPrediction: 'ML ትንቢት',
+    prediction: 'ትንቢት',
+    confidence: 'እምነት',
+    
+    // Sustainability
+    carbonFootprint: 'Carbon ስሜት',
+    recyclability: 'Recyclability',
+    renewableContent: 'Renewable ይዘት',
+    sustainabilityScore: 'ዘላቂነት ነጥብ',
+    
+    // Material Details
+    materialDetails: 'Material ዝርዝሮች',
+    suppliers: 'አቅራቢዎች',
+    cost: 'ወጪ',
+    availability: 'መገኘት',
+    pricePerKg: 'በ kg ዋጋ',
+    leadTime: 'Lead Time',
+    days: 'ቀናት',
+    
+    // Language Selection
+    language: 'ቋንቋ',
+    english: 'English',
+    swedish: 'Swedish',
+    german: 'German',
+    french: 'French',
+    amharic: 'አማርኛ',
+    
+    // Additional UI elements
+    materialRequirements: 'Material መስፈርቶች',
+    lessFilters: 'ያነሰ Filters',
+    moreFilters: 'ተጨማሪ Filters',
+    min: 'ዝቅተኛ',
+    max: 'ከፍተኛ',
+    preferredRegion: 'የተመረጠ Region',
+    selectRegion: 'Region ይምረጡ',
+    selectElectricalType: 'Electrical type ይምረጡ',
+    electricalProperties: 'Electrical Properties',
+    prioritizeSustainability: 'ዘላቂነት ቅድሚያ ይስጡ',
+    findMaterials: 'Materials አግኝ',
+    templates: 'Templates',
+    applicationTemplates: 'Application Templates',
+    collapse: 'አሳንስ',
+    expand: 'አስፋ',
+    
+    // Regional Database
+    exploreRegionalMaterials: 'በ geographic region materials እና suppliers ያስሱ',
+    regionStats: 'Region Statistics',
+    avgReliability: 'አማካይ Reliability',
+    avgSustainability: 'አማካይ ዘላቂነት',
+    availableMaterials: 'የሚገኙ Materials',
+    availableSuppliers: 'የሚገኙ Suppliers',
+    selectCountry: 'Country ይምረጡ',
+    allCountries: 'ሁሉም Countries',
+    materials: 'Materials',
+    price: 'ዋጋ',
+    topApplications: 'ዋና Applications',
+    reliable: 'አስተማማኝ',
+    sustainable: 'ዘላቂ',
+    paymentTerms: 'Payment',
+    minOrder: 'Min Order',
+    website: 'Website',
+    specialties: 'Specialties',
+    certifications: 'Certifications',
+    noDataFound: 'ምንም Data አልተገኘም',
+    noMaterialsInRegion: 'በተመረጠው region ምንም materials የሉም',
+    noSuppliersInRegion: 'በተመረጠው region ምንም suppliers የሉም',
   }
 };
