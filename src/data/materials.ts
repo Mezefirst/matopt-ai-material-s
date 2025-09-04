@@ -690,5 +690,143 @@ export const materialsDatabase: Material[] = [
     applications: ['Catalyst supports', 'Kiln furniture', 'Heat exchangers', 'Automotive substrates'],
     pros: ['Low thermal expansion', 'Thermal shock resistance', 'Cost-effective', 'Good availability'],
     cons: ['Lower strength', 'Porous structure', 'Limited wear resistance', 'Thermal conductivity limitations']
+  },
+  {
+    id: 'polyethylene-uhmw',
+    name: 'UHMW Polyethylene',
+    category: 'Engineering Plastic',
+    properties: {
+      tensileStrength: 40,
+      density: 0.93,
+      elasticModulus: 0.8,
+      thermalConductivity: 0.42,
+      meltingPoint: 130,
+      hardness: 65
+    },
+    cost: {
+      pricePerKg: 8.5,
+      minimumOrder: 50,
+      leadTime: 10
+    },
+    sustainability: {
+      carbonFootprint: 3.2,
+      recyclability: 80,
+      renewableContent: 5,
+      sustainabilityScore: 75
+    },
+    suppliers: [
+      {
+        id: 'supplier-31',
+        name: 'Polymer Solutions Inc',
+        region: 'North America',
+        contact: 'uhmw@polysolutions.com',
+        reliability: 92,
+        availability: 'In Stock'
+      },
+      {
+        id: 'supplier-32',
+        name: 'European Polymers Ltd',
+        region: 'Europe',
+        contact: 'orders@europolymers.com',
+        reliability: 89,
+        availability: 'In Stock'
+      }
+    ],
+    description: 'Ultra-high molecular weight polyethylene with exceptional impact strength and chemical resistance.',
+    applications: ['Conveyor components', 'Marine fenders', 'Prosthetics', 'Food processing'],
+    pros: ['Excellent impact resistance', 'Chemical inertness', 'Self-lubricating', 'Low cost'],
+    cons: ['Low strength', 'Temperature limitations', 'Poor UV resistance', 'Difficult to bond']
+  },
+  {
+    id: 'magnesium-az31',
+    name: 'Magnesium Alloy AZ31',
+    category: 'Magnesium Alloy',
+    properties: {
+      tensileStrength: 290,
+      density: 1.77,
+      elasticModulus: 45,
+      thermalConductivity: 96,
+      meltingPoint: 630,
+      hardness: 73
+    },
+    cost: {
+      pricePerKg: 4.8,
+      minimumOrder: 25,
+      leadTime: 18
+    },
+    sustainability: {
+      carbonFootprint: 8.9,
+      recyclability: 95,
+      renewableContent: 20,
+      sustainabilityScore: 82
+    },
+    suppliers: [
+      {
+        id: 'supplier-33',
+        name: 'Lightweight Metals Corp',
+        region: 'North America',
+        contact: 'mg@lightmetals.com',
+        reliability: 94,
+        availability: 'Limited'
+      },
+      {
+        id: 'supplier-34',
+        name: 'Asia Magnesium Ltd',
+        region: 'Asia Pacific',
+        contact: 'sales@asiamg.com',
+        reliability: 87,
+        availability: 'In Stock'
+      }
+    ],
+    description: 'Lightweight magnesium alloy with excellent strength-to-weight ratio and good machinability.',
+    applications: ['Automotive', 'Electronics housings', 'Aerospace', 'Sporting goods'],
+    pros: ['Lightest structural metal', 'Good machinability', 'Excellent EMI shielding', 'High recyclability'],
+    cons: ['Corrosion susceptible', 'Fire hazard in machining', 'Limited formability', 'Galvanic corrosion risk']
+  },
+  {
+    id: 'nitinol',
+    name: 'Nitinol (NiTi)',
+    category: 'Shape Memory Alloy',
+    properties: {
+      tensileStrength: 1380,
+      density: 6.45,
+      elasticModulus: 83,
+      thermalConductivity: 10,
+      meltingPoint: 1310,
+      hardness: 300
+    },
+    cost: {
+      pricePerKg: 185.0,
+      minimumOrder: 2,
+      leadTime: 56
+    },
+    sustainability: {
+      carbonFootprint: 35.2,
+      recyclability: 90,
+      renewableContent: 5,
+      sustainabilityScore: 45
+    },
+    suppliers: [
+      {
+        id: 'supplier-35',
+        name: 'Shape Memory Technologies',
+        region: 'North America',
+        contact: 'nitinol@smt.com',
+        reliability: 97,
+        availability: 'Made to Order'
+      },
+      {
+        id: 'supplier-36',
+        name: 'Advanced Alloys Europe',
+        region: 'Europe',
+        contact: 'sma@advalloys.de',
+        reliability: 95,
+        availability: 'Made to Order'
+      }
+    ],
+    description: 'Shape memory alloy with unique superelastic properties and biocompatibility.',
+    applications: ['Medical devices', 'Actuators', 'Eyeglass frames', 'Aerospace components'],
+    pros: ['Shape memory effect', 'Superelasticity', 'Biocompatible', 'Corrosion resistant'],
+    cons: ['Extremely expensive', 'Complex processing', 'Limited suppliers', 'Fatigue sensitivity']
   }
 ];

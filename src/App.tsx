@@ -37,6 +37,14 @@ function App() {
     scores: {}
   });
 
+  // Handle the case where comparisonState might be undefined
+  const safeComparisonState = comparisonState || {
+    selectedMaterials: [],
+    activeTab: 'overview' as TabType,
+    requirements: {},
+    scores: {}
+  };
+
   const [filteredMaterials, setFilteredMaterials] = useState<Material[]>(materialsDatabase);
   const [isSearching, setIsSearching] = useState(false);
   const [selectedMaterial, setSelectedMaterial] = useState<Material | null>(null);
@@ -44,7 +52,7 @@ function App() {
   const [isGeneratingAnalysis, setIsGeneratingAnalysis] = useState(false);
 
   const updateComparisonState = (updates: Partial<ComparisonState>) => {
-    setComparisonState(current => ({ ...current, ...updates }));
+    setComparisonState(current => ({ ...safeComparisonState, ...updates }));
   };
 
   const filterMaterials = (materials: Material[], requirements: MaterialRequirements) => {
@@ -90,7 +98,7 @@ function App() {
     setIsSearching(true);
     try {
       // Filter materials based on requirements
-      const filtered = filterMaterials(materialsDatabase, comparisonState.requirements);
+      const filtered = filterMaterials(materialsDatabase, safeComparisonState.requirements);
       setFilteredMaterials(filtered);
 
       if (filtered.length === 0) {
@@ -101,7 +109,7 @@ function App() {
       // Generate AI recommendations
       const scores = await MaterialAIService.generateRecommendations(
         filtered, 
-        comparisonState.requirements
+        safeComparisonState.requirements
       );
 
       const scoresMap = scores.reduce((acc, score) => {
@@ -121,7 +129,7 @@ function App() {
   };
 
   const handleMaterialSelect = (materialId: string, selected: boolean) => {
-    const currentSelected = comparisonState.selectedMaterials;
+    const currentSelected = safeComparisonState.selectedMaterials;
     
     if (selected) {
       if (currentSelected.length >= 4) {
@@ -143,12 +151,12 @@ function App() {
   };
 
   const generateTradeoffAnalysis = async () => {
-    if (comparisonState.selectedMaterials.length < 2) return;
+    if (safeComparisonState.selectedMaterials.length < 2) return;
 
     setIsGeneratingAnalysis(true);
     try {
       const selectedMaterialObjects = materialsDatabase.filter(m => 
-        comparisonState.selectedMaterials.includes(m.id)
+        safeComparisonState.selectedMaterials.includes(m.id)
       );
       
       const analysis = await MaterialAIService.compareTradeoffs(selectedMaterialObjects);
@@ -162,23 +170,23 @@ function App() {
 
   // Generate trade-off analysis when materials are selected
   useEffect(() => {
-    if (comparisonState.selectedMaterials.length >= 2) {
+    if (safeComparisonState.selectedMaterials.length >= 2) {
       generateTradeoffAnalysis();
     } else {
       setTradeoffAnalysis('');
     }
-  }, [comparisonState.selectedMaterials]);
+  }, [safeComparisonState.selectedMaterials]);
 
   const getSelectedMaterials = () => {
     return materialsDatabase.filter(m => 
-      comparisonState.selectedMaterials.includes(m.id)
+      safeComparisonState.selectedMaterials.includes(m.id)
     );
   };
 
   const getSortedMaterials = () => {
     return [...filteredMaterials].sort((a, b) => {
-      const scoreA = comparisonState.scores[a.id]?.overallScore || 0;
-      const scoreB = comparisonState.scores[b.id]?.overallScore || 0;
+      const scoreA = safeComparisonState.scores[a.id]?.overallScore || 0;
+      const scoreB = safeComparisonState.scores[b.id]?.overallScore || 0;
       return scoreB - scoreA;
     });
   };
@@ -208,7 +216,7 @@ function App() {
           {/* Filters Sidebar */}
           <div className="lg:col-span-1">
             <MaterialFilters
-              requirements={comparisonState.requirements}
+              requirements={safeComparisonState.requirements}
               onRequirementsChange={(requirements) => 
                 updateComparisonState({ requirements })
               }
@@ -217,7 +225,7 @@ function App() {
             />
 
             {/* Selected Materials Summary */}
-            {comparisonState.selectedMaterials.length > 0 && (
+            {safeComparisonState.selectedMaterials.length > 0 && (
               <Card className="mt-6">
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2">
@@ -256,7 +264,7 @@ function App() {
 
           {/* Main Content */}
           <div className="lg:col-span-2">
-            <Tabs value={comparisonState.activeTab} onValueChange={handleTabChange}>
+            <Tabs value={safeComparisonState.activeTab} onValueChange={handleTabChange}>
               <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="overview" className="flex items-center gap-2">
                   <MagnifyingGlass size={16} />
@@ -273,10 +281,10 @@ function App() {
               </TabsList>
 
               <TabsContent value="overview" className="space-y-6 mt-6">
-                {comparisonState.selectedMaterials.length > 0 ? (
+                {safeComparisonState.selectedMaterials.length > 0 ? (
                   <MaterialComparison
                     materials={getSelectedMaterials()}
-                    scores={comparisonState.scores}
+                    scores={safeComparisonState.scores}
                     tradeoffAnalysis={tradeoffAnalysis}
                   />
                 ) : (
@@ -304,8 +312,8 @@ function App() {
                     <MaterialCard
                       key={material.id}
                       material={material}
-                      score={comparisonState.scores[material.id]}
-                      isSelected={comparisonState.selectedMaterials.includes(material.id)}
+                      score={safeComparisonState.scores[material.id]}
+                      isSelected={safeComparisonState.selectedMaterials.includes(material.id)}
                       onSelect={handleMaterialSelect}
                       onViewDetails={setSelectedMaterial}
                       showAIInsight={true}
@@ -322,8 +330,8 @@ function App() {
                       <MaterialCard
                         key={material.id}
                         material={material}
-                        score={comparisonState.scores[material.id]}
-                        isSelected={comparisonState.selectedMaterials.includes(material.id)}
+                        score={safeComparisonState.scores[material.id]}
+                        isSelected={safeComparisonState.selectedMaterials.includes(material.id)}
                         onSelect={handleMaterialSelect}
                         onViewDetails={setSelectedMaterial}
                       />
