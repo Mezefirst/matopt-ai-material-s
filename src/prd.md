@@ -118,6 +118,19 @@
 - **Advanced Mechanical**: Elastic modulus, hardness, thermal conductivity
 - **Supplier Integration**: Real availability, pricing, and regional presence
 
+## Internationalization & Accessibility
+
+### Multi-language Support
+**Supported Languages**: English (US), Swedish, German, and French
+**Language Selection**: Easy-to-use dropdown selector with country flag indicators
+**Content Translation**: All UI text, property names, and user messages are fully localized
+**Regional Preferences**: Material suppliers and availability filtered by user's selected region
+
+### User Experience
+**Seamless Language Switching**: Instant interface updates without page reload
+**Persistent Settings**: User language preference saved across sessions
+**Cultural Adaptations**: Appropriate number formatting and unit conventions per region
+
 ### Property Classification
 - **Conductors**: Materials with >1 MS/m electrical conductivity
 - **Insulators**: Materials with >1M µΩ·cm resistivity and dielectric strength data
@@ -147,3 +160,4 @@
 - AI recommendation engine using OpenAI integration
 - Comprehensive material database with supplier integration
 - Real-time filtering with optimized search algorithms
+- Multi-language support with internationalization (i18n) for English, Swedish, German, and French

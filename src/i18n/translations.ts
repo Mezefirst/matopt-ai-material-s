@@ -1,4 +1,4 @@
-export type Language = 'en' | 'sv';
+export type Language = 'en' | 'sv' | 'de' | 'fr';
 
 export interface Translation {
   // Header and App Info
@@ -113,6 +113,8 @@ export interface Translation {
   language: string;
   english: string;
   swedish: string;
+  german: string;
+  french: string;
   
   // Additional UI elements
   materialRequirements: string;
@@ -246,6 +248,8 @@ export const translations: Record<Language, Translation> = {
     language: 'Language',
     english: 'English',
     swedish: 'Swedish',
+    german: 'German',
+    french: 'French',
     
     // Additional UI elements
     materialRequirements: 'Material Requirements',
@@ -378,6 +382,8 @@ export const translations: Record<Language, Translation> = {
     language: 'Språk',
     english: 'Engelska',
     swedish: 'Svenska',
+    german: 'Tyska',
+    french: 'Franska',
     
     // Additional UI elements
     materialRequirements: 'Materialkrav',
@@ -395,5 +401,273 @@ export const translations: Record<Language, Translation> = {
     applicationTemplates: 'Applikationsmallar',
     collapse: 'Kollaps',
     expand: 'Expandera',
+  },
+  
+  de: {
+    // Header and App Info
+    appTitle: 'MatOpt AI',
+    appSubtitle: 'KI-gesteuerte Materialoptimierung für Produktdesigner',
+    
+    // Navigation and Tabs
+    overview: 'Übersicht',
+    newMaterial: 'Neues Material',
+    aiRecommendations: 'KI-Empfehlungen',
+    mlEnhanced: 'ML-Verbessert',
+    properties: 'Eigenschaften',
+    sustainability: 'Nachhaltigkeit',
+    
+    // Search and Filters
+    searchMaterials: 'Materialien suchen',
+    searching: 'Suche läuft...',
+    getStarted: 'Loslegen',
+    setRequirements: 'Legen Sie Ihre Anforderungen fest und suchen Sie nach Materialien, um Optionen zu vergleichen.',
+    applicationContext: 'Anwendungskontext',
+    applicationContextPlaceholder: 'Beschreiben Sie Ihre Anwendung (z.B. Bremsscheibe für Autos, Luft- und Raumfahrtkomponente)',
+    
+    // Material Properties
+    tensileStrength: 'Zugfestigkeit',
+    density: 'Dichte',
+    budget: 'Budget',
+    operatingTemp: 'Betriebstemperatur',
+    electricalType: 'Elektrischer Typ',
+    electricalConductivity: 'Elektrische Leitfähigkeit',
+    electricalResistivity: 'Elektrischer Widerstand',
+    dielectricStrength: 'Dielektrische Festigkeit',
+    region: 'Region',
+    
+    // Electrical Types
+    any: 'Beliebig',
+    conductor: 'Leiter',
+    insulator: 'Isolator',
+    semiconductor: 'Halbleiter',
+    
+    // Regions
+    global: 'Global',
+    northAmerica: 'Nordamerika',
+    europe: 'Europa',
+    asia: 'Asien',
+    southAmerica: 'Südamerika',
+    africa: 'Afrika',
+    oceania: 'Ozeanien',
+    
+    // Units
+    mpa: 'MPa',
+    gCm3: 'g/cm³',
+    usdKg: 'USD/kg',
+    celsius: '°C',
+    msm: 'MS/m',
+    microOhmCm: 'µΩ·cm',
+    kvMm: 'kV/mm',
+    
+    // Material Categories
+    metals: 'Metalle',
+    polymers: 'Polymere',
+    ceramics: 'Keramik',
+    composites: 'Verbundwerkstoffe',
+    
+    // UI Actions
+    search: 'Suchen',
+    clear: 'Löschen',
+    compare: 'Vergleichen',
+    viewDetails: 'Details anzeigen',
+    viewComparison: 'Vergleich anzeigen',
+    selectForComparison: 'Zum Vergleich auswählen',
+    removeFromComparison: 'Aus Vergleich entfernen',
+    
+    // Feedback and Ratings
+    helpful: 'Hilfreich',
+    notHelpful: 'Nicht hilfreich',
+    rateRecommendation: 'Diese Empfehlung bewerten',
+    
+    // Analysis
+    materialAnalysis: 'Materialanalyse',
+    selectedForComparison: 'Zum Vergleich ausgewählt',
+    selectAnalysisType: 'Analyseart auswählen',
+    tradeoffAnalysis: 'Kompromissanalyse',
+    
+    // Messages
+    noMaterialsFound: 'Keine Materialien entsprechen Ihren Kriterien. Versuchen Sie die Filter anzupassen.',
+    maxMaterialsSelected: 'Sie können bis zu 4 Materialien gleichzeitig vergleichen',
+    materialsFound: 'Materialien gefunden',
+    optimizedFor: 'optimiert für',
+    
+    // AI and ML
+    aiInsight: 'KI-Einblick',
+    mlPrediction: 'ML-Vorhersage',
+    prediction: 'Vorhersage',
+    confidence: 'Vertrauen',
+    
+    // Sustainability
+    carbonFootprint: 'CO²-Fußabdruck',
+    recyclability: 'Recycelbarkeit',
+    renewableContent: 'Anteil erneuerbarer Rohstoffe',
+    sustainabilityScore: 'Nachhaltigkeitsbewertung',
+    
+    // Material Details
+    materialDetails: 'Materialdetails',
+    suppliers: 'Lieferanten',
+    cost: 'Kosten',
+    availability: 'Verfügbarkeit',
+    pricePerKg: 'Preis pro kg',
+    leadTime: 'Lieferzeit',
+    days: 'Tage',
+    
+    // Language Selection
+    language: 'Sprache',
+    english: 'Englisch',
+    swedish: 'Schwedisch',
+    german: 'Deutsch',
+    french: 'Französisch',
+    
+    // Additional UI elements
+    materialRequirements: 'Materialanforderungen',
+    lessFilters: 'Weniger Filter',
+    moreFilters: 'Mehr Filter',
+    min: 'Min',
+    max: 'Max',
+    preferredRegion: 'Bevorzugte Region',
+    selectRegion: 'Region auswählen',
+    selectElectricalType: 'Elektrischen Typ auswählen',
+    electricalProperties: 'Elektrische Eigenschaften',
+    prioritizeSustainability: 'Nachhaltigkeit priorisieren',
+    findMaterials: 'Materialien finden',
+    templates: 'Vorlagen',
+    applicationTemplates: 'Anwendungsvorlagen',
+    collapse: 'Einklappen',
+    expand: 'Erweitern',
+  },
+  
+  fr: {
+    // Header and App Info
+    appTitle: 'MatOpt AI',
+    appSubtitle: 'Optimisation de matériaux alimentée par IA pour les concepteurs de produits',
+    
+    // Navigation and Tabs
+    overview: 'Aperçu',
+    newMaterial: 'Nouveau matériau',
+    aiRecommendations: 'Recommandations IA',
+    mlEnhanced: 'Amélioré par ML',
+    properties: 'Propriétés',
+    sustainability: 'Durabilité',
+    
+    // Search and Filters
+    searchMaterials: 'Rechercher des matériaux',
+    searching: 'Recherche en cours...',
+    getStarted: 'Commencer',
+    setRequirements: 'Définissez vos exigences et recherchez des matériaux pour commencer à comparer les options.',
+    applicationContext: 'Contexte d\'application',
+    applicationContextPlaceholder: 'Décrivez votre application (ex. disque de frein automobile, composant aérospatial)',
+    
+    // Material Properties
+    tensileStrength: 'Résistance à la traction',
+    density: 'Densité',
+    budget: 'Budget',
+    operatingTemp: 'Température de fonctionnement',
+    electricalType: 'Type électrique',
+    electricalConductivity: 'Conductivité électrique',
+    electricalResistivity: 'Résistivité électrique',
+    dielectricStrength: 'Rigidité diélectrique',
+    region: 'Région',
+    
+    // Electrical Types
+    any: 'Tout',
+    conductor: 'Conducteur',
+    insulator: 'Isolant',
+    semiconductor: 'Semi-conducteur',
+    
+    // Regions
+    global: 'Mondial',
+    northAmerica: 'Amérique du Nord',
+    europe: 'Europe',
+    asia: 'Asie',
+    southAmerica: 'Amérique du Sud',
+    africa: 'Afrique',
+    oceania: 'Océanie',
+    
+    // Units
+    mpa: 'MPa',
+    gCm3: 'g/cm³',
+    usdKg: 'USD/kg',
+    celsius: '°C',
+    msm: 'MS/m',
+    microOhmCm: 'µΩ·cm',
+    kvMm: 'kV/mm',
+    
+    // Material Categories
+    metals: 'Métaux',
+    polymers: 'Polymères',
+    ceramics: 'Céramiques',
+    composites: 'Composites',
+    
+    // UI Actions
+    search: 'Rechercher',
+    clear: 'Effacer',
+    compare: 'Comparer',
+    viewDetails: 'Voir les détails',
+    viewComparison: 'Voir la comparaison',
+    selectForComparison: 'Sélectionner pour comparaison',
+    removeFromComparison: 'Retirer de la comparaison',
+    
+    // Feedback and Ratings
+    helpful: 'Utile',
+    notHelpful: 'Pas utile',
+    rateRecommendation: 'Évaluer cette recommandation',
+    
+    // Analysis
+    materialAnalysis: 'Analyse des matériaux',
+    selectedForComparison: 'Sélectionnés pour comparaison',
+    selectAnalysisType: 'Sélectionner le type d\'analyse',
+    tradeoffAnalysis: 'Analyse des compromis',
+    
+    // Messages
+    noMaterialsFound: 'Aucun matériau ne correspond à vos critères. Essayez d\'ajuster les filtres.',
+    maxMaterialsSelected: 'Vous pouvez comparer jusqu\'à 4 matériaux à la fois',
+    materialsFound: 'matériaux trouvés',
+    optimizedFor: 'optimisé pour',
+    
+    // AI and ML
+    aiInsight: 'Aperçu IA',
+    mlPrediction: 'Prédiction ML',
+    prediction: 'Prédiction',
+    confidence: 'Confiance',
+    
+    // Sustainability
+    carbonFootprint: 'Empreinte carbone',
+    recyclability: 'Recyclabilité',
+    renewableContent: 'Contenu renouvelable',
+    sustainabilityScore: 'Score de durabilité',
+    
+    // Material Details
+    materialDetails: 'Détails du matériau',
+    suppliers: 'Fournisseurs',
+    cost: 'Coût',
+    availability: 'Disponibilité',
+    pricePerKg: 'Prix par kg',
+    leadTime: 'Délai de livraison',
+    days: 'jours',
+    
+    // Language Selection
+    language: 'Langue',
+    english: 'Anglais',
+    swedish: 'Suédois',
+    german: 'Allemand',
+    french: 'Français',
+    
+    // Additional UI elements
+    materialRequirements: 'Exigences matérielles',
+    lessFilters: 'Moins de filtres',
+    moreFilters: 'Plus de filtres',
+    min: 'Min',
+    max: 'Max',
+    preferredRegion: 'Région préférée',
+    selectRegion: 'Sélectionner une région',
+    selectElectricalType: 'Sélectionner le type électrique',
+    electricalProperties: 'Propriétés électriques',
+    prioritizeSustainability: 'Prioriser la durabilité',
+    findMaterials: 'Trouver des matériaux',
+    templates: 'Modèles',
+    applicationTemplates: 'Modèles d\'application',
+    collapse: 'Réduire',
+    expand: 'Développer',
   }
 };

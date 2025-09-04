@@ -12,14 +12,16 @@ export function LanguageSelector({ className }: LanguageSelectorProps) {
 
   const languages = [
     { code: 'en' as Language, name: t.english, flag: '🇺🇸' },
-    { code: 'sv' as Language, name: t.swedish, flag: '🇸🇪' }
+    { code: 'sv' as Language, name: t.swedish, flag: '🇸🇪' },
+    { code: 'de' as Language, name: t.german, flag: '🇩🇪' },
+    { code: 'fr' as Language, name: t.french, flag: '🇫🇷' }
   ];
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       <Globe size={16} className="text-muted-foreground" />
       <Select value={language} onValueChange={setLanguage}>
-        <SelectTrigger className="w-[140px] h-8">
+        <SelectTrigger className="w-[160px] h-8">
           <SelectValue>
             <span className="flex items-center gap-2">
               {languages.find(lang => lang.code === language)?.flag}
