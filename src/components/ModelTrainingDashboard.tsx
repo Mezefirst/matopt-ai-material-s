@@ -25,7 +25,7 @@ interface ModelPerformance {
   property: string;
   accuracy: number;
   trainingDataPoints: number;
-  lastUpdated: Date;
+  lastUpdated: Date | string;
   modelVersion: string;
 }
 
@@ -34,7 +34,7 @@ interface TrainingData {
   actualValues: Record<string, number>;
   predictedValues: Record<string, number>;
   feedback: 'accurate' | 'inaccurate' | 'partially_accurate';
-  timestamp: Date;
+  timestamp: Date | string;
 }
 
 interface ModelTrainingDashboardProps {
@@ -46,6 +46,11 @@ export function ModelTrainingDashboard({ className }: ModelTrainingDashboardProp
   const [trainingData, setTrainingData] = useKV<TrainingData[]>('training-data', []);
   const [isTraining, setIsTraining] = useState(false);
   const [recentPredictions, setRecentPredictions] = useKV<MaterialPredictionResult[]>('recent-predictions', []);
+
+  // Helper function to ensure date objects
+  const ensureDate = (date: Date | string): Date => {
+    return typeof date === 'string' ? new Date(date) : date;
+  };
 
   // Initialize demo performance data
   useEffect(() => {
@@ -307,11 +312,11 @@ export function ModelTrainingDashboard({ className }: ModelTrainingDashboardProp
                     
                     <div className="flex justify-between text-sm text-muted-foreground">
                       <span>{model.trainingDataPoints.toLocaleString()} training points</span>
-                      <span>v{model.modelVersion}</span>
+                      <span>{model.modelVersion}</span>
                     </div>
                     
                     <div className="text-sm text-muted-foreground">
-                      Last updated: {model.lastUpdated.toLocaleDateString()}
+                      Last updated: {ensureDate(model.lastUpdated).toLocaleDateString()}
                     </div>
                   </div>
                 </div>
@@ -340,7 +345,7 @@ export function ModelTrainingDashboard({ className }: ModelTrainingDashboardProp
                     </div>
                     
                     <div className="text-xs text-muted-foreground">
-                      {data.timestamp.toLocaleDateString()} • {Object.keys(data.actualValues).length} properties
+                      {ensureDate(data.timestamp).toLocaleDateString()} • {Object.keys(data.actualValues).length} properties
                     </div>
                   </div>
                 ))}

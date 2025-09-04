@@ -27,7 +27,7 @@ interface ValidationResult {
   predictedProperties: Record<string, number>;
   accuracy: Record<string, number>;
   overallAccuracy: number;
-  timestamp: Date;
+  timestamp: Date | string;
 }
 
 interface ModelValidationProps {
@@ -39,6 +39,11 @@ export function ModelValidation({ className }: ModelValidationProps) {
   const [isValidating, setIsValidating] = useState(false);
   const [testData, setTestData] = useState<string>('');
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+
+  // Helper function to ensure date objects
+  const ensureDate = (date: Date | string): Date => {
+    return typeof date === 'string' ? new Date(date) : date;
+  };
 
   // Initialize with demo validation data
   useEffect(() => {
@@ -392,7 +397,7 @@ export function ModelValidation({ className }: ModelValidationProps) {
                   </div>
                   
                   <div className="text-xs text-muted-foreground">
-                    Validated: {result.timestamp.toLocaleString()}
+                    Validated: {ensureDate(result.timestamp).toLocaleString()}
                   </div>
                 </div>
               </div>

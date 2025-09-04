@@ -49,7 +49,7 @@ function App() {
   });
 
   // Generate a session ID for ML feedback tracking
-  const [sessionId] = useKV<string>('session-id', () => 
+  const [sessionId] = useKV<string>('session-id', 
     `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
   );
 
