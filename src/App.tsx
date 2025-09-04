@@ -427,14 +427,11 @@ function App() {
                       {language === 'am' && 'ዓይነት:'}
                     </span>
                     <span className="font-medium text-xs">
-                      {language === 'am' ? (
-                        'Mixed'
-                      ) : (
-                        language === 'en' ? 'Full' :
-                        language === 'sv' ? 'Full' :
-                        language === 'de' ? 'Voll' :
-                        language === 'fr' ? 'Complet' : 'Full'
-                      )}
+                      {language === 'en' && 'Full'}
+                      {language === 'sv' && 'Fullständig'}
+                      {language === 'de' && 'Vollständig'}
+                      {language === 'fr' && 'Complet'}
+                      {language === 'am' && 'ሙሉ'}
                     </span>
                   </div>
                 </div>
@@ -445,7 +442,7 @@ function App() {
                     {language === 'sv' && 'Prova att byta språk ovan för att se gränssnittet anpassa sig i realtid!'}
                     {language === 'de' && 'Versuchen Sie, die Sprache oben zu wechseln, um zu sehen, wie sich die Benutzeroberfläche in Echtzeit anpasst!'}
                     {language === 'fr' && 'Essayez de changer de langue ci-dessus pour voir l\'interface s\'adapter en temps réel!'}
-                    {language === 'am' && 'ከላይ languages ቀይረው interface በ real-time እንዴት እንደሚላመድ ይመልከቱ!'}
+                    {language === 'am' && 'ከላይ ያለውን ቋንቋ ቀይረው በቅጽበት ጊዜ ውስጥ የበይነ መረቡ አንደሚላመድ ይመልከቱ!'}
                   </div>
                 </div>
               </CardContent>
@@ -536,14 +533,14 @@ function App() {
                             {language === 'sv' && 'Aktuellt gränssnittsspråk:'}
                             {language === 'de' && 'Aktuelle Schnittstellensprache:'}
                             {language === 'fr' && 'Langue d\'interface actuelle:'}
-                            {language === 'am' && 'የአሁኑ interface ቋንቋ:'}
+                            {language === 'am' && 'የአሁኑ የበይነ መረብ ቋንቋ:'}
                           </div>
                           <div className="font-semibold text-primary">
                             {language === 'en' && 'English - Full translation'}
                             {language === 'sv' && 'Svenska - Fullständig översättning'}
                             {language === 'de' && 'Deutsch - Vollständige Übersetzung'}
                             {language === 'fr' && 'Français - Traduction complète'}
-                            {language === 'am' && 'አማርኛ - Mixed translation (ድብልቅ ትርጉም)'}
+                            {language === 'am' && 'አማርኛ - ሙሉ ትርጉም'}
                           </div>
                         </div>
                       </div>
