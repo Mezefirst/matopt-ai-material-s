@@ -164,6 +164,85 @@ export const applicationTemplates: ApplicationTemplate[] = [
       maintenanceAccess: 'difficult'
     },
     icon: '⚗️'
+  },
+  {
+    id: 'food-packaging-flexible',
+    name: 'Flexible Food Packaging',
+    description: 'Flexible pouch for snack foods',
+    category: 'Food & Packaging',
+    requirements: {
+      applicationContext: 'Flexible packaging film for potato chips requiring moisture barrier, oxygen barrier, and food safety compliance',
+      tensileStrength: { min: 20, max: 100 },
+      density: { max: 2.0 },
+      budget: { max: 8 },
+      operatingTemp: { min: -20, max: 60 },
+      loadingConditions: 'static',
+      environment: 'indoor',
+      safetyFactor: 1.2,
+      designLife: 2,
+      maintenanceAccess: 'none',
+      sustainabilityPriority: true
+    },
+    icon: '🥟'
+  },
+  {
+    id: 'food-packaging-rigid',
+    name: 'Rigid Food Container',
+    description: 'Reusable food storage container',
+    category: 'Food & Packaging',
+    requirements: {
+      applicationContext: 'Rigid food storage container for dairy products requiring chemical resistance, dishwasher safety, and FDA approval',
+      tensileStrength: { min: 40, max: 200 },
+      density: { max: 1.5 },
+      budget: { max: 12 },
+      operatingTemp: { min: -40, max: 120 },
+      loadingConditions: 'impact',
+      environment: 'chemical',
+      safetyFactor: 1.5,
+      designLife: 5,
+      maintenanceAccess: 'easy',
+      sustainabilityPriority: true
+    },
+    icon: '🥡'
+  },
+  {
+    id: 'beverage-bottle',
+    name: 'Beverage Bottle',
+    description: 'Carbonated beverage container',
+    category: 'Food & Packaging',
+    requirements: {
+      applicationContext: 'Beverage bottle for carbonated drinks requiring pressure resistance, clarity, and lightweight design',
+      tensileStrength: { min: 50, max: 150 },
+      density: { max: 1.4 },
+      budget: { max: 5 },
+      operatingTemp: { min: 2, max: 40 },
+      loadingConditions: 'static',
+      environment: 'indoor',
+      safetyFactor: 2.0,
+      designLife: 1,
+      maintenanceAccess: 'none',
+      sustainabilityPriority: true
+    },
+    icon: '🍶'
+  },
+  {
+    id: 'pharmaceutical-packaging',
+    name: 'Pharmaceutical Blister Pack',
+    description: 'Child-resistant medication packaging',
+    category: 'Medical',
+    requirements: {
+      applicationContext: 'Pharmaceutical blister packaging requiring child resistance, moisture protection, and tamper evidence',
+      tensileStrength: { min: 30, max: 120 },
+      density: { max: 2.5 },
+      budget: { max: 15 },
+      operatingTemp: { min: 15, max: 30 },
+      loadingConditions: 'impact',
+      environment: 'indoor',
+      safetyFactor: 2.5,
+      designLife: 3,
+      maintenanceAccess: 'none'
+    },
+    icon: '💊'
   }
 ];
 

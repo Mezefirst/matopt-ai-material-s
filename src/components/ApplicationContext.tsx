@@ -47,6 +47,114 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
 
   const templateCategories = getTemplatesByCategory();
 
+  // Helper function to get context-aware loading condition help
+  const getLoadingContextHelp = () => {
+    const appContext = requirements.applicationContext?.toLowerCase() || '';
+    
+    if (appContext.includes('packaging') || appContext.includes('food') || appContext.includes('bottle')) {
+      return (
+        <div className="text-xs text-muted-foreground mt-1">
+          💡 Food packaging: Static (shelf storage), Impact (handling/transport)
+        </div>
+      );
+    }
+    
+    if (appContext.includes('engine') || appContext.includes('automotive')) {
+      return (
+        <div className="text-xs text-muted-foreground mt-1">
+          💡 Automotive: Cyclic (engine cycles), Dynamic (driving loads)
+        </div>
+      );
+    }
+    
+    if (appContext.includes('medical') || appContext.includes('implant')) {
+      return (
+        <div className="text-xs text-muted-foreground mt-1">
+          💡 Medical: Dynamic (body movement), Static (implant stability)
+        </div>
+      );
+    }
+    
+    return null;
+  };
+
+  // Helper function to get context-aware environment help
+  const getEnvironmentContextHelp = () => {
+    const appContext = requirements.applicationContext?.toLowerCase() || '';
+    
+    if (appContext.includes('packaging') || appContext.includes('food') || appContext.includes('beverage')) {
+      return (
+        <div className="text-xs text-muted-foreground mt-1">
+          💡 Food contact: Indoor/controlled for safety, Chemical if acidic foods
+        </div>
+      );
+    }
+    
+    if (appContext.includes('marine') || appContext.includes('boat')) {
+      return (
+        <div className="text-xs text-muted-foreground mt-1">
+          💡 Marine applications: Marine environment for saltwater exposure
+        </div>
+      );
+    }
+    
+    if (appContext.includes('aircraft') || appContext.includes('aerospace')) {
+      return (
+        <div className="text-xs text-muted-foreground mt-1">
+          💡 Aerospace: Outdoor (altitude), Cryogenic (high altitude cold)
+        </div>
+      );
+    }
+    
+    return null;
+  };
+
+  // Helper function to get context-aware design life suggestions
+  const getDesignLifeSuggestions = () => {
+    const appContext = requirements.applicationContext?.toLowerCase() || '';
+    
+    if (appContext.includes('packaging') || appContext.includes('food')) {
+      return 'Food packaging: 0.5-3 years';
+    }
+    
+    if (appContext.includes('medical') || appContext.includes('implant')) {
+      return 'Medical devices: 15-25 years';
+    }
+    
+    if (appContext.includes('construction') || appContext.includes('building')) {
+      return 'Construction: 50-100 years';
+    }
+    
+    if (appContext.includes('automotive')) {
+      return 'Automotive: 10-15 years';
+    }
+    
+    return 'Typical: 5-20 years';
+  };
+
+  // Helper function to get context-aware safety factor suggestions
+  const getSafetyFactorSuggestions = () => {
+    const appContext = requirements.applicationContext?.toLowerCase() || '';
+    
+    if (appContext.includes('packaging') || appContext.includes('food')) {
+      return 'Food packaging: 1.2-2.0x';
+    }
+    
+    if (appContext.includes('medical') || appContext.includes('implant')) {
+      return 'Medical: 4.0-6.0x';
+    }
+    
+    if (appContext.includes('aerospace') || appContext.includes('aircraft')) {
+      return 'Aerospace: 3.0-4.0x';
+    }
+    
+    if (appContext.includes('pressure') || appContext.includes('vessel')) {
+      return 'Pressure vessels: 3.0-4.0x';
+    }
+    
+    return 'General: 1.5-3.0x';
+  };
+
   return (
     <Card className="w-full">
       <CardHeader className="pb-4">
@@ -134,6 +242,8 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
             <Label>Common Applications</Label>
             <div className="flex flex-wrap gap-2">
               {[
+                'Food packaging',
+                'Beverage bottles',
                 'Automotive parts',
                 'Aerospace components',
                 'Medical devices',
@@ -184,6 +294,7 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
                     <SelectItem value="impact">Impact (shock loading)</SelectItem>
                   </SelectContent>
                 </Select>
+                {getLoadingContextHelp()}
               </div>
 
               <div className="space-y-2">
@@ -211,6 +322,7 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
                     <SelectItem value="cryogenic">Cryogenic</SelectItem>
                   </SelectContent>
                 </Select>
+                {getEnvironmentContextHelp()}
               </div>
             </div>
 
@@ -230,6 +342,9 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
                     designLife: e.target.value ? parseInt(e.target.value) : undefined 
                   })}
                 />
+                <div className="text-xs text-muted-foreground">
+                  💡 {getDesignLifeSuggestions()}
+                </div>
               </div>
 
               <div className="space-y-2">
@@ -247,6 +362,9 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
                     safetyFactor: e.target.value ? parseFloat(e.target.value) : undefined 
                   })}
                 />
+                <div className="text-xs text-muted-foreground">
+                  💡 {getSafetyFactorSuggestions()}
+                </div>
               </div>
 
               <div className="space-y-2">
