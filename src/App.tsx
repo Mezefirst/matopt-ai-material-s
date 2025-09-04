@@ -11,7 +11,8 @@ import {
   Brain, 
   ChartBar, 
   Lightbulb,
-  Sparkle
+  Sparkle,
+  Robot
 } from '@phosphor-icons/react';
 
 import { MaterialFilters } from '@/components/MaterialFilters';
@@ -19,10 +20,14 @@ import { MaterialCard } from '@/components/MaterialCard';
 import { MaterialDetails } from '@/components/MaterialDetails';
 import { MaterialComparison } from '@/components/MaterialComparison';
 import { AIRecommendations } from '@/components/AIRecommendations';
+import { MLRecommendations } from '@/components/MLRecommendations';
+import { MLDashboard } from '@/components/MLDashboard';
 import { ApplicationContext } from '@/components/ApplicationContext';
 
 import { materialsDatabase } from '@/data/materials';
+import { initializeDemoMLData } from '@/data/demoMLData';
 import { MaterialAIService } from '@/services/materialAI';
+import { MLFeedbackService } from '@/services/mlFeedbackService';
 import { 
   Material, 
   MaterialRequirements, 
@@ -39,6 +44,11 @@ function App() {
     scores: {}
   });
 
+  // Generate a session ID for ML feedback tracking
+  const [sessionId] = useKV<string>('session-id', () => 
+    `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+  );
+
   // Handle the case where comparisonState might be undefined
   const safeComparisonState = comparisonState || {
     selectedMaterials: [],
@@ -52,6 +62,11 @@ function App() {
   const [selectedMaterial, setSelectedMaterial] = useState<Material | null>(null);
   const [tradeoffAnalysis, setTradeoffAnalysis] = useState<string>('');
   const [isGeneratingAnalysis, setIsGeneratingAnalysis] = useState(false);
+
+  // Initialize demo ML data on app start
+  useEffect(() => {
+    initializeDemoMLData();
+  }, []);
 
   const updateComparisonState = (updates: Partial<ComparisonState>) => {
     setComparisonState(current => ({ ...safeComparisonState, ...updates }));
@@ -331,12 +346,15 @@ function App() {
                 </CardContent>
               </Card>
             )}
+
+            {/* ML Training Dashboard */}
+            <MLDashboard className="mt-6" />
           </div>
 
           {/* Main Content */}
           <div className="lg:col-span-2">
             <Tabs value={safeComparisonState.activeTab} onValueChange={handleTabChange}>
-              <TabsList className="grid w-full grid-cols-4">
+              <TabsList className="grid w-full grid-cols-5">
                 <TabsTrigger value="overview" className="flex items-center gap-2">
                   <MagnifyingGlass size={16} />
                   Overview
@@ -344,6 +362,10 @@ function App() {
                 <TabsTrigger value="ai-recommendations" className="flex items-center gap-2">
                   <Brain size={16} />
                   AI Recommendations
+                </TabsTrigger>
+                <TabsTrigger value="ml-recommendations" className="flex items-center gap-2">
+                  <Robot size={16} />
+                  ML Enhanced
                 </TabsTrigger>
                 <TabsTrigger value="properties" className="flex items-center gap-2">
                   <ChartBar size={16} />
@@ -389,6 +411,17 @@ function App() {
                 />
               </TabsContent>
 
+              <TabsContent value="ml-recommendations" className="space-y-6 mt-6">
+                <MLRecommendations
+                  materials={filteredMaterials}
+                  requirements={safeComparisonState.requirements}
+                  applicationContext={safeComparisonState.requirements.applicationContext}
+                  sessionId={sessionId}
+                  onMaterialSelect={(materialId) => handleMaterialSelect(materialId, true)}
+                  selectedMaterials={safeComparisonState.selectedMaterials}
+                />
+              </TabsContent>
+
               <TabsContent value="properties" className="space-y-6 mt-6">
                 <div className="grid gap-6">
                   {getSortedMaterials().map((material) => (
@@ -400,6 +433,10 @@ function App() {
                       onSelect={handleMaterialSelect}
                       onViewDetails={setSelectedMaterial}
                       showAIInsight={true}
+                      showFeedback={true}
+                      sessionId={sessionId}
+                      requirements={safeComparisonState.requirements}
+                      applicationContext={safeComparisonState.requirements.applicationContext}
                     />
                   ))}
                 </div>
@@ -417,6 +454,10 @@ function App() {
                         isSelected={safeComparisonState.selectedMaterials.includes(material.id)}
                         onSelect={handleMaterialSelect}
                         onViewDetails={setSelectedMaterial}
+                        showFeedback={true}
+                        sessionId={sessionId}
+                        requirements={safeComparisonState.requirements}
+                        applicationContext={safeComparisonState.requirements.applicationContext}
                       />
                     ))}
                 </div>

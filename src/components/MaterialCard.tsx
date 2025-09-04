@@ -1,10 +1,11 @@
 import React from 'react';
-import { Material, MaterialScore } from '../types/materials';
+import { Material, MaterialScore, MaterialRequirements } from '../types/materials';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Separator } from '@/components/ui/separator';
 import { 
   Gear, 
   CurrencyDollar, 
@@ -16,6 +17,8 @@ import {
   Lightning
 } from '@phosphor-icons/react';
 
+import { FeedbackCollector } from './FeedbackCollector';
+
 interface MaterialCardProps {
   material: Material;
   score?: MaterialScore;
@@ -23,6 +26,11 @@ interface MaterialCardProps {
   onSelect?: (materialId: string, selected: boolean) => void;
   onViewDetails?: (material: Material) => void;
   showAIInsight?: boolean;
+  showFeedback?: boolean;
+  sessionId?: string;
+  requirements?: MaterialRequirements;
+  applicationContext?: string;
+  onFeedbackSubmitted?: () => void;
 }
 
 export function MaterialCard({ 
@@ -31,7 +39,12 @@ export function MaterialCard({
   isSelected = false, 
   onSelect, 
   onViewDetails,
-  showAIInsight = false 
+  showAIInsight = false,
+  showFeedback = false,
+  sessionId,
+  requirements,
+  applicationContext,
+  onFeedbackSubmitted
 }: MaterialCardProps) {
   const getSustainabilityColor = (score: number) => {
     if (score >= 80) return 'text-green-600';
@@ -205,16 +218,37 @@ export function MaterialCard({
         </div>
 
         {/* Actions */}
-        {onViewDetails && (
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => onViewDetails(material)}
-            className="w-full"
-          >
-            View Details
-          </Button>
-        )}
+        <div className="space-y-3">
+          {onViewDetails && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onViewDetails(material)}
+              className="w-full"
+            >
+              View Details
+            </Button>
+          )}
+
+          {/* ML Feedback Collector */}
+          {showFeedback && sessionId && requirements && (
+            <>
+              <Separator />
+              <div className="space-y-2">
+                <div className="text-xs font-medium text-muted-foreground">
+                  Help improve AI recommendations
+                </div>
+                <FeedbackCollector
+                  material={material}
+                  requirements={requirements}
+                  sessionId={sessionId}
+                  applicationContext={applicationContext}
+                  onFeedbackSubmitted={onFeedbackSubmitted}
+                />
+              </div>
+            </>
+          )}
+        </div>
       </CardContent>
     </Card>
   );

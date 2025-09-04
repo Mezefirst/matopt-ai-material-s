@@ -35,6 +35,15 @@
 - **Application-Specific Insights**: Design considerations, potential concerns, and implementation guidance
 - **Alternative Suggestions**: Backup material options with comparative analysis
 
+### Machine Learning Feedback System
+- **User Feedback Collection**: Quick thumbs up/down and detailed rating system for material recommendations
+- **Adaptive Learning**: ML model continuously improves from user selection patterns and feedback
+- **Personalized Recommendations**: System learns individual user preferences and application patterns
+- **Confidence Scoring**: ML predictions include confidence levels and uncertainty indicators
+- **Training Analytics**: Real-time insights into model performance and training data statistics
+- **Recommendation Explanations**: Transparent AI decision-making with key influencing factors
+- **Session Tracking**: User interactions tracked across sessions to build comprehensive preference profiles
+
 ### Material Database
 - **Comprehensive Coverage**: Metals, polymers, ceramics, and composites with detailed property data
 - **Real Supplier Data**: Current availability, pricing, and regional supplier information
@@ -43,9 +52,12 @@
 ### Comparison Interface
 - **Multi-Material Comparison**: Side-by-side analysis of up to 4 materials
 - **AI Recommendations Tab**: Dedicated interface for application-specific material suggestions
+- **ML-Enhanced Tab**: Machine learning powered recommendations with confidence scores and explanations
 - **Visual Property Charts**: Interactive charts showing property distributions and trade-offs
-- **Tabbed Organization**: Overview, AI Recommendations, Properties, and Sustainability focused views
+- **Tabbed Organization**: Overview, AI Recommendations, ML Enhanced, Properties, and Sustainability focused views
 - **Smart Material Selection**: One-click addition of AI-recommended materials to comparison set
+- **Feedback Integration**: Seamless feedback collection on every material recommendation
+- **Learning Progress Tracking**: Visual indicators of AI model improvement and training status
 
 ## Design Direction
 

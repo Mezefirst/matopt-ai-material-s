@@ -91,11 +91,72 @@ export interface MaterialScore {
   reasoning: string;
 }
 
-export type TabType = 'overview' | 'properties' | 'sustainability' | 'ai-recommendations';
+export type TabType = 'overview' | 'properties' | 'sustainability' | 'ai-recommendations' | 'ml-recommendations';
 
 export interface ComparisonState {
   selectedMaterials: string[];
   activeTab: TabType;
   requirements: MaterialRequirements;
   scores: Record<string, MaterialScore>;
+}
+
+// Machine Learning Feedback Types
+export interface UserFeedback {
+  id: string;
+  timestamp: number;
+  sessionId: string;
+  materialId: string;
+  requirements: MaterialRequirements;
+  feedbackType: 'rating' | 'selection' | 'rejection' | 'comparison';
+  rating?: number; // 1-5 scale
+  selected?: boolean;
+  comparedWith?: string[];
+  preferred?: string; // Material ID that was preferred in comparison
+  comments?: string;
+  applicationContext?: string;
+}
+
+export interface TrainingData {
+  features: {
+    tensileStrength: number;
+    density: number;
+    cost: number;
+    sustainabilityScore: number;
+    temperatureRange: number;
+    electricalConductivity: number;
+    // Normalized requirement weights
+    strengthWeight: number;
+    costWeight: number;
+    sustainabilityWeight: number;
+    availabilityWeight: number;
+    applicationSimilarity: number;
+  };
+  target: number; // User satisfaction score (0-1)
+  metadata: {
+    materialId: string;
+    userId: string;
+    applicationContext: string;
+    timestamp: number;
+  };
+}
+
+export interface ModelPerformance {
+  accuracy: number;
+  precision: number;
+  recall: number;
+  f1Score: number;
+  trainingSize: number;
+  lastTrainingDate: number;
+  modelVersion: string;
+}
+
+export interface RecommendationExplanation {
+  modelConfidence: number;
+  keyFactors: {
+    factor: string;
+    importance: number;
+    positive: boolean;
+  }[];
+  similarSuccessfulRecommendations: number;
+  uncertainty: number;
 }
