@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
-import { useKV } from '@github/spark/hooks';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
+import { useKV } from '@/hooks/useKV';
 import { 
   MagnifyingGlass, 
   Brain, 
@@ -343,6 +344,9 @@ function App() {
           {selectedMaterial && <MaterialDetails material={selectedMaterial} />}
         </DialogContent>
       </Dialog>
+
+      {/* Toast Container */}
+      <Toaster />
     </div>
   );
 }

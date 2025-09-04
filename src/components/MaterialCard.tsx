@@ -1,3 +1,4 @@
+import React from 'react';
 import { Material, MaterialScore } from '../types/materials';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
