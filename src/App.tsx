@@ -39,6 +39,7 @@ import { RegionalDatabaseExplorer } from '@/components/RegionalDatabaseExplorer'
 import { LinkedInShare } from '@/components/LinkedInShare';
 import { SocialTestingDashboard } from '@/components/SocialTestingDashboard';
 import { QuickShare } from '@/components/QuickShare';
+import { MultiPlatformSharing } from '@/components/MultiPlatformSharing';
 import { EmailShare } from '@/components/EmailShare';
 
 import { materialsDatabase } from '@/data/materials';
@@ -572,8 +573,8 @@ function App() {
             {/* LinkedIn Integration */}
             <LinkedInShare className="mt-6" />
 
-            {/* Social Media & Email Sharing */}
-            <QuickShare className="mt-6" />
+            {/* Multi-Platform Social Media & Email Sharing */}
+            <MultiPlatformSharing className="mt-6" />
 
             {/* Advanced Email Sharing */}
             <EmailShare className="mt-6" />

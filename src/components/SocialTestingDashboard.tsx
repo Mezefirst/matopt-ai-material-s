@@ -31,8 +31,16 @@ import {
   Eye,
   Heart,
   ChatCircle,
-  ArrowsClockwise
+  ArrowsClockwise,
+  Briefcase,
+  Chat,
+  SlackLogo,
+  MicrosoftTeamsLogo,
+  DiscordLogo
 } from '@phosphor-icons/react';
+import { ShareTestingSummary } from '@/components/ShareTestingSummary';
+import { PlatformTestingGuide } from '@/components/PlatformTestingGuide';
+import { MultiPlatformTestingInstructions } from '@/components/MultiPlatformTestingInstructions';
 import { useI18n } from '@/i18n';
 
 interface SocialTestingData {
@@ -234,6 +242,15 @@ export function SocialTestingDashboard({ className }: SocialTestingDashboardProp
 
   return (
     <div className={`space-y-6 ${className}`}>
+      {/* Multi-Platform Testing Instructions */}
+      <MultiPlatformTestingInstructions />
+
+      {/* Share Testing Summary */}
+      <ShareTestingSummary />
+
+      {/* Platform Testing Guide */}
+      <PlatformTestingGuide />
+
       {/* Engagement Overview */}
       <Card className="border-gradient-to-r from-primary/20 to-accent/20">
         <CardHeader>
@@ -398,6 +415,98 @@ export function SocialTestingDashboard({ className }: SocialTestingDashboardProp
                 {language === 'fr' && 'Utilisation de fonctionnalités principales'}
                 {language === 'am' && 'ከፍተኛ ባህሪ አጠቃቀም'}
               </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Multi-Platform Testing Guide */}
+      <Card className="border-accent/30 bg-gradient-to-r from-accent/5 to-primary/5">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Globe size={20} className="text-accent" />
+            <span>
+              {language === 'en' && 'Multi-Platform Testing Guide'}
+              {language === 'sv' && 'Multi-plattform testguide'}
+              {language === 'de' && 'Multi-Plattform-Testleitfaden'}
+              {language === 'fr' && 'Guide de test multi-plateforme'}
+              {language === 'am' && 'ባለብዙ መድረክ ሙከራ መመሪያ'}
+            </span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="space-y-3">
+              <h4 className="font-medium text-sm flex items-center gap-2">
+                <Briefcase size={14} className="text-blue-600" />
+                {language === 'en' && 'Professional Networks'}
+                {language === 'sv' && 'Professionella nätverk'}
+                {language === 'de' && 'Professionelle Netzwerke'}
+                {language === 'fr' && 'Réseaux professionnels'}
+                {language === 'am' && 'ሙያዊ አውታሮች'}
+              </h4>
+              <div className="space-y-2 text-xs">
+                <div className="flex items-center gap-2">
+                  <LinkedinLogo size={12} className="text-blue-600" />
+                  <span>LinkedIn - Engineers & Material Scientists</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Users size={12} className="text-teal-600" />
+                  <span>XING - European Professional Network</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Users size={12} className="text-cyan-600" />
+                  <span>ResearchGate - Academic Community</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="space-y-3">
+              <h4 className="font-medium text-sm flex items-center gap-2">
+                <Chat size={14} className="text-green-600" />
+                {language === 'en' && 'Messaging Platforms'}
+                {language === 'sv' && 'Meddelandeplattformar'}
+                {language === 'de' && 'Messaging-Plattformen'}
+                {language === 'fr' && 'Plateformes de messagerie'}
+                {language === 'am' && 'የመልእክት መድረኮች'}
+              </h4>
+              <div className="space-y-2 text-xs">
+                <div className="flex items-center gap-2">
+                  <WhatsappLogo size={12} className="text-green-500" />
+                  <span>WhatsApp - Close Colleagues</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <SlackLogo size={12} className="text-purple-600" />
+                  <span>Slack - Work Teams</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <MicrosoftTeamsLogo size={12} className="text-blue-600" />
+                  <span>Teams - Corporate Environment</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <DiscordLogo size={12} className="text-indigo-600" />
+                  <span>Discord - Developer Communities</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <Separator />
+          
+          <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+            <h4 className="font-medium text-sm mb-2 flex items-center gap-2">
+              <Sparkle size={14} className="text-blue-600" />
+              {language === 'en' && 'Testing Best Practices'}
+              {language === 'sv' && 'Testning bästa praxis'}
+              {language === 'de' && 'Test-Best-Practices'}
+              {language === 'fr' && 'Meilleures pratiques de test'}
+              {language === 'am' && 'የሙከራ ምርጥ ተግባራት'}
+            </h4>
+            <div className="text-xs text-muted-foreground space-y-1">
+              <div>• {language === 'en' ? 'Start with professional networks for technical feedback' : 'Börja med professionella nätverk för teknisk feedback'}</div>
+              <div>• {language === 'en' ? 'Use messaging apps for quick colleague reviews' : 'Använd meddelandeappar för snabba kollegarecensioner'}</div>
+              <div>• {language === 'en' ? 'Test different audience types (technical vs. general)' : 'Testa olika målgruppstyper (teknisk vs allmän)'}</div>
+              <div>• {language === 'en' ? 'Collect feedback across time zones for global insights' : 'Samla feedback över tidszoner för globala insikter'}</div>
             </div>
           </div>
         </CardContent>
