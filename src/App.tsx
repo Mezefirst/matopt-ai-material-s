@@ -15,7 +15,8 @@ import {
   Sparkle,
   Robot,
   FlaskConical,
-  MapPin
+  MapPin,
+  Globe
 } from '@phosphor-icons/react';
 
 import { MaterialFilters } from '@/components/MaterialFilters';
@@ -46,7 +47,7 @@ import {
 } from '@/types/materials';
 
 function App() {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   
   const [comparisonState, setComparisonState] = useKV<ComparisonState>('material-comparison', {
     selectedMaterials: [],
@@ -294,6 +295,16 @@ function App() {
               </p>
             </div>
             <div className="flex items-center gap-4">
+              <div className="hidden md:flex flex-col items-end text-right">
+                <div className="text-xs text-muted-foreground">{t.language}</div>
+                <div className="text-sm font-medium text-foreground">
+                  {language === 'en' && 'English'}
+                  {language === 'sv' && 'Svenska'}
+                  {language === 'de' && 'Deutsch'}
+                  {language === 'fr' && 'Français'}
+                  {language === 'am' && 'አማርኛ'}
+                </div>
+              </div>
               <LanguageSelector />
               <div className="flex items-center gap-2">
                 <Brain className="text-primary" size={24} />
@@ -366,6 +377,79 @@ function App() {
 
             {/* Model Validation */}
             <ModelValidation className="mt-6" />
+
+            {/* Language Switching Demo */}
+            <Card className="mt-6">
+              <CardHeader>
+                <CardTitle className="text-sm flex items-center gap-2">
+                  <Globe size={16} className="text-primary" />
+                  {language === 'en' && 'Language Features'}
+                  {language === 'sv' && 'Språkfunktioner'}
+                  {language === 'de' && 'Sprachfunktionen'}
+                  {language === 'fr' && 'Fonctionnalités linguistiques'}
+                  {language === 'am' && 'Language ባህሪዎች'}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="text-xs space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">
+                      {language === 'en' && 'Available:'}
+                      {language === 'sv' && 'Tillgängliga:'}
+                      {language === 'de' && 'Verfügbar:'}
+                      {language === 'fr' && 'Disponibles:'}
+                      {language === 'am' && 'የሚገኙ:'}
+                    </span>
+                    <span className="font-medium">5</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">
+                      {language === 'en' && 'Current:'}
+                      {language === 'sv' && 'Nuvarande:'}
+                      {language === 'de' && 'Aktuell:'}
+                      {language === 'fr' && 'Actuel:'}
+                      {language === 'am' && 'የአሁኑ:'}
+                    </span>
+                    <span className="font-medium">
+                      {language === 'en' && 'EN'}
+                      {language === 'sv' && 'SV'}
+                      {language === 'de' && 'DE'}
+                      {language === 'fr' && 'FR'}
+                      {language === 'am' && 'AM'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">
+                      {language === 'en' && 'Type:'}
+                      {language === 'sv' && 'Typ:'}
+                      {language === 'de' && 'Typ:'}
+                      {language === 'fr' && 'Type:'}
+                      {language === 'am' && 'ዓይነት:'}
+                    </span>
+                    <span className="font-medium text-xs">
+                      {language === 'am' ? (
+                        'Mixed'
+                      ) : (
+                        language === 'en' ? 'Full' :
+                        language === 'sv' ? 'Full' :
+                        language === 'de' ? 'Voll' :
+                        language === 'fr' ? 'Complet' : 'Full'
+                      )}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="pt-2 border-t">
+                  <div className="text-xs text-muted-foreground">
+                    {language === 'en' && 'Try switching languages above to see the interface adapt in real-time!'}
+                    {language === 'sv' && 'Prova att byta språk ovan för att se gränssnittet anpassa sig i realtid!'}
+                    {language === 'de' && 'Versuchen Sie, die Sprache oben zu wechseln, um zu sehen, wie sich die Benutzeroberfläche in Echtzeit anpasst!'}
+                    {language === 'fr' && 'Essayez de changer de langue ci-dessus pour voir l\'interface s\'adapter en temps réel!'}
+                    {language === 'am' && 'ከላይ languages ቀይረው interface በ real-time እንዴት እንደሚላመድ ይመልከቱ!'}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Main Content */}
@@ -444,6 +528,24 @@ function App() {
                           <MagnifyingGlass size={16} className="mr-2" />
                           {isSearching ? t.searching : t.searchMaterials}
                         </Button>
+                        
+                        {/* Language demonstration card */}
+                        <div className="mt-6 p-4 bg-muted/30 rounded-lg">
+                          <div className="text-sm text-muted-foreground mb-2">
+                            {language === 'en' && 'Current interface language:'}
+                            {language === 'sv' && 'Aktuellt gränssnittsspråk:'}
+                            {language === 'de' && 'Aktuelle Schnittstellensprache:'}
+                            {language === 'fr' && 'Langue d\'interface actuelle:'}
+                            {language === 'am' && 'የአሁኑ interface ቋንቋ:'}
+                          </div>
+                          <div className="font-semibold text-primary">
+                            {language === 'en' && 'English - Full translation'}
+                            {language === 'sv' && 'Svenska - Fullständig översättning'}
+                            {language === 'de' && 'Deutsch - Vollständige Übersetzung'}
+                            {language === 'fr' && 'Français - Traduction complète'}
+                            {language === 'am' && 'አማርኛ - Mixed translation (ድብልቅ ትርጉም)'}
+                          </div>
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
