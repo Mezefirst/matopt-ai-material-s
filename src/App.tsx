@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 import { useKV } from '@github/spark/hooks';
@@ -324,11 +325,22 @@ function App() {
   };
 
   const getSortedMaterials = () => {
-    return [...filteredMaterials].sort((a, b) => {
+    const sorted = [...filteredMaterials].sort((a, b) => {
       const scoreA = safeComparisonState.scores[a.id]?.overallScore || 0;
       const scoreB = safeComparisonState.scores[b.id]?.overallScore || 0;
       return scoreB - scoreA;
     });
+    
+    // Debug logging
+    console.log('Debug: Overview section state', {
+      filteredMaterialsCount: filteredMaterials.length,
+      selectedMaterialsCount: safeComparisonState.selectedMaterials.length,
+      activeTab: safeComparisonState.activeTab,
+      sortedMaterialsCount: sorted.length,
+      hasScores: Object.keys(safeComparisonState.scores).length > 0
+    });
+    
+    return sorted;
   };
 
   return (
@@ -578,45 +590,65 @@ function App() {
                   />
                 ) : filteredMaterials.length > 0 ? (
                   <div className="space-y-6">
-                    <Card>
+                    <Card className="border-primary/30 bg-primary/5">
                       <CardContent className="pt-6">
                         <div className="text-center py-4">
-                          <MagnifyingGlass size={32} className="mx-auto text-primary mb-3" />
-                          <h3 className="text-lg font-semibold mb-2">
-                            {language === 'en' && 'Select Materials to Compare'}
-                            {language === 'sv' && 'Välj material att jämföra'}
-                            {language === 'de' && 'Materialien zum Vergleich auswählen'}
-                            {language === 'fr' && 'Sélectionner des matériaux à comparer'}
-                            {language === 'am' && 'ለንጽጽር የሚሆኑ ቁሳቁሶችን ይምረጡ'}
+                          <ChartBar size={32} className="mx-auto text-primary mb-3" />
+                          <h3 className="text-lg font-semibold mb-2 text-primary">
+                            {language === 'en' && 'Step 2: Select Materials to Compare'}
+                            {language === 'sv' && 'Steg 2: Välj material att jämföra'}
+                            {language === 'de' && 'Schritt 2: Materialien zum Vergleich auswählen'}
+                            {language === 'fr' && 'Étape 2 : Sélectionner des matériaux à comparer'}
+                            {language === 'am' && 'ደረጃ 2: ለንጽጽር የሚሆኑ ቁሳቁሶችን ይምረጡ'}
                           </h3>
                           <p className="text-muted-foreground mb-4">
-                            {language === 'en' && 'Use the checkboxes below to select materials for detailed comparison. You can select up to 4 materials.'}
-                            {language === 'sv' && 'Använd kryssrutorna nedan för att välja material för detaljerad jämförelse. Du kan välja upp till 4 material.'}
-                            {language === 'de' && 'Verwenden Sie die Kontrollkästchen unten, um Materialien für einen detaillierten Vergleich auszuwählen. Sie können bis zu 4 Materialien auswählen.'}
-                            {language === 'fr' && 'Utilisez les cases à cocher ci-dessous pour sélectionner des matériaux pour une comparaison détaillée. Vous pouvez sélectionner jusqu\'à 4 matériaux.'}
-                            {language === 'am' && 'ለዝርዝር ንጽጽር ቁሳቁሶችን ለመምረጥ ከታች ያለውን ምልክት ያስቀምጡ። እስከ 4 ቁሳቁሶች ድረስ መምረጥ ይችላሉ።'}
+                            {language === 'en' && 'Click the checkboxes below to select materials for detailed side-by-side comparison. Select at least 2 materials to see the comparison table.'}
+                            {language === 'sv' && 'Klicka på kryssrutorna nedan för att välja material för detaljerad jämförelse sida vid sida. Välj minst 2 material för att se jämförelsetabellen.'}
+                            {language === 'de' && 'Klicken Sie auf die Kontrollkästchen unten, um Materialien für einen detaillierten Vergleich nebeneinander auszuwählen. Wählen Sie mindestens 2 Materialien aus, um die Vergleichstabelle zu sehen.'}
+                            {language === 'fr' && 'Cliquez sur les cases à cocher ci-dessous pour sélectionner des matériaux pour une comparaison détaillée côte à côte. Sélectionnez au moins 2 matériaux pour voir le tableau de comparaison.'}
+                            {language === 'am' && 'ለዝርዝር አጠገብ ለጎን ንጽጽር ቁሳቁሶችን ለመምረጥ ከታች ያለውን ምልክት ጠቅ ያድርጉ። የንጽጽር ሰንጠረዥን ለማየት ቢያንስ 2 ቁሳቁሶችን ይምረጡ።'}
                           </p>
+                          
+                          {/* Progress indicator */}
+                          <div className="flex items-center justify-center gap-2 mb-4">
+                            <div className="flex items-center gap-1 px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+                              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                              {language === 'en' && 'Step 1 Complete: Materials Found'}
+                              {language === 'sv' && 'Steg 1 klart: Material hittade'}
+                              {language === 'de' && 'Schritt 1 abgeschlossen: Materialien gefunden'}
+                              {language === 'fr' && 'Étape 1 terminée : Matériaux trouvés'}
+                              {language === 'am' && 'ደረጃ 1 ተጠናቋል: ቁሳቁሶች ተገኝተዋል'}
+                            </div>
+                            <ArrowRight size={12} className="text-muted-foreground" />
+                            <div className="flex items-center gap-1 px-3 py-1 bg-primary/20 text-primary rounded-full text-xs font-medium">
+                              <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                              {language === 'en' && 'Step 2: Select Materials'}
+                              {language === 'sv' && 'Steg 2: Välj material'}
+                              {language === 'de' && 'Schritt 2: Materialien auswählen'}
+                              {language === 'fr' && 'Étape 2 : Sélectionner des matériaux'}
+                              {language === 'am' && 'ደረጃ 2: ቁሳቁሶችን ይምረጡ'}
+                            </div>
+                          </div>
+                          
                           <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
                             <div className="flex items-center gap-2">
-                              <div className="w-3 h-3 border border-border rounded flex items-center justify-center">
-                                <div className="w-2 h-2 bg-primary rounded"></div>
-                              </div>
+                              <Checkbox checked={true} className="pointer-events-none" />
                               <span>
-                                {language === 'en' && 'Selected'}
-                                {language === 'sv' && 'Vald'}
-                                {language === 'de' && 'Ausgewählt'}
-                                {language === 'fr' && 'Sélectionné'}
-                                {language === 'am' && 'የተመረጠ'}
+                                {language === 'en' && 'Selected for comparison'}
+                                {language === 'sv' && 'Vald för jämförelse'}
+                                {language === 'de' && 'Für Vergleich ausgewählt'}
+                                {language === 'fr' && 'Sélectionné pour comparaison'}
+                                {language === 'am' && 'ለንጽጽር የተመረጠ'}
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <div className="w-3 h-3 border border-border rounded"></div>
+                              <Checkbox className="pointer-events-none" />
                               <span>
-                                {language === 'en' && 'Available'}
-                                {language === 'sv' && 'Tillgänglig'}
-                                {language === 'de' && 'Verfügbar'}
-                                {language === 'fr' && 'Disponible'}
-                                {language === 'am' && 'ዝግጁ'}
+                                {language === 'en' && 'Available to select'}
+                                {language === 'sv' && 'Tillgänglig att välja'}
+                                {language === 'de' && 'Verfügbar zur Auswahl'}
+                                {language === 'fr' && 'Disponible à sélectionner'}
+                                {language === 'am' && 'ለምርጫ ዝግጁ'}
                               </span>
                             </div>
                           </div>
@@ -625,7 +657,33 @@ function App() {
                     </Card>
                     
                     {/* Material selection cards with checkboxes */}
-                    <div className="grid gap-6">
+                    <div className="space-y-4">
+                      {/* Quick selection hint */}
+                      <div className="bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 rounded-lg p-4">
+                        <div className="flex items-center gap-3">
+                          <div className="bg-primary/20 p-2 rounded-full">
+                            <ChartBar size={16} className="text-primary" />
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-medium text-sm">
+                              {language === 'en' && 'Quick Tip: How to Compare Materials'}
+                              {language === 'sv' && 'Snabbtips: Så jämför du material'}
+                              {language === 'de' && 'Schnelltipp: So vergleichen Sie Materialien'}
+                              {language === 'fr' && 'Conseil rapide : Comment comparer les matériaux'}
+                              {language === 'am' && 'ፈጣን ምክር: ቁሳቁሶችን እንዴት ማወዳደር እንደሚቻል'}
+                            </h4>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              {language === 'en' && 'Click the checkbox next to any material to add it to your comparison. Once you select 2+ materials, return to see the detailed comparison table.'}
+                              {language === 'sv' && 'Klicka på kryssrutan bredvid ett material för att lägga till det i din jämförelse. När du väljer 2+ material, återvänd för att se den detaljerade jämförelsetabellen.'}
+                              {language === 'de' && 'Klicken Sie auf das Kontrollkästchen neben einem Material, um es zu Ihrem Vergleich hinzuzufügen. Sobald Sie 2+ Materialien auswählen, kehren Sie zurück, um die detaillierte Vergleichstabelle zu sehen.'}
+                              {language === 'fr' && 'Cliquez sur la case à cocher à côté d\'un matériau pour l\'ajouter à votre comparaison. Une fois que vous sélectionnez 2+ matériaux, revenez pour voir le tableau de comparaison détaillé.'}
+                              {language === 'am' && 'ማንኛውንም ቁሳቁስ ወደ ንጽጽርዎ ለመጨመር ከሱ አጠገብ ያለውን ምልክት ጠቅ ያድርጉ። 2+ ቁሳቁሶችን ከመረጡ በኋላ፣ ዝርዝር የንጽጽር ሠንጠረዥን ለማየት ይመለሱ።'}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="grid gap-6">
                       {getSortedMaterials().map((material) => (
                         <MaterialCard
                           key={material.id}
@@ -641,6 +699,7 @@ function App() {
                           applicationContext={safeComparisonState.requirements.applicationContext}
                         />
                       ))}
+                      </div>
                     </div>
                   </div>
                 ) : (
@@ -649,10 +708,64 @@ function App() {
                       <div className="text-center py-8">
                         <Brain size={48} className="mx-auto text-muted-foreground mb-4" />
                         <h3 className="text-lg font-semibold mb-2">{t.getStarted}</h3>
-                        <p className="text-muted-foreground mb-4">
+                        <p className="text-muted-foreground mb-6">
                           {t.setRequirements}
                         </p>
-                        <Button onClick={handleSearch} disabled={isSearching}>
+                        
+                        {/* Step-by-step guide */}
+                        <div className="max-w-md mx-auto mb-6 text-left bg-muted/30 rounded-lg p-4">
+                          <h4 className="font-medium text-sm mb-3 text-center">
+                            {language === 'en' && 'How to Compare Materials:'}
+                            {language === 'sv' && 'Så jämför du material:'}
+                            {language === 'de' && 'So vergleichen Sie Materialien:'}
+                            {language === 'fr' && 'Comment comparer les matériaux:'}
+                            {language === 'am' && 'ቁሳቁሶችን እንዴት ማወዳደር እንደሚቻል:'}
+                          </h4>
+                          <div className="space-y-2 text-xs">
+                            <div className="flex items-center gap-2">
+                              <div className="w-5 h-5 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-bold">1</div>
+                              <span>
+                                {language === 'en' && 'Set your requirements in the filters'}
+                                {language === 'sv' && 'Ställ in dina krav i filtren'}
+                                {language === 'de' && 'Stellen Sie Ihre Anforderungen in den Filtern ein'}
+                                {language === 'fr' && 'Définissez vos exigences dans les filtres'}
+                                {language === 'am' && 'በማጣሪያዎች ውስጥ መስፈርቶችዎን ያቀናብሩ'}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <div className="w-5 h-5 bg-muted-foreground text-background rounded-full flex items-center justify-center text-xs font-bold">2</div>
+                              <span>
+                                {language === 'en' && 'Click Search to find matching materials'}
+                                {language === 'sv' && 'Klicka på Sök för att hitta matchande material'}
+                                {language === 'de' && 'Klicken Sie auf Suchen, um passende Materialien zu finden'}
+                                {language === 'fr' && 'Cliquez sur Rechercher pour trouver des matériaux correspondants'}
+                                {language === 'am' && 'ተዛማጅ ቁሳቁሶችን ለማግኘት ፈልግ የሚለውን ጠቅ ያድርጉ'}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <div className="w-5 h-5 bg-muted-foreground text-background rounded-full flex items-center justify-center text-xs font-bold">3</div>
+                              <span>
+                                {language === 'en' && 'Select 2+ materials using checkboxes'}
+                                {language === 'sv' && 'Välj 2+ material med kryssrutor'}
+                                {language === 'de' && 'Wählen Sie 2+ Materialien mit Kontrollkästchen aus'}
+                                {language === 'fr' && 'Sélectionnez 2+ matériaux avec des cases à cocher'}
+                                {language === 'am' && 'ምልክት በመጠቀም 2+ ቁሳቁሶችን ይምረጡ'}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <div className="w-5 h-5 bg-muted-foreground text-background rounded-full flex items-center justify-center text-xs font-bold">4</div>
+                              <span>
+                                {language === 'en' && 'View detailed comparison table'}
+                                {language === 'sv' && 'Visa detaljerad jämförelsetabell'}
+                                {language === 'de' && 'Detaillierte Vergleichstabelle anzeigen'}
+                                {language === 'fr' && 'Afficher le tableau de comparaison détaillé'}
+                                {language === 'am' && 'ዝርዝር የንጽጽር ሰንጠረዥን ይመልከቱ'}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <Button onClick={handleSearch} disabled={isSearching} size="lg" className="px-8">
                           <MagnifyingGlass size={16} className="mr-2" />
                           {isSearching ? t.searching : t.searchMaterials}
                         </Button>
