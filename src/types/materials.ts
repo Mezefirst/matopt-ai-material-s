@@ -9,6 +9,11 @@ export interface Material {
     thermalConductivity: number; // W/m·K
     meltingPoint: number; // °C
     hardness: number; // HV
+    operatingTempMin: number; // °C
+    operatingTempMax: number; // °C
+    electricalConductivity: number; // MS/m (megasiemens per meter)
+    electricalResistivity: number; // µΩ·cm (microohm-centimeter)
+    dielectricStrength?: number; // kV/mm (for insulators)
   };
   cost: {
     pricePerKg: number; // USD
@@ -45,6 +50,11 @@ export interface MaterialRequirements {
   region?: string;
   sustainabilityPriority?: boolean;
   applications?: string[];
+  operatingTemp?: { min?: number; max?: number };
+  electricalConductivity?: { min?: number; max?: number };
+  electricalResistivity?: { min?: number; max?: number };
+  dielectricStrength?: { min?: number; max?: number };
+  electricalType?: 'conductor' | 'insulator' | 'semiconductor' | 'any';
 }
 
 export interface MaterialScore {

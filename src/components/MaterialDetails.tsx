@@ -133,6 +133,69 @@ export function MaterialDetails({ material }: MaterialDetailsProps) {
             </CardContent>
           </Card>
 
+          {/* Temperature & Electrical Properties */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Thermometer className="text-primary" />
+                  Temperature Range
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="text-center p-4 bg-gradient-to-r from-blue-50 to-red-50 rounded-lg">
+                    <div className="text-lg font-bold text-primary">
+                      {material.properties.operatingTempMin}°C to {material.properties.operatingTempMax}°C
+                    </div>
+                    <div className="text-sm text-muted-foreground">Operating Range</div>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-blue-600 font-medium">Min: {material.properties.operatingTempMin}°C</span>
+                    <span className="text-red-600 font-medium">Max: {material.properties.operatingTempMax}°C</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Lightning className="text-primary" />
+                  Electrical Properties
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center p-2 bg-muted/30 rounded">
+                    <span className="text-sm font-medium">Conductivity</span>
+                    <span className="text-sm">{material.properties.electricalConductivity.toFixed(2)} MS/m</span>
+                  </div>
+                  <div className="flex justify-between items-center p-2 bg-muted/30 rounded">
+                    <span className="text-sm font-medium">Resistivity</span>
+                    <span className="text-sm">{material.properties.electricalResistivity} µΩ·cm</span>
+                  </div>
+                  {material.properties.dielectricStrength && (
+                    <div className="flex justify-between items-center p-2 bg-muted/30 rounded">
+                      <span className="text-sm font-medium">Dielectric Strength</span>
+                      <span className="text-sm">{material.properties.dielectricStrength} kV/mm</span>
+                    </div>
+                  )}
+                  <div className="mt-3 p-2 bg-primary/10 rounded text-center">
+                    <span className="text-sm font-medium text-primary">
+                      {material.properties.electricalConductivity >= 1 
+                        ? 'Good Conductor' 
+                        : material.properties.electricalResistivity > 1000000
+                          ? 'Excellent Insulator'
+                          : 'Semiconductor'
+                      }
+                    </span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
           {/* Cost Information */}
           <Card>
             <CardHeader>

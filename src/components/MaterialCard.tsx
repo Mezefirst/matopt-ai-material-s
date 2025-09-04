@@ -11,7 +11,9 @@ import {
   Leaf, 
   Building, 
   TrendUp,
-  Info
+  Info,
+  Thermometer,
+  Lightning
 } from '@phosphor-icons/react';
 
 interface MaterialCardProps {
@@ -91,7 +93,7 @@ export function MaterialCard({
 
       <CardContent className="space-y-4">
         {/* Key Properties */}
-        <div className="grid grid-cols-2 gap-4 text-sm">
+        <div className="grid grid-cols-2 gap-3 text-sm">
           <div className="flex items-center gap-2">
             <Gear size={16} className="text-muted-foreground" />
             <span className="font-medium">
@@ -114,6 +116,23 @@ export function MaterialCard({
             <Leaf size={16} className={getSustainabilityColor(material.sustainability.sustainabilityScore)} />
             <span className="font-medium">
               {material.sustainability.sustainabilityScore}/100
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Thermometer size={16} className="text-muted-foreground" />
+            <span className="font-medium text-xs">
+              {material.properties.operatingTempMin}° to {material.properties.operatingTempMax}°C
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Lightning size={16} className="text-muted-foreground" />
+            <span className="font-medium text-xs">
+              {material.properties.electricalConductivity >= 1 
+                ? `${material.properties.electricalConductivity.toFixed(1)} MS/m` 
+                : material.properties.dielectricStrength 
+                  ? `${material.properties.dielectricStrength} kV/mm`
+                  : `${material.properties.electricalResistivity} µΩ·cm`
+              }
             </span>
           </div>
         </div>

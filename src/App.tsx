@@ -81,6 +81,52 @@ function App() {
         }
       }
 
+      // Operating temperature filter
+      if (requirements.operatingTemp) {
+        const { min = -Infinity, max = Infinity } = requirements.operatingTemp;
+        if (material.properties.operatingTempMax < min || material.properties.operatingTempMin > max) {
+          return false;
+        }
+      }
+
+      // Electrical type filter
+      if (requirements.electricalType && requirements.electricalType !== 'any') {
+        if (requirements.electricalType === 'conductor') {
+          // Good conductors typically have conductivity > 1 MS/m
+          if (material.properties.electricalConductivity < 1) return false;
+        } else if (requirements.electricalType === 'insulator') {
+          // Good insulators typically have resistivity > 1,000,000 µΩ·cm
+          if (material.properties.electricalResistivity < 1000000) return false;
+        } else if (requirements.electricalType === 'semiconductor') {
+          // Semiconductors typically have moderate resistivity
+          if (material.properties.electricalResistivity < 1 || material.properties.electricalResistivity > 1000000) return false;
+        }
+      }
+
+      // Electrical conductivity filter
+      if (requirements.electricalConductivity) {
+        const { min = 0, max = Infinity } = requirements.electricalConductivity;
+        if (material.properties.electricalConductivity < min || material.properties.electricalConductivity > max) {
+          return false;
+        }
+      }
+
+      // Electrical resistivity filter
+      if (requirements.electricalResistivity) {
+        const { min = 0, max = Infinity } = requirements.electricalResistivity;
+        if (material.properties.electricalResistivity < min || material.properties.electricalResistivity > max) {
+          return false;
+        }
+      }
+
+      // Dielectric strength filter
+      if (requirements.dielectricStrength && material.properties.dielectricStrength) {
+        const { min = 0, max = Infinity } = requirements.dielectricStrength;
+        if (material.properties.dielectricStrength < min || material.properties.dielectricStrength > max) {
+          return false;
+        }
+      }
+
       // Region filter
       if (requirements.region && requirements.region !== 'global') {
         const hasRegionalSupplier = material.suppliers.some(supplier =>
