@@ -207,6 +207,11 @@ function App() {
         return acc;
       }, {} as Record<string, MaterialScore>);
 
+      // Create context message for application-specific searches
+      const contextMessage = safeComparisonState.requirements.applicationContext 
+        ? ` (${t.optimizedFor} ${safeComparisonState.requirements.applicationContext})`
+        : '';
+
       // Auto-select top 2 recommended materials for instant comparison (if enabled)
       const shouldAutoSelect = safeComparisonState.requirements.autoSelectTop2 !== false; // Default to true
       
@@ -236,7 +241,17 @@ function App() {
         );
       } else {
         updateComparisonState({ scores: scoresMap });
-        toast.success(`${filtered.length} ${t.materialsFound}${contextMessage}`);
+        
+        const manualMessage = shouldAutoSelect ? '' : ' (auto-selection disabled)';
+        
+        toast.success(
+          language === 'en' ? `${filtered.length} ${t.materialsFound}${contextMessage}${manualMessage}. Select materials manually for comparison.` :
+          language === 'sv' ? `${filtered.length} ${t.materialsFound}${contextMessage}${manualMessage}. Välj material manuellt för jämförelse.` :
+          language === 'de' ? `${filtered.length} ${t.materialsFound}${contextMessage}${manualMessage}. Wählen Sie Materialien manuell für den Vergleich aus.` :
+          language === 'fr' ? `${filtered.length} ${t.materialsFound}${contextMessage}${manualMessage}. Sélectionnez des matériaux manuellement pour la comparaison.` :
+          language === 'am' ? `${filtered.length} ${t.materialsFound}${contextMessage}${manualMessage}። ለንጽጽር በእጅ ቁሳቁሶችን ይምረጡ።` :
+          `${filtered.length} ${t.materialsFound}${contextMessage}${manualMessage}. Select materials manually for comparison.`
+        );
       }
     } catch (error) {
       console.error('Search error:', error);
@@ -760,52 +775,114 @@ function App() {
                             <div className="flex items-center gap-2">
                               <div className="w-5 h-5 bg-muted-foreground text-background rounded-full flex items-center justify-center text-xs font-bold">2</div>
                               <span>
-                                {language === 'en' && 'Click Search - top 2 materials auto-selected'}
-                                {language === 'sv' && 'Klicka på Sök - topp 2 material väljs automatiskt'}
-                                {language === 'de' && 'Klicken Sie auf Suchen - Top 2 Materialien automatisch ausgewählt'}
-                                {language === 'fr' && 'Cliquez sur Rechercher - top 2 matériaux sélectionnés automatiquement'}
-                                {language === 'am' && 'ፈልግ ጠቅ ያድርጉ - ከፍተኛ 2 ቁሳቁሶች በራስ-ሰር ይመረጣሉ'}
+                                {safeComparisonState.requirements.autoSelectTop2 !== false ? (
+                                  <>
+                                    {language === 'en' && 'Click Search - top 2 materials auto-selected'}
+                                    {language === 'sv' && 'Klicka på Sök - topp 2 material väljs automatiskt'}
+                                    {language === 'de' && 'Klicken Sie auf Suchen - Top 2 Materialien automatisch ausgewählt'}
+                                    {language === 'fr' && 'Cliquez sur Rechercher - top 2 matériaux sélectionnés automatiquement'}
+                                    {language === 'am' && 'ፈልግ ጠቅ ያድርጉ - ከፍተኛ 2 ቁሳቁሶች በራስ-ሰር ይመረጣሉ'}
+                                  </>
+                                ) : (
+                                  <>
+                                    {language === 'en' && 'Click Search - then select materials using checkboxes'}
+                                    {language === 'sv' && 'Klicka på Sök - välj sedan material med kryssrutor'}
+                                    {language === 'de' && 'Klicken Sie auf Suchen - dann wählen Sie Materialien mit Kontrollkästchen'}
+                                    {language === 'fr' && 'Cliquez sur Rechercher - puis sélectionnez des matériaux avec les cases à cocher'}
+                                    {language === 'am' && 'ፈልግ ጠቅ ያድርጉ - ከዚያ በቼክ ቦክስ ቁሳቁሶችን ይምረጡ'}
+                                  </>
+                                )}
                               </span>
                             </div>
                             <div className="flex items-center gap-2">
                               <div className="w-5 h-5 bg-accent text-accent-foreground rounded-full flex items-center justify-center text-xs font-bold">★</div>
                               <span>
-                                {language === 'en' && 'Instant comparison ready - add/remove as needed'}
-                                {language === 'sv' && 'Omedelbar jämförelse klar - lägg till/ta bort vid behov'}
-                                {language === 'de' && 'Sofortvergleich bereit - nach Bedarf hinzufügen/entfernen'}
-                                {language === 'fr' && 'Comparaison instantanée prête - ajouter/supprimer si nécessaire'}
-                                {language === 'am' && 'ቅጽበታዊ ንጽጽር ዝግጁ - እንደ አስፈላጊነቱ ይጨምሩ/ያስወግዱ'}
+                                {safeComparisonState.requirements.autoSelectTop2 !== false ? (
+                                  <>
+                                    {language === 'en' && 'Instant comparison ready - add/remove as needed'}
+                                    {language === 'sv' && 'Omedelbar jämförelse klar - lägg till/ta bort vid behov'}
+                                    {language === 'de' && 'Sofortvergleich bereit - nach Bedarf hinzufügen/entfernen'}
+                                    {language === 'fr' && 'Comparaison instantanée prête - ajouter/supprimer si nécessaire'}
+                                    {language === 'am' && 'ቅጽበታዊ ንጽጽር ዝግጁ - እንደ አስፈላጊነቱ ይጨምሩ/ያስወግዱ'}
+                                  </>
+                                ) : (
+                                  <>
+                                    {language === 'en' && 'Manual selection - choose 2+ materials to compare'}
+                                    {language === 'sv' && 'Manuellt urval - välj 2+ material för att jämföra'}
+                                    {language === 'de' && 'Manuelle Auswahl - wählen Sie 2+ Materialien zum Vergleich'}
+                                    {language === 'fr' && 'Sélection manuelle - choisissez 2+ matériaux à comparer'}
+                                    {language === 'am' && 'በእጅ ምርጫ - ለማወዳደር 2+ ቁሳቁሶችን ይምረጡ'}
+                                  </>
+                                )}
                               </span>
                             </div>
                           </div>
                         </div>
                         
-                        {/* Auto-selection feature highlight - only show if enabled */}
-                        {(safeComparisonState.requirements.autoSelectTop2 !== false) && (
-                          <div className="bg-gradient-to-r from-accent/20 to-primary/20 border border-accent/30 rounded-lg p-4 mb-4">
-                            <div className="flex items-center gap-3">
-                              <div className="bg-accent/30 p-2 rounded-full">
+                        {/* Selection mode highlight */}
+                        <div className={`border rounded-lg p-4 mb-4 ${
+                          safeComparisonState.requirements.autoSelectTop2 !== false 
+                            ? 'bg-gradient-to-r from-accent/20 to-primary/20 border-accent/30'
+                            : 'bg-gradient-to-r from-muted/30 to-muted/20 border-muted'
+                        }`}>
+                          <div className="flex items-center gap-3">
+                            <div className={`p-2 rounded-full ${
+                              safeComparisonState.requirements.autoSelectTop2 !== false 
+                                ? 'bg-accent/30'
+                                : 'bg-muted'
+                            }`}>
+                              {safeComparisonState.requirements.autoSelectTop2 !== false ? (
                                 <Sparkle size={16} className="text-accent" />
-                              </div>
-                              <div className="flex-1">
-                                <h4 className="font-medium text-sm text-accent">
-                                  {language === 'en' && '✨ Smart Auto-Selection'}
-                                  {language === 'sv' && '✨ Smart Auto-Urval'}
-                                  {language === 'de' && '✨ Intelligente Auto-Auswahl'}
-                                  {language === 'fr' && '✨ Sélection Automatique Intelligente'}
-                                  {language === 'am' && '✨ ስማርት በራስ-ሰር ምርጫ'}
-                                </h4>
-                                <p className="text-xs text-muted-foreground mt-1">
-                                  {language === 'en' && 'We\'ll automatically select the top 2 best materials for instant comparison!'}
-                                  {language === 'sv' && 'Vi väljer automatiskt de 2 bästa materialen för omedelbar jämförelse!'}
-                                  {language === 'de' && 'Wir wählen automatisch die 2 besten Materialien für den sofortigen Vergleich aus!'}
-                                  {language === 'fr' && 'Nous sélectionnerons automatiquement les 2 meilleurs matériaux pour une comparaison instantanée!'}
-                                  {language === 'am' && 'ለቅጽበታዊ ንጽጽር ከፍተኛ 2 ቁሳቁሶችን በራስ-ሰር እንመርጣለን!'}
-                                </p>
-                              </div>
+                              ) : (
+                                <MagnifyingGlass size={16} className="text-muted-foreground" />
+                              )}
+                            </div>
+                            <div className="flex-1">
+                              <h4 className={`font-medium text-sm ${
+                                safeComparisonState.requirements.autoSelectTop2 !== false 
+                                  ? 'text-accent'
+                                  : 'text-foreground'
+                              }`}>
+                                {safeComparisonState.requirements.autoSelectTop2 !== false ? (
+                                  <>
+                                    {language === 'en' && '✨ Smart Auto-Selection Enabled'}
+                                    {language === 'sv' && '✨ Smart Auto-Urval Aktiverat'}
+                                    {language === 'de' && '✨ Intelligente Auto-Auswahl Aktiviert'}
+                                    {language === 'fr' && '✨ Sélection Automatique Intelligente Activée'}
+                                    {language === 'am' && '✨ ስማርት በራስ-ሰር ምርጫ ነቅቷል'}
+                                  </>
+                                ) : (
+                                  <>
+                                    {language === 'en' && '⚙️ Manual Selection Mode'}
+                                    {language === 'sv' && '⚙️ Manuellt Urvalsläge'}
+                                    {language === 'de' && '⚙️ Manueller Auswahlmodus'}
+                                    {language === 'fr' && '⚙️ Mode de Sélection Manuelle'}
+                                    {language === 'am' && '⚙️ በእጅ የመምረጥ ዘዴ'}
+                                  </>
+                                )}
+                              </h4>
+                              <p className="text-xs text-muted-foreground mt-1">
+                                {safeComparisonState.requirements.autoSelectTop2 !== false ? (
+                                  <>
+                                    {language === 'en' && 'We\'ll automatically select the top 2 best materials for instant comparison!'}
+                                    {language === 'sv' && 'Vi väljer automatiskt de 2 bästa materialen för omedelbar jämförelse!'}
+                                    {language === 'de' && 'Wir wählen automatisch die 2 besten Materialien für den sofortigen Vergleich aus!'}
+                                    {language === 'fr' && 'Nous sélectionnerons automatiquement les 2 meilleurs matériaux pour une comparaison instantanée!'}
+                                    {language === 'am' && 'ለቅጽበታዊ ንጽጽር ከፍተኛ 2 ቁሳቁሶችን በራስ-ሰር እንመርጣለን!'}
+                                  </>
+                                ) : (
+                                  <>
+                                    {language === 'en' && 'Use checkboxes below to manually select materials for comparison. Toggle auto-selection in filters to re-enable.'}
+                                    {language === 'sv' && 'Använd kryssrutor nedan för att manuellt välja material för jämförelse. Växla auto-urval i filter för att återaktivera.'}
+                                    {language === 'de' && 'Verwenden Sie die Kontrollkästchen unten, um Materialien manuell für den Vergleich auszuwählen. Schalten Sie die automatische Auswahl in den Filtern um, um sie zu reaktivieren.'}
+                                    {language === 'fr' && 'Utilisez les cases à cocher ci-dessous pour sélectionner manuellement les matériaux à comparer. Basculez la sélection automatique dans les filtres pour la réactiver.'}
+                                    {language === 'am' && 'ለንጽጽር በእጅ ቁሳቁሶችን ለመምረጥ ከታች ያሉትን ቼክ ቦክሶች ይጠቀሙ። እንደገና ለማንቃት በማጣሪያዎች ውስጥ በራስ-ሰር ምርጫን ይቀይሩ።'}
+                                  </>
+                                )}
+                              </p>
                             </div>
                           </div>
-                        )}
+                        </div>
                         
                         <Button onClick={handleSearch} disabled={isSearching} size="lg" className="px-8">
                           <MagnifyingGlass size={16} className="mr-2" />

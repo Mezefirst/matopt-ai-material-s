@@ -131,6 +131,7 @@ export interface Translation {
   prioritizeSustainability: string;
   autoSelectTop2: string;
   autoSelectDescription: string;
+  manualSelectionMode: string;
   findMaterials: string;
   templates: string;
   applicationTemplates: string;
@@ -293,6 +294,7 @@ export const translations: Record<Language, Translation> = {
     prioritizeSustainability: 'Prioritize Sustainability',
     autoSelectTop2: 'Auto-select top 2 materials',
     autoSelectDescription: 'Automatically select the best 2 materials for instant comparison',
+    manualSelectionMode: 'Manual selection mode - choose materials yourself using checkboxes',
     findMaterials: 'Find Materials',
     templates: 'Templates',
     applicationTemplates: 'Application Templates',
@@ -454,6 +456,7 @@ export const translations: Record<Language, Translation> = {
     prioritizeSustainability: 'Prioritera hållbarhet',
     autoSelectTop2: 'Automatiskt välj topp 2 material',
     autoSelectDescription: 'Välj automatiskt de 2 bästa materialen för omedelbar jämförelse',
+    manualSelectionMode: 'Manuellt urval - välj material själv med kryssrutor',
     findMaterials: 'Hitta material',
     templates: 'Mallar',
     applicationTemplates: 'Applikationsmallar',
@@ -615,6 +618,7 @@ export const translations: Record<Language, Translation> = {
     prioritizeSustainability: 'Nachhaltigkeit priorisieren',
     autoSelectTop2: 'Automatisch Top 2 Materialien auswählen',
     autoSelectDescription: 'Automatisch die 2 besten Materialien für sofortigen Vergleich auswählen',
+    manualSelectionMode: 'Manuelle Auswahl - wählen Sie Materialien selbst mit Kontrollkästchen',
     findMaterials: 'Materialien finden',
     templates: 'Vorlagen',
     applicationTemplates: 'Anwendungsvorlagen',
@@ -776,6 +780,7 @@ export const translations: Record<Language, Translation> = {
     prioritizeSustainability: 'Prioriser la durabilité',
     autoSelectTop2: 'Sélectionner automatiquement les 2 meilleurs matériaux',
     autoSelectDescription: 'Sélectionner automatiquement les 2 meilleurs matériaux pour une comparaison instantanée',
+    manualSelectionMode: 'Mode de sélection manuelle - choisissez vous-même les matériaux avec les cases à cocher',
     findMaterials: 'Trouver des matériaux',
     templates: 'Modèles',
     applicationTemplates: 'Modèles d\'application',
@@ -937,6 +942,7 @@ export const translations: Record<Language, Translation> = {
     prioritizeSustainability: 'ዘላቂነትን ቅድሚያ ይስጡ',
     autoSelectTop2: 'ከፍተኛ 2 ቁሳቁሶችን በራስ-ሰር ይምረጡ',
     autoSelectDescription: 'ለቅጽበታዊ ንጽጽር ከፍተኛ 2 ቁሳቁሶችን በራስ-ሰር ይምረጡ',
+    manualSelectionMode: 'በእጅ የመምረጥ ዘዴ - በጣብ ሳጥኖች በመጠቀም በራስዎ ቁሳቁሶችን ይምረጡ',
     findMaterials: 'ቁሳቁሶችን አግኝ',
     templates: 'ቅንብሮች',
     applicationTemplates: 'የመተግበሪያ ቅንብሮች',

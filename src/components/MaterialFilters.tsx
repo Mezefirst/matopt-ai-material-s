@@ -51,6 +51,18 @@ export function MaterialFilters({
           <CardTitle className="text-lg font-semibold flex items-center gap-2">
             <Sliders size={20} className="text-primary" />
             {t.materialRequirements}
+            {/* Mode indicator */}
+            <div className={`ml-2 px-2 py-1 text-xs rounded-full ${
+              requirements.autoSelectTop2 !== false 
+                ? 'bg-accent/20 text-accent border border-accent/30' 
+                : 'bg-muted text-muted-foreground border border-muted'
+            }`}>
+              {requirements.autoSelectTop2 !== false ? (
+                <>✨ AUTO</>
+              ) : (
+                <>⚙️ MANUAL</>
+              )}
+            </div>
           </CardTitle>
           <Button
             variant="ghost"
@@ -271,7 +283,11 @@ export function MaterialFilters({
             </div>
 
             {/* Auto-selection toggle */}
-            <div className="flex items-center space-x-2 p-3 bg-accent/10 rounded-lg border border-accent/20">
+            <div className={`flex items-center space-x-2 p-3 rounded-lg border transition-colors ${
+              requirements.autoSelectTop2 !== false 
+                ? 'bg-accent/10 border-accent/20' 
+                : 'bg-muted/20 border-muted'
+            }`}>
               <Switch
                 id="auto-selection"
                 checked={requirements.autoSelectTop2 !== false} // Default to true
@@ -280,11 +296,27 @@ export function MaterialFilters({
                 }
               />
               <div className="flex-1">
-                <Label htmlFor="auto-selection" className="text-sm font-medium">
-                  {t.autoSelectTop2 || 'Auto-select top 2 materials'}
+                <Label htmlFor="auto-selection" className="text-sm font-medium flex items-center gap-2">
+                  {requirements.autoSelectTop2 !== false ? (
+                    <>
+                      <span className="text-accent">✨</span>
+                      {t.autoSelectTop2 || 'Auto-select top 2 materials'}
+                      <span className="text-xs bg-accent/20 text-accent px-2 py-1 rounded-full">ON</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="text-muted-foreground">⚙️</span>
+                      {t.autoSelectTop2 || 'Auto-select top 2 materials'}
+                      <span className="text-xs bg-muted text-muted-foreground px-2 py-1 rounded-full">OFF</span>
+                    </>
+                  )}
                 </Label>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {t.autoSelectDescription || 'Automatically select the best 2 materials for instant comparison'}
+                  {requirements.autoSelectTop2 !== false ? (
+                    t.autoSelectDescription || 'Automatically select the best 2 materials for instant comparison'
+                  ) : (
+                    t.manualSelectionMode || 'Manual selection mode - choose materials yourself using checkboxes'
+                  )}
                 </p>
               </div>
             </div>
