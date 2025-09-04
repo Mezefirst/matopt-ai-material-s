@@ -67,23 +67,37 @@ export function MaterialCard({
 
   return (
     <Card className={`transition-all duration-200 hover:shadow-md ${
-      isSelected ? 'ring-2 ring-primary shadow-md' : ''
+      isSelected ? 'ring-2 ring-primary shadow-md bg-primary/5' : ''
     }`}>
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex items-start gap-3">
             {onSelect && (
-              <Checkbox
-                checked={isSelected}
-                onCheckedChange={(checked) => 
-                  onSelect(material.id, checked as boolean)
-                }
-                className="mt-1"
-              />
+              <div className="relative">
+                <Checkbox
+                  checked={isSelected}
+                  onCheckedChange={(checked) => 
+                    onSelect(material.id, checked as boolean)
+                  }
+                  className="mt-1 h-5 w-5"
+                />
+                {isSelected && (
+                  <div className="absolute -top-1 -right-1">
+                    <div className="h-2 w-2 bg-primary rounded-full animate-pulse"></div>
+                  </div>
+                )}
+              </div>
             )}
             <div>
-              <CardTitle className="text-lg font-semibold">
+              <CardTitle className={`text-lg font-semibold ${
+                isSelected ? 'text-primary' : ''
+              }`}>
                 {material.name}
+                {isSelected && (
+                  <Badge variant="secondary" className="ml-2 text-xs">
+                    Selected
+                  </Badge>
+                )}
               </CardTitle>
               <p className="text-sm text-muted-foreground">
                 {material.category}

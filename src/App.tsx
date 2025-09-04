@@ -227,13 +227,61 @@ function App() {
         toast.warning(t.maxMaterialsSelected);
         return;
       }
+      
+      const newSelected = [...currentSelected, materialId];
       updateComparisonState({ 
-        selectedMaterials: [...currentSelected, materialId] 
+        selectedMaterials: newSelected
       });
+      
+      // Get material name for toast
+      const material = materialsDatabase.find(m => m.id === materialId);
+      const materialName = material?.name || 'Material';
+      
+      // Show appropriate toast based on selection count
+      if (newSelected.length === 1) {
+        toast.success(
+          language === 'en' ? `${materialName} added to comparison. Select more materials to compare.` :
+          language === 'sv' ? `${materialName} tillagd för jämförelse. Välj fler material att jämföra.` :
+          language === 'de' ? `${materialName} zum Vergleich hinzugefügt. Wählen Sie weitere Materialien zum Vergleich aus.` :
+          language === 'fr' ? `${materialName} ajouté à la comparaison. Sélectionnez plus de matériaux à comparer.` :
+          language === 'am' ? `${materialName} ለንጽጽር ተጨምሯል። ለንጽጽር ተጨማሪ ቁሳቁሶችን ይምረጡ።` :
+          `${materialName} added to comparison. Select more materials to compare.`
+        );
+      } else if (newSelected.length === 2) {
+        toast.success(
+          language === 'en' ? `${materialName} added! Ready to compare. Switch to Overview tab.` :
+          language === 'sv' ? `${materialName} tillagd! Redo att jämföra. Växla till fliken Översikt.` :
+          language === 'de' ? `${materialName} hinzugefügt! Bereit zum Vergleich. Wechseln Sie zur Übersichts-Registerkarte.` :
+          language === 'fr' ? `${materialName} ajouté ! Prêt à comparer. Basculez vers l'onglet Aperçu.` :
+          language === 'am' ? `${materialName} ተጨምሯል! ለንጽጽር ዝግጁ። ወደ አጠቃላይ እይታ ትር ይቀይሩ።` :
+          `${materialName} added! Ready to compare. Switch to Overview tab.`
+        );
+      } else {
+        toast.success(
+          language === 'en' ? `${materialName} added to comparison (${newSelected.length}/4)` :
+          language === 'sv' ? `${materialName} tillagd för jämförelse (${newSelected.length}/4)` :
+          language === 'de' ? `${materialName} zum Vergleich hinzugefügt (${newSelected.length}/4)` :
+          language === 'fr' ? `${materialName} ajouté à la comparaison (${newSelected.length}/4)` :
+          language === 'am' ? `${materialName} ለንጽጽር ተጨምሯል (${newSelected.length}/4)` :
+          `${materialName} added to comparison (${newSelected.length}/4)`
+        );
+      }
     } else {
+      const material = materialsDatabase.find(m => m.id === materialId);
+      const materialName = material?.name || 'Material';
+      
       updateComparisonState({ 
         selectedMaterials: currentSelected.filter(id => id !== materialId) 
       });
+      
+      toast.info(
+        language === 'en' ? `${materialName} removed from comparison` :
+        language === 'sv' ? `${materialName} borttagen från jämförelse` :
+        language === 'de' ? `${materialName} aus dem Vergleich entfernt` :
+        language === 'fr' ? `${materialName} retiré de la comparaison` :
+        language === 'am' ? `${materialName} ከንጽጽር ተወግዷል` :
+        `${materialName} removed from comparison`
+      );
     }
   };
 
@@ -337,37 +385,52 @@ function App() {
 
             {/* Selected Materials Summary */}
             {safeComparisonState.selectedMaterials.length > 0 && (
-              <Card className="mt-6">
+              <Card className="mt-6 border-primary/50 bg-primary/5">
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2">
                     <ChartBar size={20} className="text-primary" />
                     {t.selectedForComparison}
+                    <Badge variant="secondary" className="ml-auto">
+                      {safeComparisonState.selectedMaterials.length}/4
+                    </Badge>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
                     {getSelectedMaterials().map((material) => (
-                      <div key={material.id} className="flex items-center justify-between p-2 bg-muted/30 rounded">
+                      <div key={material.id} className="flex items-center justify-between p-2 bg-background/50 rounded border">
                         <span className="text-sm font-medium">{material.name}</span>
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => handleMaterialSelect(material.id, false)}
-                          className="h-6 w-6 p-0"
+                          className="h-6 w-6 p-0 hover:bg-destructive/10 hover:text-destructive"
                         >
                           ×
                         </Button>
                       </div>
                     ))}
                   </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleTabChange('overview')}
-                    className="w-full mt-3"
-                  >
-                    {t.viewComparison}
-                  </Button>
+                  {safeComparisonState.selectedMaterials.length >= 2 ? (
+                    <Button
+                      variant="default"
+                      size="sm"
+                      onClick={() => handleTabChange('overview')}
+                      className="w-full mt-3"
+                    >
+                      {t.viewComparison}
+                    </Button>
+                  ) : (
+                    <div className="mt-3 p-2 bg-muted/50 rounded text-center">
+                      <p className="text-xs text-muted-foreground">
+                        {language === 'en' && 'Select at least 2 materials to compare'}
+                        {language === 'sv' && 'Välj minst 2 material för att jämföra'}
+                        {language === 'de' && 'Wählen Sie mindestens 2 Materialien zum Vergleich aus'}
+                        {language === 'fr' && 'Sélectionnez au moins 2 matériaux à comparer'}
+                        {language === 'am' && 'ለንጽጽር ቢያንስ 2 ቁሳቁሶችን ይምረጡ'}
+                      </p>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             )}
@@ -512,6 +575,73 @@ function App() {
                     scores={safeComparisonState.scores}
                     tradeoffAnalysis={tradeoffAnalysis}
                   />
+                ) : filteredMaterials.length > 0 ? (
+                  <div className="space-y-6">
+                    <Card>
+                      <CardContent className="pt-6">
+                        <div className="text-center py-4">
+                          <MagnifyingGlass size={32} className="mx-auto text-primary mb-3" />
+                          <h3 className="text-lg font-semibold mb-2">
+                            {language === 'en' && 'Select Materials to Compare'}
+                            {language === 'sv' && 'Välj material att jämföra'}
+                            {language === 'de' && 'Materialien zum Vergleich auswählen'}
+                            {language === 'fr' && 'Sélectionner des matériaux à comparer'}
+                            {language === 'am' && 'ለንጽጽር የሚሆኑ ቁሳቁሶችን ይምረጡ'}
+                          </h3>
+                          <p className="text-muted-foreground mb-4">
+                            {language === 'en' && 'Use the checkboxes below to select materials for detailed comparison. You can select up to 4 materials.'}
+                            {language === 'sv' && 'Använd kryssrutorna nedan för att välja material för detaljerad jämförelse. Du kan välja upp till 4 material.'}
+                            {language === 'de' && 'Verwenden Sie die Kontrollkästchen unten, um Materialien für einen detaillierten Vergleich auszuwählen. Sie können bis zu 4 Materialien auswählen.'}
+                            {language === 'fr' && 'Utilisez les cases à cocher ci-dessous pour sélectionner des matériaux pour une comparaison détaillée. Vous pouvez sélectionner jusqu\'à 4 matériaux.'}
+                            {language === 'am' && 'ለዝርዝር ንጽጽር ቁሳቁሶችን ለመምረጥ ከታች ያለውን ምልክት ያስቀምጡ። እስከ 4 ቁሳቁሶች ድረስ መምረጥ ይችላሉ።'}
+                          </p>
+                          <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
+                            <div className="flex items-center gap-2">
+                              <div className="w-3 h-3 border border-border rounded flex items-center justify-center">
+                                <div className="w-2 h-2 bg-primary rounded"></div>
+                              </div>
+                              <span>
+                                {language === 'en' && 'Selected'}
+                                {language === 'sv' && 'Vald'}
+                                {language === 'de' && 'Ausgewählt'}
+                                {language === 'fr' && 'Sélectionné'}
+                                {language === 'am' && 'የተመረጠ'}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <div className="w-3 h-3 border border-border rounded"></div>
+                              <span>
+                                {language === 'en' && 'Available'}
+                                {language === 'sv' && 'Tillgänglig'}
+                                {language === 'de' && 'Verfügbar'}
+                                {language === 'fr' && 'Disponible'}
+                                {language === 'am' && 'ዝግጁ'}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    
+                    {/* Material selection cards with checkboxes */}
+                    <div className="grid gap-6">
+                      {getSortedMaterials().map((material) => (
+                        <MaterialCard
+                          key={material.id}
+                          material={material}
+                          score={safeComparisonState.scores[material.id]}
+                          isSelected={safeComparisonState.selectedMaterials.includes(material.id)}
+                          onSelect={handleMaterialSelect}
+                          onViewDetails={setSelectedMaterial}
+                          showAIInsight={true}
+                          showFeedback={true}
+                          sessionId={sessionId}
+                          requirements={safeComparisonState.requirements}
+                          applicationContext={safeComparisonState.requirements.applicationContext}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 ) : (
                   <Card>
                     <CardContent className="pt-6">
