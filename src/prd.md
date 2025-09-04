@@ -48,6 +48,13 @@
 - **Comprehensive Coverage**: Metals, polymers, ceramics, and composites with detailed property data
 - **Real Supplier Data**: Current availability, pricing, and regional supplier information
 - **Sustainability Metrics**: Carbon footprint, recyclability, and renewable content tracking
+- **Application Templates**: Pre-configured requirements for common applications including:
+  - **Industrial Applications**: Aerospace components, automotive parts, marine equipment
+  - **Medical Applications**: Implants, pharmaceutical packaging, medical devices
+  - **Construction**: Structural beams, pressure vessels, building materials
+  - **Consumer Applications**: Sports equipment, electronics housings, food packaging
+  - **House Utility Applications**: Plumbing pipes, electrical conduits, HVAC ductwork, water heater tanks, gutter systems
+  - **Office Materials**: Desk surfaces, chair frames, filing cabinets, whiteboards, acoustic panels, cable management systems
 
 ### Comparison Interface
 - **Multi-Material Comparison**: Side-by-side analysis of up to 4 materials
@@ -130,6 +137,13 @@
 **Seamless Language Switching**: Instant interface updates without page reload
 **Persistent Settings**: User language preference saved across sessions
 **Cultural Adaptations**: Appropriate number formatting and unit conventions per region
+
+### Application Context System
+- **Intelligent Context Analysis**: System automatically detects application type from descriptions and provides relevant guidance
+- **Context-Aware Suggestions**: Dynamic help text for loading conditions, environments, and safety factors based on application
+- **Application Templates**: One-click setup for common scenarios including house utility and office material applications
+- **Smart Parameter Recommendations**: Application-specific suggestions for design life, safety factors, and environmental considerations
+- **Quick Application Selection**: Badge-based quick selection for common applications like plumbing, HVAC, office furniture, and electronic housings
 
 ### Property Classification
 - **Conductors**: Materials with >1 MS/m electrical conductivity

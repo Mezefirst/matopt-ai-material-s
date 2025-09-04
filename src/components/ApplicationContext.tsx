@@ -75,6 +75,22 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
       );
     }
     
+    if (appContext.includes('house') || appContext.includes('plumbing') || appContext.includes('hvac')) {
+      return (
+        <div className="text-xs text-muted-foreground mt-1">
+          💡 House utility: Static (pipes, ducts), Cyclic (water heater, appliances)
+        </div>
+      );
+    }
+    
+    if (appContext.includes('office') || appContext.includes('desk') || appContext.includes('chair')) {
+      return (
+        <div className="text-xs text-muted-foreground mt-1">
+          💡 Office materials: Static (desks, panels), Cyclic (chairs, drawers)
+        </div>
+      );
+    }
+    
     return null;
   };
 
@@ -106,6 +122,22 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
       );
     }
     
+    if (appContext.includes('house') || appContext.includes('utility') || appContext.includes('plumbing')) {
+      return (
+        <div className="text-xs text-muted-foreground mt-1">
+          💡 House utility: Indoor (most systems), Chemical (water treatment)
+        </div>
+      );
+    }
+    
+    if (appContext.includes('office') || appContext.includes('acoustic') || appContext.includes('desk')) {
+      return (
+        <div className="text-xs text-muted-foreground mt-1">
+          💡 Office materials: Indoor/controlled climate, minimal environmental stress
+        </div>
+      );
+    }
+    
     return null;
   };
 
@@ -129,6 +161,14 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
       return 'Automotive: 10-15 years';
     }
     
+    if (appContext.includes('house') || appContext.includes('utility') || appContext.includes('plumbing')) {
+      return 'House utility: 20-50 years';
+    }
+    
+    if (appContext.includes('office') || appContext.includes('furniture')) {
+      return 'Office materials: 10-20 years';
+    }
+    
     return 'Typical: 5-20 years';
   };
 
@@ -150,6 +190,14 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
     
     if (appContext.includes('pressure') || appContext.includes('vessel')) {
       return 'Pressure vessels: 3.0-4.0x';
+    }
+    
+    if (appContext.includes('house') || appContext.includes('utility') || appContext.includes('plumbing')) {
+      return 'House utility: 2.0-3.0x';
+    }
+    
+    if (appContext.includes('office') || appContext.includes('furniture')) {
+      return 'Office materials: 1.5-2.5x';
     }
     
     return 'General: 1.5-3.0x';
@@ -250,7 +298,13 @@ export function ApplicationContext({ requirements, onRequirementsChange }: Appli
                 'Consumer electronics',
                 'Sports equipment',
                 'Construction materials',
-                'Marine applications'
+                'Marine applications',
+                'House utility plumbing',
+                'Electrical conduit systems',
+                'HVAC ductwork',
+                'Office desk surfaces',
+                'Office chair frames',
+                'Acoustic panels'
               ].map((app) => (
                 <Badge
                   key={app}
